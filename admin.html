@@ -1,0 +1,3717 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin — Muda Bergerak Sulsel</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  background:#111;
+  color:#fff;
+  min-height:100vh;
+}
+
+:root{
+  --orange:#ff6b00;
+  --orange2:#ff8c00;
+  --dark:#111;
+  --card:#1b1b1b;
+  --border:#303030;
+  --muted:#aaa;
+}
+
+button{
+  cursor:pointer;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  background:#101010;
+  border:1px solid #3b3b3b;
+  color:#fff;
+  padding:12px;
+  border-radius:8px;
+  outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--orange);
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at top,#292929 0,#111 55%);
+}
+
+.loginBox{
+  width:100%;
+  max-width:420px;
+  background:#1b1b1b;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 15px 50px rgba(0,0,0,.5);
+  text-align:center;
+}
+
+.loginLogo{
+  width:95px;
+  height:95px;
+  object-fit:contain;
+  margin-bottom:15px;
+}
+
+.loginBox h1{
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.loginBox p{
+  color:#aaa;
+  margin-bottom:25px;
+  font-size:13px;
+}
+
+.formGroup{
+  text-align:left;
+  margin-bottom:15px;
+}
+
+.formGroup label{
+  display:block;
+  margin-bottom:7px;
+  color:#ccc;
+  font-size:13px;
+}
+
+.btn{
+  border:0;
+  border-radius:8px;
+  padding:12px 16px;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btnOrange{
+  background:var(--orange);
+  color:#fff;
+  width:100%;
+}
+
+.btnDark{
+  background:#292929;
+  color:#fff;
+  border:1px solid #444;
+}
+
+.btnDanger{
+  background:#b3261e;
+  color:#fff;
+}
+
+.btnSmall{
+  padding:8px 12px;
+  font-size:12px;
+}
+
+#adminPage{
+  display:none;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:#151515;
+  border-bottom:1px solid #303030;
+  padding:12px 15px;
+}
+
+.headerInner{
+  max-width:1300px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.brand img{
+  width:45px;
+  height:45px;
+  object-fit:contain;
+}
+
+.brandText strong{
+  display:block;
+  font-size:15px;
+}
+
+.brandText span{
+  font-size:11px;
+  color:var(--orange);
+}
+
+.container{
+  max-width:1300px;
+  margin:auto;
+  padding:20px 15px 50px;
+}
+
+.nav{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:15px;
+  margin-bottom:10px;
+}
+
+.nav button{
+  white-space:nowrap;
+  background:#1d1d1d;
+  border:1px solid #333;
+  color:#ddd;
+  padding:10px 14px;
+  border-radius:8px;
+}
+
+.nav button.active{
+  background:var(--orange);
+  color:#fff;
+  border-color:var(--orange);
+}
+
+.pageTitle{
+  margin:10px 0 20px;
+}
+
+.pageTitle h2{
+  font-size:24px;
+}
+
+.pageTitle p{
+  color:#999;
+  margin-top:5px;
+  font-size:13px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+}
+
+.stat span{
+  display:block;
+  color:#999;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.stat strong{
+  font-size:25px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.cardHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.cardHeader h3{
+  font-size:17px;
+}
+
+.tableWrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:800px;
+}
+
+th,
+td{
+  border-bottom:1px solid #303030;
+  padding:11px;
+  text-align:left;
+  font-size:13px;
+  vertical-align:middle;
+}
+
+th{
+  color:#ff9b54;
+  background:#171717;
+}
+
+td{
+  color:#ddd;
+}
+
+.actions{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.badgeOrange{
+  background:#4d250d;
+  color:#ff9b54;
+}
+
+.badgeGreen{
+  background:#123d25;
+  color:#63e99b;
+}
+
+.badgeRed{
+  background:#481717;
+  color:#ff8585;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:999;
+  background:rgba(0,0,0,.75);
+  padding:20px;
+  overflow:auto;
+}
+
+.modalBox{
+  width:100%;
+  max-width:700px;
+  margin:30px auto;
+  background:#1b1b1b;
+  border:1px solid #444;
+  border-radius:14px;
+  padding:20px;
+}
+
+.modalHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.close{
+  background:none;
+  border:0;
+  color:#fff;
+  font-size:25px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.modalActions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:20px;
+}
+
+.progressBox{
+  margin-top:8px;
+}
+
+.progressBar{
+  height:7px;
+  background:#333;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progressFill{
+  height:100%;
+  background:var(--orange);
+  border-radius:10px;
+}
+
+#toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:2000;
+  background:#222;
+  border:1px solid #444;
+  color:#fff;
+  padding:13px 17px;
+  border-radius:8px;
+  display:none;
+  max-width:350px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+#toast.success{
+  border-color:#35b86f;
+}
+
+#toast.error{
+  border-color:#e34c4c;
+}
+
+.empty{
+  text-align:center;
+  padding:25px;
+  color:#777;
+}
+
+@media(max-width:800px){
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid2{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .brandText strong{
+    font-size:12px;
+  }
+
+  .brandText span{
+    font-size:9px;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat{
+    padding:13px;
+  }
+
+  .stat strong{
+    font-size:21px;
+  }
+
+  .container{
+    padding:15px 10px 40px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginPage">
+
+  <div class="loginBox">
+
+    <img
+      class="loginLogo"
+      src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png"
+      alt="Logo Muda Bergerak"
+    >
+
+    <h1>ADMIN COMMAND CENTER</h1>
+
+    <p>MUDA BERGERAK SULAWESI SELATAN</p>
+
+    <form id="loginForm">
+
+      <div class="formGroup">
+        <label>Email Admin</label>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="email admin"
+          required
+        >
+      </div>
+
+      <div class="formGroup">
+        <label>Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="password"
+          required
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="btn btnOrange"
+        id="loginButton"
+      >
+        LOGIN ADMIN
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div id="adminPage">
+
+<header class="header">
+
+  <div class="headerInner">
+
+    <div class="brand">
+
+      <img
+        src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png"
+        alt="Logo"
+      >
+
+      <div class="brandText">
+        <strong>MUDA BERGERAK SULSEL</strong>
+        <span>COMMAND CENTER — ADMIN</span>
+      </div>
+
+    </div>
+
+    <button
+      class="btn btnDanger btnSmall"
+      onclick="logout()"
+    >
+      LOGOUT
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+<div class="nav">
+
+<button class="active" onclick="showSection('dashboard',this)">
+📊 Dashboard
+</button>
+
+<button onclick="showSection('dpd',this)">
+🏢 Data DPD
+</button>
+
+<button onclick="showSection('bidang',this)">
+👥 Bidang
+</button>
+
+<button onclick="showSection('agenda',this)">
+📅 Agenda
+</button>
+
+<button onclick="showSection('laporan',this)">
+📑 Laporan
+</button>
+
+<button onclick="showSection('pemberitahuan',this)">
+🔔 Pemberitahuan
+</button>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<section id="section-dashboard">
+
+<div class="pageTitle">
+<h2>Dashboard Admin</h2>
+<p>Ringkasan data Command Center Muda Bergerak Sulsel.</p>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<span>TOTAL DPD</span>
+<strong id="totalDPD">0</strong>
+</div>
+
+<div class="stat">
+<span>SUDAH TERBENTUK</span>
+<strong id="formedDPD">0</strong>
+</div>
+
+<div class="stat">
+<span>DALAM PROSES</span>
+<strong id="processDPD">0</strong>
+</div>
+
+<div class="stat">
+<span>BELUM TERBENTUK</span>
+<strong id="notFormedDPD">0</strong>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardHeader">
+
+<h3>Status DPD</h3>
+
+<button
+class="btn btnDark btnSmall"
+onclick="loadAll()"
+>
+🔄 Refresh
+</button>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>DPD</th>
+<th>Ketua</th>
+<th>Status</th>
+<th>Progress</th>
+</tr>
+
+</thead>
+
+<tbody id="dashboardTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DPD -->
+
+<section id="section-dpd" style="display:none">
+
+<div class="pageTitle">
+<h2>Data DPD</h2>
+<p>Edit struktur utama masing-masing DPD.</p>
+</div>
+
+<div class="card">
+
+<div class="cardHeader">
+
+<h3>24 DPD Sulawesi Selatan</h3>
+
+<button
+class="btn btnDark btnSmall"
+onclick="loadDPD()"
+>
+🔄 Refresh
+</button>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>DPD</th>
+<th>Ketua</th>
+<th>Sekretaris</th>
+<th>Bendahara</th>
+<th>Sekretariat</th>
+<th>Status</th>
+<th>Progress</th>
+<th>Aksi</th>
+</tr>
+
+</thead>
+
+<tbody id="dpdTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- BIDANG -->
+
+<section id="section-bidang" style="display:none">
+
+<div class="pageTitle">
+
+<h2>Bidang DPD</h2>
+
+<p>
+Kelola koordinator, anggota, dan progress 6 bidang.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="cardHeader">
+
+<h3>Pilih DPD</h3>
+
+<select
+id="bidangDPDSelect"
+onchange="loadBidangForSelectedDPD()"
+>
+</select>
+
+</div>
+
+<div id="bidangContainer"></div>
+
+</div>
+
+</section>
+
+
+<!-- AGENDA -->
+
+<section id="section-agenda" style="display:none">
+
+<div class="pageTitle">
+
+<h2>Agenda</h2>
+
+<p>
+Tambah, edit, dan hapus agenda organisasi.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="cardHeader">
+
+<h3>Daftar Agenda</h3>
+
+<button
+class="btn btnOrange btnSmall"
+onclick="openAgendaModal()"
+>
++ Tambah Agenda
+</button>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Judul</th>
+<th>Tanggal</th>
+<th>Waktu</th>
+<th>Lokasi</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+
+</thead>
+
+<tbody id="agendaTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- LAPORAN -->
+
+<section id="section-laporan" style="display:none">
+
+<div class="pageTitle">
+
+<h2>Laporan</h2>
+
+<p>
+Kelola laporan kegiatan dan informasi organisasi.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="cardHeader">
+
+<h3>Daftar Laporan</h3>
+
+<button
+class="btn btnOrange btnSmall"
+onclick="openLaporanModal()"
+>
++ Tambah Laporan
+</button>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Judul</th>
+<th>Tanggal</th>
+<th>Kategori</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+
+</thead>
+
+<tbody id="laporanTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PEMBERITAHUAN -->
+
+<section id="section-pemberitahuan" style="display:none">
+
+<div class="pageTitle">
+
+<h2>Pemberitahuan</h2>
+
+<p>
+Kelola informasi yang akan tampil di Command Center.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="cardHeader">
+
+<h3>Daftar Pemberitahuan</h3>
+
+<button
+class="btn btnOrange btnSmall"
+onclick="openPemberitahuanModal()"
+>
++ Tambah Pemberitahuan
+</button>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Judul</th>
+<th>Tanggal</th>
+<th>Tipe</th>
+<th>Aktif</th>
+<th>Aksi</th>
+</tr>
+
+</thead>
+
+<tbody id="pemberitahuanTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- MODAL DPD -->
+
+<div class="modal" id="dpdModal">
+
+<div class="modalBox">
+
+<div class="modalHeader">
+
+<h3>Edit Data DPD</h3>
+
+<button
+class="close"
+onclick="closeModal('dpdModal')"
+>
+×
+</button>
+
+</div>
+
+<input type="hidden" id="editDPDId">
+
+<div class="grid2">
+
+<div class="full formGroup">
+<label>Nama DPD</label>
+<input id="editDPDNama">
+</div>
+
+<div class="formGroup">
+<label>Ketua</label>
+<input id="editDPDKetua">
+</div>
+
+<div class="formGroup">
+<label>Sekretaris</label>
+<input id="editDPDSekretaris">
+</div>
+
+<div class="formGroup">
+<label>Bendahara</label>
+<input id="editDPDBendahara">
+</div>
+
+<div class="formGroup">
+<label>Sekretariat</label>
+<input id="editDPDSekretariat">
+</div>
+
+</div>
+
+<div class="modalActions">
+
+<button
+class="btn btnDark"
+onclick="closeModal('dpdModal')"
+>
+Batal
+</button>
+
+<button
+class="btn btnOrange"
+onclick="saveDPD()"
+>
+💾 Simpan
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MODAL BIDANG -->
+
+<div class="modal" id="bidangModal">
+
+<div class="modalBox">
+
+<div class="modalHeader">
+
+<h3>Edit Bidang</h3>
+
+<button
+class="close"
+onclick="closeModal('bidangModal')"
+>
+×
+</button>
+
+</div>
+
+<input type="hidden" id="editBidangId">
+
+<div class="formGroup">
+
+<label>Bidang</label>
+
+<input id="editBidangNama" readonly>
+
+</div>
+
+<div class="formGroup">
+
+<label>Koor. Bidang</label>
+
+<input id="editBidangKoor">
+
+</div>
+
+<div class="formGroup">
+
+<label>Anggota Bidang</label>
+
+<textarea id="editBidangAnggota"></textarea>
+
+</div>
+
+<div class="formGroup">
+
+<label>Progress (%)</label>
+
+<input
+id="editBidangProgress"
+type="number"
+min="0"
+max="100"
+>
+
+</div>
+
+<div class="modalActions">
+
+<button
+class="btn btnDark"
+onclick="closeModal('bidangModal')"
+>
+Batal
+</button>
+
+<button
+class="btn btnOrange"
+onclick="saveBidang()"
+>
+💾 Simpan
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MODAL AGENDA -->
+
+<div class="modal" id="agendaModal">
+
+<div class="modalBox">
+
+<div class="modalHeader">
+
+<h3 id="agendaModalTitle">
+Tambah Agenda
+</h3>
+
+<button
+class="close"
+onclick="closeModal('agendaModal')"
+>
+×
+</button>
+
+</div>
+
+<input type="hidden" id="agendaId">
+
+<div class="grid2">
+
+<div class="full formGroup">
+
+<label>Judul Agenda</label>
+
+<input id="agendaJudul">
+
+</div>
+
+<div class="formGroup">
+
+<label>Tanggal</label>
+
+<input
+id="agendaTanggal"
+type="date"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label>Waktu</label>
+
+<input
+id="agendaWaktu"
+placeholder="19.00 WITA"
+>
+
+</div>
+
+<div class="full formGroup">
+
+<label>Lokasi</label>
+
+<input id="agendaLokasi">
+
+</div>
+
+<div class="full formGroup">
+
+<label>Deskripsi</label>
+
+<textarea id="agendaDeskripsi"></textarea>
+
+</div>
+
+<div class="formGroup">
+
+<label>Status</label>
+
+<select id="agendaStatus">
+
+<option value="AKAN DATANG">
+AKAN DATANG
+</option>
+
+<option value="BERLANGSUNG">
+BERLANGSUNG
+</option>
+
+<option value="SELESAI">
+SELESAI
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="modalActions">
+
+<button
+class="btn btnDark"
+onclick="closeModal('agendaModal')"
+>
+Batal
+</button>
+
+<button
+class="btn btnOrange"
+onclick="saveAgenda()"
+>
+💾 Simpan
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MODAL LAPORAN -->
+
+<div class="modal" id="laporanModal">
+
+<div class="modalBox">
+
+<div class="modalHeader">
+
+<h3 id="laporanModalTitle">
+Tambah Laporan
+</h3>
+
+<button
+class="close"
+onclick="closeModal('laporanModal')"
+>
+×
+</button>
+
+</div>
+
+<input type="hidden" id="laporanId">
+
+<div class="grid2">
+
+<div class="full formGroup">
+
+<label>Judul Laporan</label>
+
+<input id="laporanJudul">
+
+</div>
+
+<div class="formGroup">
+
+<label>Tanggal</label>
+
+<input
+id="laporanTanggal"
+type="date"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label>Kategori</label>
+
+<input
+id="laporanKategori"
+placeholder="Kegiatan / Organisasi / Politik / Hukum"
+>
+
+</div>
+
+<div class="full formGroup">
+
+<label>Isi Laporan</label>
+
+<textarea id="laporanIsi"></textarea>
+
+</div>
+
+<div class="formGroup">
+
+<label>Status</label>
+
+<select id="laporanStatus">
+
+<option value="DRAFT">DRAFT</option>
+
+<option value="TERBIT">TERBIT</option>
+
+<option value="ARSIP">ARSIP</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="modalActions">
+
+<button
+class="btn btnDark"
+onclick="closeModal('laporanModal')"
+>
+Batal
+</button>
+
+<button
+class="btn btnOrange"
+onclick="saveLaporan()"
+>
+💾 Simpan
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MODAL PEMBERITAHUAN -->
+
+<div class="modal" id="pemberitahuanModal">
+
+<div class="modalBox">
+
+<div class="modalHeader">
+
+<h3 id="pemberitahuanModalTitle">
+Tambah Pemberitahuan
+</h3>
+
+<button
+class="close"
+onclick="closeModal('pemberitahuanModal')"
+>
+×
+</button>
+
+</div>
+
+<input type="hidden" id="pemberitahuanId">
+
+<div class="grid2">
+
+<div class="full formGroup">
+
+<label>Judul</label>
+
+<input id="pemberitahuanJudul">
+
+</div>
+
+<div class="formGroup">
+
+<label>Tanggal</label>
+
+<input
+id="pemberitahuanTanggal"
+type="date"
+>
+
+</div>
+
+<div class="formGroup">
+
+<label>Tipe</label>
+
+<select id="pemberitahuanTipe">
+
+<option value="INFO">INFO</option>
+
+<option value="PENTING">PENTING</option>
+
+<option value="URGENT">URGENT</option>
+
+</select>
+
+</div>
+
+<div class="full formGroup">
+
+<label>Isi Pemberitahuan</label>
+
+<textarea id="pemberitahuanIsi"></textarea>
+
+</div>
+
+<div class="formGroup">
+
+<label>Aktif</label>
+
+<select id="pemberitahuanAktif">
+
+<option value="true">AKTIF</option>
+
+<option value="false">NONAKTIF</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="modalActions">
+
+<button
+class="btn btnDark"
+onclick="closeModal('pemberitahuanModal')"
+>
+Batal
+</button>
+
+<button
+class="btn btnOrange"
+onclick="savePemberitahuan()"
+>
+💾 Simpan
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://rgffzcpsofmjnqdfyolg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_ZfZ1m8X7gadvnoAQh9XmNg_hyupNKb6";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+const BIDANG_LIST = [
+  "Politik",
+  "Hukum",
+  "Sosial Kemasyarakatan",
+  "Keorganisasian",
+  "Humas & Media",
+  "Ekonomi Kreatif"
+];
+
+let dpdData = [];
+let bidangData = [];
+let agendaData = [];
+let laporanData = [];
+let pemberitahuanData = [];
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function toast(message,type="success"){
+
+  const el=document.getElementById("toast");
+
+  el.innerText=message;
+
+  el.className="";
+  el.id="toast";
+
+  el.classList.add(type);
+
+  el.style.display="block";
+
+  setTimeout(()=>{
+    el.style.display="none";
+  },3000);
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function openModal(id){
+  document.getElementById(id).style.display="block";
+}
+
+function closeModal(id){
+  document.getElementById(id).style.display="none";
+}
+
+window.onclick=function(e){
+
+  document.querySelectorAll(".modal").forEach(modal=>{
+
+    if(e.target===modal){
+      modal.style.display="none";
+    }
+
+  });
+
+};
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",async function(e){
+
+  e.preventDefault();
+
+  const email=
+    document.getElementById("loginEmail").value.trim();
+
+  const password=
+    document.getElementById("loginPassword").value;
+
+  const button=
+    document.getElementById("loginButton");
+
+  button.disabled=true;
+  button.innerText="LOGIN...";
+
+  const {data,error}=
+    await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  button.disabled=false;
+  button.innerText="LOGIN ADMIN";
+
+  if(error){
+
+    toast(
+      "Login gagal: "+error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  if(!data.session){
+
+    toast(
+      "Session login tidak ditemukan.",
+      "error"
+    );
+
+    return;
+  }
+
+  showAdmin();
+
+});
+
+
+async function checkSession(){
+
+  const {
+    data:{
+      session
+    }
+  }=await db.auth.getSession();
+
+  if(session){
+
+    showAdmin();
+
+  }else{
+
+    showLogin();
+
+  }
+
+}
+
+
+function showLogin(){
+
+  document.getElementById("loginPage").style.display="flex";
+
+  document.getElementById("adminPage").style.display="none";
+
+}
+
+
+function showAdmin(){
+
+  document.getElementById("loginPage").style.display="none";
+
+  document.getElementById("adminPage").style.display="block";
+
+  loadAll();
+
+}
+
+
+async function logout(){
+
+  await db.auth.signOut();
+
+  showLogin();
+
+  toast("Berhasil logout");
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showSection(section,button){
+
+  document
+    .querySelectorAll("main section")
+    .forEach(s=>{
+      s.style.display="none";
+    });
+
+  document.getElementById(
+    "section-"+section
+  ).style.display="block";
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(b=>{
+      b.classList.remove("active");
+    });
+
+  button.classList.add("active");
+
+  if(section==="dashboard"){
+    loadDashboard();
+  }
+
+  if(section==="dpd"){
+    loadDPD();
+  }
+
+  if(section==="bidang"){
+
+    populateDPDSelect();
+
+    loadBidangForSelectedDPD();
+
+  }
+
+  if(section==="agenda"){
+    loadAgenda();
+  }
+
+  if(section==="laporan"){
+    loadLaporan();
+  }
+
+  if(section==="pemberitahuan"){
+    loadPemberitahuan();
+  }
+
+}
+
+
+/* =====================================================
+   CALCULATE DPD
+===================================================== */
+
+function calculateDPD(dpd){
+
+  const data=bidangData.filter(
+    b=>String(b.dpd_id)===String(dpd.id)
+  );
+
+  let total=0;
+
+  /* 4 STRUKTUR UTAMA */
+
+  if(String(dpd.ketua||"").trim())
+    total+=1;
+
+  if(String(dpd.sekretaris||"").trim())
+    total+=1;
+
+  if(String(dpd.bendahara||"").trim())
+    total+=1;
+
+  if(String(dpd.sekretariat||"").trim())
+    total+=1;
+
+
+  /* 6 BIDANG */
+
+  BIDANG_LIST.forEach(nama=>{
+
+    const bidang=data.find(
+      b=>
+      String(b.bidang||"")
+      .trim()
+      .toLowerCase()
+      ===
+      nama.trim().toLowerCase()
+    );
+
+    if(bidang){
+
+      let progress=
+        Number(bidang.progress)||0;
+
+      progress=
+        Math.max(
+          0,
+          Math.min(100,progress)
+        );
+
+      total+=progress/100;
+
+    }
+
+  });
+
+
+  const progress=
+    Math.round(
+      (total/10)*100
+    );
+
+
+  let status="BELUM TERBENTUK";
+
+  if(progress===100){
+
+    status="SUDAH TERBENTUK";
+
+  }else if(progress>0){
+
+    status="DALAM PROSES";
+
+  }
+
+  return {
+    progress,
+    status
+  };
+
+}
+
+
+/* =====================================================
+   BADGE
+===================================================== */
+
+function statusBadge(status){
+
+  if(status==="SUDAH TERBENTUK"){
+
+    return `
+      <span class="badge badgeGreen">
+        SUDAH TERBENTUK
+      </span>
+    `;
+
+  }
+
+  if(status==="DALAM PROSES"){
+
+    return `
+      <span class="badge badgeOrange">
+        DALAM PROSES
+      </span>
+    `;
+
+  }
+
+  return `
+    <span class="badge badgeRed">
+      BELUM TERBENTUK
+    </span>
+  `;
+
+}
+
+
+function progressHTML(progress){
+
+  return `
+    <div style="min-width:100px">
+
+      <strong>${progress}%</strong>
+
+      <div class="progressBox">
+
+        <div class="progressBar">
+
+          <div
+            class="progressFill"
+            style="width:${progress}%"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+/* =====================================================
+   LOAD ALL
+===================================================== */
+
+async function loadAll(){
+
+  try{
+
+    await Promise.all([
+
+      loadDPD(true),
+
+      loadBidang(true),
+
+      loadAgenda(true),
+
+      loadLaporan(true),
+
+      loadPemberitahuan(true)
+
+    ]);
+
+    loadDashboard();
+
+    populateDPDSelect();
+
+    loadBidangForSelectedDPD();
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "Gagal memuat data.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD DPD
+===================================================== */
+
+async function loadDPD(silent=false){
+
+  const {
+    data,
+    error
+  }=await db
+    .from("DPD")
+    .select("*")
+    .order("id");
+
+  if(error){
+
+    console.error(error);
+
+    if(!silent){
+
+      toast(
+        "Gagal memuat DPD: "+error.message,
+        "error"
+      );
+
+    }
+
+    return;
+
+  }
+
+  dpdData=data||[];
+
+  renderDPD();
+
+}
+
+
+/* =====================================================
+   RENDER DPD
+===================================================== */
+
+function renderDPD(){
+
+  const table=
+    document.getElementById("dpdTable");
+
+  if(!dpdData.length){
+
+    table.innerHTML=`
+      <tr>
+        <td colspan="8" class="empty">
+          Belum ada data DPD.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  table.innerHTML=
+    dpdData.map(dpd=>{
+
+      const calc=
+        calculateDPD(dpd);
+
+      return `
+
+      <tr>
+
+        <td>
+          <strong>${escapeHTML(dpd.nama||"-")}</strong>
+        </td>
+
+        <td>
+          ${escapeHTML(dpd.ketua||"-")}
+        </td>
+
+        <td>
+          ${escapeHTML(dpd.sekretaris||"-")}
+        </td>
+
+        <td>
+          ${escapeHTML(dpd.bendahara||"-")}
+        </td>
+
+        <td>
+          ${escapeHTML(dpd.sekretariat||"-")}
+        </td>
+
+        <td>
+          ${statusBadge(calc.status)}
+        </td>
+
+        <td>
+          ${progressHTML(calc.progress)}
+        </td>
+
+        <td>
+
+          <button
+            class="btn btnOrange btnSmall"
+            onclick="openDPDModal(${dpd.id})"
+          >
+            ✏️ Edit
+          </button>
+
+        </td>
+
+      </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   EDIT DPD
+===================================================== */
+
+function openDPDModal(id){
+
+  const dpd=
+    dpdData.find(
+      d=>String(d.id)===String(id)
+    );
+
+  if(!dpd)return;
+
+  document.getElementById("editDPDId").value=dpd.id;
+
+  document.getElementById("editDPDNama").value=
+    dpd.nama||"";
+
+  document.getElementById("editDPDKetua").value=
+    dpd.ketua||"";
+
+  document.getElementById("editDPDSekretaris").value=
+    dpd.sekretaris||"";
+
+  document.getElementById("editDPDBendahara").value=
+    dpd.bendahara||"";
+
+  document.getElementById("editDPDSekretariat").value=
+    dpd.sekretariat||"";
+
+  openModal("dpdModal");
+
+}
+
+
+async function saveDPD(){
+
+  const id=
+    document.getElementById("editDPDId").value;
+
+  const payload={
+
+    nama:
+      document.getElementById("editDPDNama").value.trim(),
+
+    ketua:
+      document.getElementById("editDPDKetua").value.trim(),
+
+    sekretaris:
+      document.getElementById("editDPDSekretaris").value.trim(),
+
+    bendahara:
+      document.getElementById("editDPDBendahara").value.trim(),
+
+    sekretariat:
+      document.getElementById("editDPDSekretariat").value.trim()
+
+  };
+
+
+  const {error}=
+    await db
+      .from("DPD")
+      .update(payload)
+      .eq("id",id);
+
+  if(error){
+
+    toast(
+      "Gagal menyimpan DPD: "+error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const local=
+    dpdData.find(
+      d=>String(d.id)===String(id)
+    );
+
+  if(local){
+
+    Object.assign(local,payload);
+
+  }
+
+
+  await recalculateDPD(id);
+
+  closeModal("dpdModal");
+
+  toast("Data DPD berhasil disimpan.");
+
+  renderDPD();
+
+  loadDashboard();
+
+}
+
+
+/* =====================================================
+   LOAD BIDANG
+===================================================== */
+
+async function loadBidang(silent=false){
+
+  const {
+    data,
+    error
+  }=await db
+    .from("BIDANG_DPD")
+    .select("*")
+    .order("dpd_id")
+    .order("id");
+
+  if(error){
+
+    console.error(error);
+
+    if(!silent){
+
+      toast(
+        "Gagal memuat bidang: "+error.message,
+        "error"
+      );
+
+    }
+
+    return;
+
+  }
+
+  bidangData=data||[];
+
+}
+
+
+/* =====================================================
+   SELECT DPD
+===================================================== */
+
+function populateDPDSelect(){
+
+  const select=
+    document.getElementById(
+      "bidangDPDSelect"
+    );
+
+  if(!select)return;
+
+  const current=select.value;
+
+  select.innerHTML=
+    dpdData.map(dpd=>`
+
+      <option value="${dpd.id}">
+        ${escapeHTML(dpd.nama||"DPD")}
+      </option>
+
+    `).join("");
+
+  if(current){
+
+    select.value=current;
+
+  }
+
+}
+
+
+function loadBidangForSelectedDPD(){
+
+  const select=
+    document.getElementById(
+      "bidangDPDSelect"
+    );
+
+  if(!select)return;
+
+  const dpdId=select.value;
+
+  renderBidang(dpdId);
+
+}
+
+
+/* =====================================================
+   RENDER BIDANG
+===================================================== */
+
+function renderBidang(dpdId){
+
+  const container=
+    document.getElementById(
+      "bidangContainer"
+    );
+
+  if(!dpdId){
+
+    container.innerHTML=
+      `<div class="empty">
+        Pilih DPD terlebih dahulu.
+      </div>`;
+
+    return;
+
+  }
+
+
+  const data=
+    bidangData.filter(
+      b=>String(b.dpd_id)===String(dpdId)
+    );
+
+
+  if(!data.length){
+
+    container.innerHTML=
+      `<div class="empty">
+        Belum ada data bidang untuk DPD ini.
+      </div>`;
+
+    return;
+
+  }
+
+
+  container.innerHTML=
+
+    data.map(b=>{
+
+      const progress=
+        Math.max(
+          0,
+          Math.min(
+            100,
+            Number(b.progress)||0
+          )
+        );
+
+      return `
+
+      <div
+        class="card"
+        style="margin-bottom:12px"
+      >
+
+        <div class="cardHeader">
+
+          <div>
+
+            <h3>
+              ${escapeHTML(b.bidang||"-")}
+            </h3>
+
+            <p
+              style="
+                color:#999;
+                font-size:12px;
+                margin-top:5px
+              "
+            >
+              Koor:
+              ${escapeHTML(b.koor_bidang||"-")}
+            </p>
+
+          </div>
+
+          <div>
+
+            ${statusBadge(
+              progress===100
+              ? "SUDAH TERBENTUK"
+              : progress>0
+              ? "DALAM PROSES"
+              : "BELUM TERBENTUK"
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div style="margin-bottom:12px">
+
+          <strong>
+            Progress ${progress}%
+          </strong>
+
+          <div class="progressBox">
+
+            <div class="progressBar">
+
+              <div
+                class="progressFill"
+                style="width:${progress}%"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <strong
+            style="
+              display:block;
+              margin-bottom:5px;
+              font-size:12px
+            "
+          >
+            Anggota
+          </strong>
+
+          <div
+            style="
+              color:#aaa;
+              white-space:pre-line;
+              font-size:13px
+            "
+          >
+            ${escapeHTML(
+              b.anggota_bidang||"-"
+            )}
+          </div>
+
+        </div>
+
+
+        <div
+          style="
+            margin-top:15px;
+            text-align:right
+          "
+        >
+
+          <button
+            class="btn btnOrange btnSmall"
+            onclick="openBidangModal(${b.id})"
+          >
+            ✏️ Edit Bidang
+          </button>
+
+        </div>
+
+      </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   EDIT BIDANG
+===================================================== */
+
+function openBidangModal(id){
+
+  const b=
+    bidangData.find(
+      x=>String(x.id)===String(id)
+    );
+
+  if(!b)return;
+
+  document.getElementById(
+    "editBidangId"
+  ).value=b.id;
+
+  document.getElementById(
+    "editBidangNama"
+  ).value=b.bidang||"";
+
+  document.getElementById(
+    "editBidangKoor"
+  ).value=b.koor_bidang||"";
+
+  document.getElementById(
+    "editBidangAnggota"
+  ).value=b.anggota_bidang||"";
+
+  document.getElementById(
+    "editBidangProgress"
+  ).value=Number(b.progress)||0;
+
+  openModal("bidangModal");
+
+}
+
+
+async function saveBidang(){
+
+  const id=
+    document.getElementById(
+      "editBidangId"
+    ).value;
+
+  const progress=Math.max(
+    0,
+    Math.min(
+      100,
+      Number(
+        document.getElementById(
+          "editBidangProgress"
+        ).value
+      )||0
+    )
+  );
+
+
+  const payload={
+
+    koor_bidang:
+      document.getElementById(
+        "editBidangKoor"
+      ).value.trim(),
+
+    anggota_bidang:
+      document.getElementById(
+        "editBidangAnggota"
+      ).value.trim(),
+
+    progress
+
+  };
+
+
+  const {error}=
+    await db
+      .from("BIDANG_DPD")
+      .update(payload)
+      .eq("id",id);
+
+
+  if(error){
+
+    toast(
+      "Gagal menyimpan bidang: "+error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const local=
+    bidangData.find(
+      b=>String(b.id)===String(id)
+    );
+
+  if(local){
+
+    Object.assign(local,payload);
+
+  }
+
+
+  const bidang=
+    bidangData.find(
+      b=>String(b.id)===String(id)
+    );
+
+  if(bidang){
+
+    await recalculateDPD(
+      bidang.dpd_id
+    );
+
+  }
+
+
+  closeModal("bidangModal");
+
+  toast("Data bidang berhasil disimpan.");
+
+  renderBidang(
+    document.getElementById(
+      "bidangDPDSelect"
+    ).value
+  );
+
+  renderDPD();
+
+  loadDashboard();
+
+}
+
+
+/* =====================================================
+   RECALCULATE DPD
+===================================================== */
+
+async function recalculateDPD(dpdId){
+
+  const dpd=
+    dpdData.find(
+      d=>String(d.id)===String(dpdId)
+    );
+
+  if(!dpd)return;
+
+
+  const calc=
+    calculateDPD(dpd);
+
+
+  const {error}=
+    await db
+      .from("DPD")
+      .update({
+        progress:calc.progress,
+        status:calc.status
+      })
+      .eq("id",dpdId);
+
+
+  if(error){
+
+    console.error(
+      "Gagal update progress DPD:",
+      error
+    );
+
+    return;
+
+  }
+
+
+  dpd.progress=calc.progress;
+  dpd.status=calc.status;
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function loadDashboard(){
+
+  const total=
+    dpdData.length;
+
+  let formed=0;
+  let process=0;
+  let notFormed=0;
+
+
+  dpdData.forEach(dpd=>{
+
+    const calc=
+      calculateDPD(dpd);
+
+    if(calc.progress===100){
+
+      formed++;
+
+    }else if(calc.progress>0){
+
+      process++;
+
+    }else{
+
+      notFormed++;
+
+    }
+
+  });
+
+
+  document.getElementById(
+    "totalDPD"
+  ).innerText=total;
+
+  document.getElementById(
+    "formedDPD"
+  ).innerText=formed;
+
+  document.getElementById(
+    "processDPD"
+  ).innerText=process;
+
+  document.getElementById(
+    "notFormedDPD"
+  ).innerText=notFormed;
+
+
+  const table=
+    document.getElementById(
+      "dashboardTable"
+    );
+
+
+  if(!dpdData.length){
+
+    table.innerHTML=
+      `<tr>
+        <td colspan="4" class="empty">
+          Belum ada data.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  table.innerHTML=
+
+    dpdData.map(dpd=>{
+
+      const calc=
+        calculateDPD(dpd);
+
+      return `
+
+      <tr>
+
+        <td>
+          <strong>
+            ${escapeHTML(
+              dpd.nama||"-"
+            )}
+          </strong>
+        </td>
+
+        <td>
+          ${escapeHTML(
+            dpd.ketua||"-"
+          )}
+        </td>
+
+        <td>
+          ${statusBadge(
+            calc.status
+          )}
+        </td>
+
+        <td>
+          ${progressHTML(
+            calc.progress
+          )}
+        </td>
+
+      </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   AGENDA
+===================================================== */
+
+async function loadAgenda(silent=false){
+
+  const {
+    data,
+    error
+  }=await db
+    .from("AGENDA")
+    .select("*")
+    .order("tanggal",{ascending:false})
+    .order("id",{ascending:false});
+
+  if(error){
+
+    console.error(error);
+
+    if(!silent){
+
+      toast(
+        "Gagal memuat agenda: "+error.message,
+        "error"
+      );
+
+    }
+
+    return;
+
+  }
+
+  agendaData=data||[];
+
+  renderAgenda();
+
+}
+
+
+function renderAgenda(){
+
+  const table=
+    document.getElementById(
+      "agendaTable"
+    );
+
+  if(!agendaData.length){
+
+    table.innerHTML=
+      `<tr>
+        <td colspan="6" class="empty">
+          Belum ada agenda.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  table.innerHTML=
+
+    agendaData.map(a=>`
+
+      <tr>
+
+        <td>
+          <strong>
+            ${escapeHTML(a.judul||"-")}
+          </strong>
+        </td>
+
+        <td>
+          ${formatDate(a.tanggal)}
+        </td>
+
+        <td>
+          ${escapeHTML(a.waktu||"-")}
+        </td>
+
+        <td>
+          ${escapeHTML(a.lokasi||"-")}
+        </td>
+
+        <td>
+          ${escapeHTML(a.status||"-")}
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="btn btnOrange btnSmall"
+              onclick="openAgendaModal(${a.id})"
+            >
+              ✏️
+            </button>
+
+            <button
+              class="btn btnDanger btnSmall"
+              onclick="deleteAgenda(${a.id})"
+            >
+              🗑️
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+function openAgendaModal(id=null){
+
+  document.getElementById(
+    "agendaId"
+  ).value="";
+
+  document.getElementById(
+    "agendaJudul"
+  ).value="";
+
+  document.getElementById(
+    "agendaTanggal"
+  ).value="";
+
+  document.getElementById(
+    "agendaWaktu"
+  ).value="";
+
+  document.getElementById(
+    "agendaLokasi"
+  ).value="";
+
+  document.getElementById(
+    "agendaDeskripsi"
+  ).value="";
+
+  document.getElementById(
+    "agendaStatus"
+  ).value="AKAN DATANG";
+
+
+  document.getElementById(
+    "agendaModalTitle"
+  ).innerText="Tambah Agenda";
+
+
+  if(id){
+
+    const a=
+      agendaData.find(
+        x=>String(x.id)===String(id)
+      );
+
+    if(!a)return;
+
+    document.getElementById(
+      "agendaId"
+    ).value=a.id;
+
+    document.getElementById(
+      "agendaJudul"
+    ).value=a.judul||"";
+
+    document.getElementById(
+      "agendaTanggal"
+    ).value=a.tanggal||"";
+
+    document.getElementById(
+      "agendaWaktu"
+    ).value=a.waktu||"";
+
+    document.getElementById(
+      "agendaLokasi"
+    ).value=a.lokasi||"";
+
+    document.getElementById(
+      "agendaDeskripsi"
+    ).value=a.deskripsi||"";
+
+    document.getElementById(
+      "agendaStatus"
+    ).value=a.status||"AKAN DATANG";
+
+    document.getElementById(
+      "agendaModalTitle"
+    ).innerText="Edit Agenda";
+
+  }
+
+  openModal("agendaModal");
+
+}
+
+
+async function saveAgenda(){
+
+  const id=
+    document.getElementById(
+      "agendaId"
+    ).value;
+
+
+  const payload={
+
+    judul:
+      document.getElementById(
+        "agendaJudul"
+      ).value.trim(),
+
+    tanggal:
+      document.getElementById(
+        "agendaTanggal"
+      ).value||null,
+
+    waktu:
+      document.getElementById(
+        "agendaWaktu"
+      ).value.trim(),
+
+    lokasi:
+      document.getElementById(
+        "agendaLokasi"
+      ).value.trim(),
+
+    deskripsi:
+      document.getElementById(
+        "agendaDeskripsi"
+      ).value.trim(),
+
+    status:
+      document.getElementById(
+        "agendaStatus"
+      ).value
+
+  };
+
+
+  if(!payload.judul){
+
+    toast(
+      "Judul agenda wajib diisi.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  let error;
+
+
+  if(id){
+
+    ({error}=await db
+      .from("AGENDA")
+      .update(payload)
+      .eq("id",id));
+
+  }else{
+
+    ({error}=await db
+      .from("AGENDA")
+      .insert(payload));
+
+  }
+
+
+  if(error){
+
+    toast(
+      "Gagal menyimpan agenda: "+error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  closeModal("agendaModal");
+
+  toast(
+    id
+    ? "Agenda berhasil diperbarui."
+    : "Agenda berhasil ditambahkan."
+  );
+
+  loadAgenda();
+
+}
+
+
+async function deleteAgenda(id){
+
+  if(!confirm(
+    "Hapus agenda ini?"
+  ))return;
+
+
+  const {error}=
+    await db
+      .from("AGENDA")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    toast(
+      "Gagal menghapus agenda: "+error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  toast("Agenda berhasil dihapus.");
+
+  loadAgenda();
+
+}
+
+
+/* =====================================================
+   LAPORAN
+===================================================== */
+
+async function loadLaporan(silent=false){
+
+  const {
+    data,
+    error
+  }=await db
+    .from("LAPORAN")
+    .select("*")
+    .order("tanggal",{ascending:false})
+    .order("id",{ascending:false});
+
+
+  if(error){
+
+    console.error(error);
+
+    if(!silent){
+
+      toast(
+        "Gagal memuat laporan: "+error.message,
+        "error"
+      );
+
+    }
+
+    return;
+
+  }
+
+
+  laporanData=data||[];
+
+  renderLaporan();
+
+}
+
+
+function renderLaporan(){
+
+  const table=
+    document.getElementById(
+      "laporanTable"
+    );
+
+
+  if(!laporanData.length){
+
+    table.innerHTML=
+      `<tr>
+        <td colspan="5" class="empty">
+          Belum ada laporan.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  table.innerHTML=
+
+    laporanData.map(l=>`
+
+      <tr>
+
+        <td>
+          <strong>
+            ${escapeHTML(
+              l.judul||"-"
+            )}
+          </strong>
+        </td>
+
+        <td>
+          ${formatDate(l.tanggal)}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            l.kategori||"-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            l.status||"-"
+          )}
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="btn btnOrange btnSmall"
+              onclick="openLaporanModal(${l.id})"
+            >
+              ✏️
+            </button>
+
+            <button
+              class="btn btnDanger btnSmall"
+              onclick="deleteLaporan(${l.id})"
+            >
+              🗑️
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+function openLaporanModal(id=null){
+
+  document.getElementById(
+    "laporanId"
+  ).value="";
+
+  document.getElementById(
+    "laporanJudul"
+  ).value="";
+
+  document.getElementById(
+    "laporanTanggal"
+  ).value="";
+
+  document.getElementById(
+    "laporanKategori"
+  ).value="";
+
+  document.getElementById(
+    "laporanIsi"
+  ).value="";
+
+  document.getElementById(
+    "laporanStatus"
+  ).value="DRAFT";
+
+
+  document.getElementById(
+    "laporanModalTitle"
+  ).innerText="Tambah Laporan";
+
+
+  if(id){
+
+    const l=
+      laporanData.find(
+        x=>String(x.id)===String(id)
+      );
+
+    if(!l)return;
+
+
+    document.getElementById(
+      "laporanId"
+    ).value=l.id;
+
+    document.getElementById(
+      "laporanJudul"
+    ).value=l.judul||"";
+
+    document.getElementById(
+      "laporanTanggal"
+    ).value=l.tanggal||"";
+
+    document.getElementById(
+      "laporanKategori"
+    ).value=l.kategori||"";
+
+    document.getElementById(
+      "laporanIsi"
+    ).value=l.isi||"";
+
+    document.getElementById(
+      "laporanStatus"
+    ).value=l.status||"DRAFT";
+
+
+    document.getElementById(
+      "laporanModalTitle"
+    ).innerText="Edit Laporan";
+
+  }
+
+
+  openModal("laporanModal");
+
+}
+
+
+async function saveLaporan(){
+
+  const id=
+    document.getElementById(
+      "laporanId"
+    ).value;
+
+
+  const payload={
+
+    judul:
+      document.getElementById(
+        "laporanJudul"
+      ).value.trim(),
+
+    tanggal:
+      document.getElementById(
+        "laporanTanggal"
+      ).value||null,
+
+    kategori:
+      document.getElementById(
+        "laporanKategori"
+      ).value.trim(),
+
+    isi:
+      document.getElementById(
+        "laporanIsi"
+      ).value.trim(),
+
+    status:
+      document.getElementById(
+        "laporanStatus"
+      ).value
+
+  };
+
+
+  if(!payload.judul){
+
+    toast(
+      "Judul laporan wajib diisi.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  let error;
+
+
+  if(id){
+
+    ({error}=await db
+      .from("LAPORAN")
+      .update(payload)
+      .eq("id",id));
+
+  }else{
+
+    ({error}=await db
+      .from("LAPORAN")
+      .insert(payload));
+
+  }
+
+
+  if(error){
+
+    toast(
+      "Gagal menyimpan laporan: "+error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  closeModal("laporanModal");
+
+  toast(
+    id
+    ? "Laporan berhasil diperbarui."
+    : "Laporan berhasil ditambahkan."
+  );
+
+  loadLaporan();
+
+}
+
+
+async function deleteLaporan(id){
+
+  if(!confirm(
+    "Hapus laporan ini?"
+  ))return;
+
+
+  const {error}=
+    await db
+      .from("LAPORAN")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    toast(
+      "Gagal menghapus laporan: "+error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  toast("Laporan berhasil dihapus.");
+
+  loadLaporan();
+
+}
+
+
+/* =====================================================
+   PEMBERITAHUAN
+===================================================== */
+
+async function loadPemberitahuan(silent=false){
+
+  const {
+    data,
+    error
+  }=await db
+    .from("PEMBERITAHUAN")
+    .select("*")
+    .order("tanggal",{ascending:false})
+    .order("id",{ascending:false});
+
+
+  if(error){
+
+    console.error(error);
+
+    if(!silent){
+
+      toast(
+        "Gagal memuat pemberitahuan: "+error.message,
+        "error"
+      );
+
+    }
+
+    return;
+
+  }
+
+
+  pemberitahuanData=data||[];
+
+  renderPemberitahuan();
+
+}
+
+
+function renderPemberitahuan(){
+
+  const table=
+    document.getElementById(
+      "pemberitahuanTable"
+    );
+
+
+  if(!pemberitahuanData.length){
+
+    table.innerHTML=
+      `<tr>
+        <td colspan="5" class="empty">
+          Belum ada pemberitahuan.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  table.innerHTML=
+
+    pemberitahuanData.map(p=>`
+
+      <tr>
+
+        <td>
+          <strong>
+            ${escapeHTML(
+              p.judul||"-"
+            )}
+          </strong>
+        </td>
+
+        <td>
+          ${formatDate(p.tanggal)}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            p.tipe||"-"
+          )}
+        </td>
+
+        <td>
+
+          ${
+            p.aktif
+            ?
+            `<span class="badge badgeGreen">
+              AKTIF
+            </span>`
+            :
+            `<span class="badge badgeRed">
+              NONAKTIF
+            </span>`
+          }
+
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="btn btnOrange btnSmall"
+              onclick="openPemberitahuanModal(${p.id})"
+            >
+              ✏️
+            </button>
+
+            <button
+              class="btn btnDanger btnSmall"
+              onclick="deletePemberitahuan(${p.id})"
+            >
+              🗑️
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+function openPemberitahuanModal(id=null){
+
+  document.getElementById(
+    "pemberitahuanId"
+  ).value="";
+
+  document.getElementById(
+    "pemberitahuanJudul"
+  ).value="";
+
+  document.getElementById(
+    "pemberitahuanTanggal"
+  ).value="";
+
+  document.getElementById(
+    "pemberitahuanTipe"
+  ).value="INFO";
+
+  document.getElementById(
+    "pemberitahuanIsi"
+  ).value="";
+
+  document.getElementById(
+    "pemberitahuanAktif"
+  ).value="true";
+
+
+  document.getElementById(
+    "pemberitahuanModalTitle"
+  ).innerText="Tambah Pemberitahuan";
+
+
+  if(id){
+
+    const p=
+      pemberitahuanData.find(
+        x=>String(x.id)===String(id)
+      );
+
+    if(!p)return;
+
+
+    document.getElementById(
+      "pemberitahuanId"
+    ).value=p.id;
+
+    document.getElementById(
+      "pemberitahuanJudul"
+    ).value=p.judul||"";
+
+    document.getElementById(
+      "pemberitahuanTanggal"
+    ).value=p.tanggal||"";
+
+    document.getElementById(
+      "pemberitahuanTipe"
+    ).value=p.tipe||"INFO";
+
+    document.getElementById(
+      "pemberitahuanIsi"
+    ).value=p.isi||"";
+
+    document.getElementById(
+      "pemberitahuanAktif"
+    ).value=
+      p.aktif ? "true" : "false";
+
+
+    document.getElementById(
+      "pemberitahuanModalTitle"
+    ).innerText="Edit Pemberitahuan";
+
+  }
+
+
+  openModal(
+    "pemberitahuanModal"
+  );
+
+}
+
+
+async function savePemberitahuan(){
+
+  const id=
+    document.getElementById(
+      "pemberitahuanId"
+    ).value;
+
+
+  const payload={
+
+    judul:
+      document.getElementById(
+        "pemberitahuanJudul"
+      ).value.trim(),
+
+    tanggal:
+      document.getElementById(
+        "pemberitahuanTanggal"
+      ).value||null,
+
+    tipe:
+      document.getElementById(
+        "pemberitahuanTipe"
+      ).value,
+
+    isi:
+      document.getElementById(
+        "pemberitahuanIsi"
+      ).value.trim(),
+
+    aktif:
+      document.getElementById(
+        "pemberitahuanAktif"
+      ).value==="true"
+
+  };
+
+
+  if(!payload.judul){
+
+    toast(
+      "Judul pemberitahuan wajib diisi.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  let error;
+
+
+  if(id){
+
+    ({error}=await db
+      .from("PEMBERITAHUAN")
+      .update(payload)
+      .eq("id",id));
+
+  }else{
+
+    ({error}=await db
+      .from("PEMBERITAHUAN")
+      .insert(payload));
+
+  }
+
+
+  if(error){
+
+    toast(
+      "Gagal menyimpan pemberitahuan: "+error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  closeModal(
+    "pemberitahuanModal"
+  );
+
+  toast(
+    id
+    ? "Pemberitahuan diperbarui."
+    : "Pemberitahuan ditambahkan."
+  );
+
+  loadPemberitahuan();
+
+}
+
+
+async function deletePemberitahuan(id){
+
+  if(!confirm(
+    "Hapus pemberitahuan ini?"
+  ))return;
+
+
+  const {error}=
+    await db
+      .from("PEMBERITAHUAN")
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    toast(
+      "Gagal menghapus pemberitahuan: "+error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  toast(
+    "Pemberitahuan berhasil dihapus."
+  );
+
+  loadPemberitahuan();
+
+}
+
+
+/* =====================================================
+   UTILITIES
+===================================================== */
+
+function formatDate(date){
+
+  if(!date)return "-";
+
+  try{
+
+    return new Date(
+      date+"T00:00:00"
+    ).toLocaleDateString(
+      "id-ID",
+      {
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric"
+      }
+    );
+
+  }catch(e){
+
+    return date;
+
+  }
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+db.auth.onAuthStateChange(
+  (event,session)=>{
+
+    if(session){
+
+      showAdmin();
+
+    }else{
+
+      showLogin();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
