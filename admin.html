@@ -3,4101 +3,3523 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Command Center — Muda Bergerak Sulsel</title>
+<title>MB Sulsel — Command Center</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
-  --orange:#ff7900;
-  --orange2:#ff9d2e;
-  --black:#070707;
-  --dark:#101010;
-  --card:#151515;
-  --card2:#1c1c1c;
-  --white:#ffffff;
-  --muted:#999999;
-  --danger:#e53935;
-  --green:#22c55e;
-  --border:rgba(255,255,255,.08);
+    --orange:#FF7900;
+    --orange2:#FF9D2E;
+    --black:#070707;
+    --dark:#111111;
+    --dark2:#171717;
+    --gray:#9b9b9b;
+    --white:#ffffff;
+    --green:#22c55e;
+    --red:#ef4444;
 }
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--black);
-  color:var(--white);
-  min-height:100vh;
+    background:#f4f4f4;
+    color:#111;
 }
 
 /* ================= LOGIN ================= */
 
-#loginPage{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-
-  background:
-    radial-gradient(circle at top right,rgba(255,121,0,.20),transparent 35%),
-    radial-gradient(circle at bottom left,rgba(255,121,0,.10),transparent 35%),
-    var(--black);
+#loginScreen{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top right,#ff790055,transparent 35%),
+        var(--black);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
 }
 
-.loginBox{
-  width:100%;
-  max-width:430px;
-  background:rgba(21,21,21,.96);
-  border:1px solid rgba(255,121,0,.25);
-  border-radius:24px;
-  padding:35px 28px;
-  box-shadow:0 20px 70px rgba(0,0,0,.65);
+.login-box{
+    width:100%;
+    max-width:420px;
+    background:#151515;
+    border:1px solid #333;
+    border-radius:22px;
+    padding:32px 25px;
+    box-shadow:0 20px 60px #000;
+    color:white;
 }
 
-.loginLogo{
-  width:105px;
-  height:105px;
-  object-fit:contain;
-  display:block;
-  margin:0 auto 18px;
+.login-logo{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto 18px;
 }
 
-.loginTitle{
-  text-align:center;
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:.5px;
+.login-title{
+    text-align:center;
+    font-size:24px;
+    font-weight:900;
+    color:var(--orange);
 }
 
-.loginSub{
-  text-align:center;
-  color:var(--muted);
-  margin-top:7px;
-  margin-bottom:30px;
-  font-size:13px;
+.login-subtitle{
+    text-align:center;
+    font-size:12px;
+    color:#aaa;
+    margin:7px 0 25px;
 }
 
-.inputGroup{
-  margin-bottom:17px;
+.form-group{
+    margin-bottom:15px;
 }
 
-.inputGroup label{
-  display:block;
-  color:#ddd;
-  font-size:13px;
-  margin-bottom:7px;
+.form-group label{
+    display:block;
+    font-size:12px;
+    color:#aaa;
+    margin-bottom:7px;
 }
 
-.inputGroup input{
-  width:100%;
-  padding:14px 15px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  outline:none;
-  background:#0c0c0c;
-  color:white;
-  font-size:15px;
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:13px;
+    border:1px solid #3a3a3a;
+    border-radius:10px;
+    background:#0d0d0d;
+    color:white;
+    outline:none;
 }
 
-.inputGroup input:focus{
-  border-color:var(--orange);
-  box-shadow:0 0 0 3px rgba(255,121,0,.12);
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:var(--orange);
 }
 
-.loginBtn{
-  width:100%;
-  border:0;
-  padding:15px;
-  border-radius:12px;
-  background:linear-gradient(135deg,var(--orange),var(--orange2));
-  color:#000;
-  font-weight:900;
-  font-size:15px;
-  cursor:pointer;
-  margin-top:5px;
+.btn{
+    border:none;
+    cursor:pointer;
+    border-radius:10px;
+    padding:12px 16px;
+    font-weight:800;
 }
 
-.loginBtn:hover{
-  filter:brightness(1.08);
+.btn-orange{
+    background:var(--orange);
+    color:white;
 }
 
-.loginError{
-  color:#ff6b6b;
-  background:rgba(229,57,53,.1);
-  border:1px solid rgba(229,57,53,.25);
-  border-radius:10px;
-  padding:10px;
-  margin-bottom:15px;
-  font-size:13px;
-  display:none;
+.btn-orange:hover{
+    background:#e96d00;
+}
+
+.btn-dark{
+    background:#222;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+.login-btn{
+    width:100%;
+    margin-top:8px;
+}
+
+.login-error{
+    display:none;
+    background:#3b1111;
+    border:1px solid #7f1d1d;
+    color:#ff8c8c;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:15px;
+    font-size:12px;
 }
 
 /* ================= APP ================= */
 
 #app{
-  display:none;
-  min-height:100vh;
+    display:none;
+    min-height:100vh;
 }
-
-.layout{
-  display:flex;
-  min-height:100vh;
-}
-
-/* ================= SIDEBAR ================= */
 
 .sidebar{
-  width:260px;
-  background:#0c0c0c;
-  border-right:1px solid var(--border);
-  padding:20px 14px;
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  z-index:50;
-  overflow-y:auto;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:250px;
+    background:var(--black);
+    color:white;
+    z-index:1000;
+    overflow-y:auto;
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:7px 9px 22px;
-  border-bottom:1px solid var(--border);
-  margin-bottom:18px;
+.sidebar-logo{
+    padding:22px 20px;
+    border-bottom:1px solid #292929;
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.brand img{
-  width:48px;
-  height:48px;
-  object-fit:contain;
+.sidebar-logo img{
+    width:45px;
+    height:45px;
+    object-fit:contain;
 }
 
-.brandText strong{
-  display:block;
-  font-size:15px;
+.sidebar-logo strong{
+    color:var(--orange);
+    font-size:14px;
+    line-height:1.2;
 }
 
-.brandText span{
-  display:block;
-  color:var(--orange);
-  font-size:11px;
-  font-weight:bold;
-  margin-top:3px;
+.menu{
+    padding:15px 12px;
 }
 
-.menuTitle{
-  color:#666;
-  font-size:10px;
-  font-weight:bold;
-  letter-spacing:1.5px;
-  padding:0 10px 9px;
-  margin-top:12px;
+.menu-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#bbb;
+    text-decoration:none;
+    padding:12px 14px;
+    border-radius:10px;
+    margin-bottom:5px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:700;
 }
 
-.menuBtn{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#bbb;
-  text-align:left;
-  padding:12px 12px;
-  border-radius:10px;
-  margin-bottom:4px;
-  cursor:pointer;
-  font-size:13px;
-  font-weight:600;
+.menu-item:hover{
+    background:#1c1c1c;
+    color:white;
 }
 
-.menuBtn:hover{
-  background:#181818;
-  color:white;
+.menu-item.active{
+    background:var(--orange);
+    color:white;
 }
 
-.menuBtn.active{
-  background:rgba(255,121,0,.14);
-  color:var(--orange);
-  border-left:3px solid var(--orange);
+.sidebar-bottom{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:15px;
+    border-top:1px solid #292929;
 }
 
-.adminCard{
-  margin-top:20px;
-  background:#151515;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:13px;
+.user-mini{
+    font-size:12px;
+    margin-bottom:10px;
 }
 
-.adminCard small{
-  display:block;
-  color:#777;
-  font-size:10px;
-  margin-bottom:4px;
+.user-mini strong{
+    display:block;
+    color:white;
 }
 
-.adminCard strong{
-  font-size:13px;
+.user-mini span{
+    color:#888;
 }
 
-.adminRole{
-  color:var(--orange);
-  font-size:11px;
-  font-weight:bold;
-  margin-top:4px;
-}
-
-.logoutBtn{
-  width:100%;
-  margin-top:12px;
-  padding:11px;
-  border-radius:10px;
-  border:1px solid rgba(229,57,53,.3);
-  color:#ff7777;
-  background:rgba(229,57,53,.06);
-  cursor:pointer;
-}
-
-/* ================= CONTENT ================= */
+/* ================= MAIN ================= */
 
 .main{
-  margin-left:260px;
-  width:calc(100% - 260px);
-  min-height:100vh;
+    margin-left:250px;
+    min-height:100vh;
 }
 
 .topbar{
-  height:70px;
-  background:rgba(7,7,7,.92);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 28px;
-  position:sticky;
-  top:0;
-  z-index:30;
+    height:72px;
+    background:white;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
-.topTitle{
-  font-size:18px;
-  font-weight:900;
+.top-left{
+    display:flex;
+    flex-direction:column;
 }
 
-.topRole{
-  font-size:11px;
-  color:var(--orange);
-  font-weight:bold;
+.top-title{
+    font-size:18px;
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+.top-role{
+    font-size:11px;
+    color:var(--orange);
+    font-weight:800;
+    margin-top:3px;
+    text-transform:uppercase;
+}
+
+.mobile-menu{
+    display:none;
+    background:none;
+    border:none;
+    font-size:25px;
+    cursor:pointer;
 }
 
 .content{
-  padding:28px;
-  max-width:1500px;
-  margin:auto;
+    padding:25px;
 }
 
+/* ================= PAGE ================= */
+
 .page{
-  display:none;
+    display:none;
 }
 
 .page.active{
-  display:block;
+    display:block;
 }
 
-.pageHeader{
-  margin-bottom:25px;
+.page-head{
+    margin-bottom:22px;
 }
 
-.pageHeader h1{
-  font-size:28px;
-  font-weight:900;
+.page-head h2{
+    font-size:24px;
+    font-weight:900;
 }
 
-.pageHeader p{
-  color:var(--muted);
-  margin-top:7px;
-  font-size:13px;
+.page-head p{
+    color:#777;
+    font-size:13px;
+    margin-top:5px;
 }
 
-/* ================= STAT ================= */
+/* ================= CARDS ================= */
 
 .stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:25px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
 }
 
-.stat{
-  background:linear-gradient(145deg,#151515,#101010);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:19px;
-  position:relative;
-  overflow:hidden;
+.stat-card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    border:1px solid #ddd;
 }
 
-.stat:after{
-  content:"";
-  position:absolute;
-  width:70px;
-  height:70px;
-  background:rgba(255,121,0,.08);
-  border-radius:50%;
-  right:-20px;
-  top:-20px;
+.stat-card .label{
+    color:#777;
+    font-size:12px;
 }
 
-.stat small{
-  color:#888;
-  font-size:11px;
+.stat-card .value{
+    font-size:30px;
+    font-weight:900;
+    margin-top:8px;
+    color:var(--orange);
 }
 
-.stat strong{
-  display:block;
-  font-size:28px;
-  margin-top:7px;
+.card{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:15px;
+    padding:20px;
 }
 
-.stat span{
-  display:block;
-  color:var(--orange);
-  font-size:11px;
-  margin-top:5px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
 }
 
-/* ================= SECTION ================= */
-
-.section{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  overflow:hidden;
-  margin-bottom:20px;
+.dpd-card{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:15px;
+    padding:18px;
+    cursor:pointer;
+    transition:.2s;
 }
 
-.sectionHeader{
-  padding:17px 19px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
+.dpd-card:hover{
+    border-color:var(--orange);
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px #00000012;
 }
 
-.sectionHeader h3{
-  font-size:15px;
+.dpd-card h3{
+    font-size:15px;
+    margin-bottom:10px;
 }
 
-.sectionBody{
-  padding:19px;
-}
-
-/* ================= DPD GRID ================= */
-
-.dpdGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-
-.dpdCard{
-  background:#101010;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:17px;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.dpdCard:hover{
-  border-color:var(--orange);
-  transform:translateY(-2px);
-  box-shadow:0 10px 30px rgba(255,121,0,.10);
-}
-
-.dpdNumber{
-  font-size:10px;
-  color:var(--orange);
-  font-weight:bold;
-  margin-bottom:7px;
-}
-
-.dpdName{
-  font-size:15px;
-  font-weight:900;
-}
-
-.dpdStatus{
-  color:#888;
-  font-size:11px;
-  margin-top:7px;
+.dpd-card .status{
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:12px;
 }
 
 .progress{
-  margin-top:13px;
-  height:6px;
-  background:#262626;
-  border-radius:10px;
-  overflow:hidden;
+    width:100%;
+    height:8px;
+    background:#eee;
+    border-radius:20px;
+    overflow:hidden;
 }
 
 .progress div{
-  height:100%;
-  background:linear-gradient(90deg,var(--orange),var(--orange2));
-  border-radius:10px;
-}
-
-.progressText{
-  display:flex;
-  justify-content:space-between;
-  margin-top:6px;
-  font-size:10px;
-  color:#888;
-}
-
-/* ================= BUTTON ================= */
-
-.btn{
-  border:0;
-  border-radius:9px;
-  padding:10px 14px;
-  font-size:12px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.btnOrange{
-  background:var(--orange);
-  color:#000;
-}
-
-.btnDark{
-  background:#252525;
-  color:white;
-}
-
-.btnDanger{
-  background:rgba(229,57,53,.12);
-  color:#ff7373;
-  border:1px solid rgba(229,57,53,.25);
-}
-
-.btn:hover{
-  filter:brightness(1.1);
-}
-
-/* ================= TABLE ================= */
-
-.tableWrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:650px;
-}
-
-th{
-  text-align:left;
-  color:#777;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-  padding:12px;
-  border-bottom:1px solid var(--border);
-}
-
-td{
-  padding:13px 12px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-  font-size:12px;
-}
-
-tr:hover td{
-  background:rgba(255,255,255,.015);
-}
-
-.badge{
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:20px;
-  font-size:9px;
-  font-weight:bold;
-}
-
-.badgeActive{
-  background:rgba(34,197,94,.1);
-  color:#5be88b;
-}
-
-.badgeOrange{
-  background:rgba(255,121,0,.12);
-  color:var(--orange);
+    height:100%;
+    background:var(--orange);
 }
 
 /* ================= STRUCTURE ================= */
 
-.structureHeader{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:22px;
+.structure-header{
+    background:linear-gradient(135deg,#070707,#202020);
+    color:white;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:20px;
 }
 
-.backBtn{
-  background:#1b1b1b;
-  color:#ddd;
-  border:1px solid var(--border);
-  padding:10px 13px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:bold;
+.structure-header h2{
+    color:var(--orange);
+    font-size:22px;
+    font-weight:900;
+    text-transform:uppercase;
 }
 
-.structureTitle h1{
-  font-size:25px;
+.structure-header p{
+    color:#bbb;
+    font-size:12px;
+    margin-top:6px;
 }
 
-.structureTitle p{
-  color:#888;
-  margin-top:5px;
-  font-size:12px;
+.structure-core{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
 }
 
-.coreGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-bottom:28px;
+.person-card{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:15px;
+    padding:18px;
+    position:relative;
 }
 
-.coreCard{
-  background:linear-gradient(145deg,#181818,#101010);
-  border:1px solid rgba(255,121,0,.18);
-  border-radius:17px;
-  padding:20px;
-  text-align:center;
+.person-card.core{
+    border-top:4px solid var(--orange);
 }
 
-.coreIcon{
-  font-size:28px;
-  margin-bottom:10px;
+.person-jabatan{
+    color:var(--orange);
+    font-size:11px;
+    font-weight:900;
+    text-transform:uppercase;
 }
 
-.corePosition{
-  color:var(--orange);
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.8px;
+.person-name{
+    font-size:16px;
+    font-weight:900;
+    margin-top:7px;
 }
 
-.coreName{
-  font-size:16px;
-  font-weight:900;
-  margin-top:7px;
+.person-phone{
+    color:#777;
+    font-size:11px;
+    margin-top:5px;
 }
 
-.emptyName{
-  color:#555;
-  font-style:italic;
-  font-size:13px;
-  margin-top:7px;
+.person-actions{
+    margin-top:12px;
+    display:flex;
+    gap:7px;
 }
 
-.fieldsGrid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
+.person-actions button{
+    padding:7px 10px;
+    font-size:11px;
 }
 
-.fieldCard{
-  background:#111;
-  border:1px solid var(--border);
-  border-radius:17px;
-  overflow:hidden;
+.fields-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
 }
 
-.fieldHeader{
-  padding:17px;
-  background:linear-gradient(90deg,rgba(255,121,0,.13),transparent);
-  border-bottom:1px solid var(--border);
+.field-card{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:15px;
+    overflow:hidden;
 }
 
-.fieldHeader h3{
-  color:var(--orange);
-  font-size:14px;
+.field-head{
+    background:var(--black);
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.fieldHeader small{
-  color:#777;
-  display:block;
-  margin-top:4px;
-  font-size:10px;
+.field-head strong{
+    color:var(--orange);
+    font-size:13px;
+}
+
+.field-body{
+    padding:15px;
 }
 
 .coordinator{
-  margin:15px;
-  background:#181818;
-  border-radius:12px;
-  padding:13px;
-  border:1px solid rgba(255,121,0,.13);
+    border-left:4px solid var(--orange);
+    background:#fff7ef;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:12px;
 }
 
-.coordinatorLabel{
-  color:#777;
-  font-size:9px;
-  font-weight:bold;
-  text-transform:uppercase;
-}
-
-.coordinatorName{
-  font-size:14px;
-  font-weight:900;
-  margin-top:5px;
-}
-
-.members{
-  padding:0 15px 15px;
-}
-
-.memberTitle{
-  color:#777;
-  font-size:10px;
-  margin-bottom:8px;
-  font-weight:bold;
+.coordinator small{
+    color:var(--orange);
+    font-weight:900;
+    display:block;
+    font-size:10px;
 }
 
 .member{
-  background:#171717;
-  padding:10px;
-  border-radius:9px;
-  margin-bottom:6px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
+    padding:9px 0;
+    border-bottom:1px solid #eee;
+    font-size:12px;
 }
 
-.memberName{
-  font-size:12px;
-  font-weight:bold;
+.member:last-child{
+    border-bottom:none;
 }
 
-.memberActions{
-  display:flex;
-  gap:5px;
+.empty{
+    color:#999;
+    font-size:12px;
+    padding:10px 0;
 }
 
-.miniBtn{
-  border:0;
-  background:#252525;
-  color:#ccc;
-  border-radius:7px;
-  padding:6px 8px;
-  cursor:pointer;
-  font-size:10px;
+/* ================= TABLE ================= */
+
+.table-wrap{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:15px;
+    overflow:auto;
 }
 
-.miniBtn.delete{
-  color:#ff7777;
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
 }
 
-/* ================= FORM ================= */
-
-.formGrid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
+th{
+    background:#111;
+    color:white;
+    font-size:11px;
+    padding:12px;
+    text-align:left;
 }
 
-.formGroup{
-  margin-bottom:2px;
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    font-size:12px;
 }
 
-.formGroup.full{
-  grid-column:1/-1;
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:800;
 }
 
-.formGroup label{
-  display:block;
-  color:#aaa;
-  font-size:11px;
-  margin-bottom:6px;
+.badge-green{
+    background:#dcfce7;
+    color:#166534;
 }
 
-.formGroup input,
-.formGroup select,
-.formGroup textarea{
-  width:100%;
-  background:#0c0c0c;
-  border:1px solid var(--border);
-  color:white;
-  border-radius:10px;
-  padding:12px;
-  outline:none;
-  font-size:13px;
+.badge-orange{
+    background:#ffedd5;
+    color:#9a3412;
 }
 
-.formGroup input:focus,
-.formGroup select:focus,
-.formGroup textarea:focus{
-  border-color:var(--orange);
-}
-
-.formActions{
-  display:flex;
-  justify-content:flex-end;
-  gap:9px;
-  margin-top:18px;
+.badge-red{
+    background:#fee2e2;
+    color:#991b1b;
 }
 
 /* ================= MODAL ================= */
 
 .modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.78);
-  backdrop-filter:blur(5px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:100;
-  padding:20px;
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#00000099;
+    z-index:3000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
 .modal.show{
-  display:flex;
+    display:flex;
 }
 
-.modalBox{
-  width:100%;
-  max-width:600px;
-  background:#161616;
-  border:1px solid rgba(255,121,0,.22);
-  border-radius:18px;
-  padding:22px;
-  max-height:90vh;
-  overflow-y:auto;
+.modal-box{
+    width:100%;
+    max-width:520px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:18px;
+    padding:22px;
 }
 
-.modalHeader{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
 }
 
-.modalHeader h2{
-  font-size:18px;
+.modal-head h3{
+    font-size:18px;
+    font-weight:900;
 }
 
-.closeModal{
-  border:0;
-  background:#242424;
-  color:#bbb;
-  width:32px;
-  height:32px;
-  border-radius:8px;
-  cursor:pointer;
+.close{
+    background:#eee;
+    border:none;
+    border-radius:50%;
+    width:32px;
+    height:32px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+    margin-top:20px;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-box{
+    max-width:650px;
+}
+
+.profile-row{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    padding:14px 0;
+    border-bottom:1px solid #eee;
+}
+
+.profile-row span:first-child{
+    color:#777;
+    font-size:12px;
+}
+
+.profile-row strong{
+    font-size:13px;
 }
 
 /* ================= MOBILE ================= */
 
-.mobileMenu{
-  display:none;
-  border:0;
-  background:#191919;
-  color:white;
-  border-radius:8px;
-  padding:9px 11px;
-  cursor:pointer;
+@media(max-width:900px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .structure-core{
+        grid-template-columns:1fr;
+    }
+
+    .fields-grid{
+        grid-template-columns:1fr;
+    }
 }
 
-.overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  z-index:40;
-}
+@media(max-width:600px){
 
-@media(max-width:1000px){
+    .topbar{
+        padding:0 15px;
+    }
 
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
+    .content{
+        padding:15px;
+    }
 
-  .dpdGrid{
-    grid-template-columns:repeat(2,1fr);
-  }
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
 
-  .fieldsGrid{
-    grid-template-columns:1fr;
-  }
+    .stat-card{
+        padding:15px;
+    }
 
-}
+    .stat-card .value{
+        font-size:24px;
+    }
 
-@media(max-width:760px){
+    .grid{
+        grid-template-columns:1fr;
+    }
 
-  .sidebar{
-    transform:translateX(-100%);
-    transition:.25s;
-  }
+    .top-title{
+        font-size:15px;
+    }
 
-  .sidebar.open{
-    transform:translateX(0);
-  }
-
-  .overlay.open{
-    display:block;
-  }
-
-  .main{
-    margin-left:0;
-    width:100%;
-  }
-
-  .mobileMenu{
-    display:block;
-  }
-
-  .topbar{
-    padding:0 15px;
-  }
-
-  .content{
-    padding:18px 14px;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-  }
-
-  .stat{
-    padding:14px;
-  }
-
-  .stat strong{
-    font-size:22px;
-  }
-
-  .dpdGrid{
-    grid-template-columns:1fr;
-  }
-
-  .coreGrid{
-    grid-template-columns:1fr;
-  }
-
-  .formGrid{
-    grid-template-columns:1fr;
-  }
-
-  .formGroup.full{
-    grid-column:auto;
-  }
-
-  .structureHeader{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
+    .top-role{
+        font-size:9px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ============================================================
-     LOGIN
-============================================================ -->
+<!-- ================= LOGIN ================= -->
 
-<div id="loginPage">
+<div id="loginScreen">
 
-  <div class="loginBox">
+    <div class="login-box">
 
-    <img
-      class="loginLogo"
-      src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png"
-      alt="Muda Bergerak">
+        <img
+            class="login-logo"
+            src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png"
+            alt="Logo Muda Bergerak">
 
-    <div class="loginTitle">
-      COMMAND CENTER
+        <div class="login-title">
+            MUDA BERGERAK
+        </div>
+
+        <div class="login-subtitle">
+            COMMAND CENTER SULAWESI SELATAN
+        </div>
+
+        <div id="loginError" class="login-error"></div>
+
+        <div class="form-group">
+            <label>USERNAME</label>
+            <input
+                type="text"
+                id="loginUsername"
+                placeholder="admin.dpd.01"
+                autocomplete="username">
+        </div>
+
+        <div class="form-group">
+            <label>PASSWORD</label>
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+                autocomplete="current-password">
+        </div>
+
+        <button
+            class="btn btn-orange login-btn"
+            onclick="login()">
+            MASUK COMMAND CENTER
+        </button>
+
     </div>
-
-    <div class="loginSub">
-      MUDA BERGERAK SULAWESI SELATAN
-    </div>
-
-    <div id="loginError" class="loginError"></div>
-
-    <div class="inputGroup">
-      <label>Username</label>
-      <input
-        id="username"
-        type="text"
-        autocomplete="username"
-        placeholder="Masukkan username">
-    </div>
-
-    <div class="inputGroup">
-      <label>Password</label>
-      <input
-        id="password"
-        type="password"
-        autocomplete="current-password"
-        placeholder="Masukkan password">
-    </div>
-
-    <button
-      class="loginBtn"
-      onclick="login()">
-      MASUK COMMAND CENTER
-    </button>
-
-  </div>
 
 </div>
 
 
-<!-- ============================================================
-     APP
-============================================================ -->
+<!-- ================= APP ================= -->
 
 <div id="app">
 
-  <div class="layout">
-
     <!-- SIDEBAR -->
 
-    <aside id="sidebar" class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
-      <div class="brand">
+        <div class="sidebar-logo">
 
-        <img
-          src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png"
-          alt="Logo">
+            <img
+                src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png"
+                alt="Logo">
 
-        <div class="brandText">
-          <strong>MUDA BERGERAK</strong>
-          <span>SULAWESI SELATAN</span>
+            <strong>
+                MUDA BERGERAK<br>
+                SULAWESI SELATAN
+            </strong>
+
         </div>
 
-      </div>
+        <div class="menu">
 
-      <div class="menuTitle">
-        COMMAND CENTER
-      </div>
+            <div
+                class="menu-item active"
+                data-page="dashboard"
+                onclick="showPage('dashboard')">
+                📊 Dashboard
+            </div>
 
-      <button
-        class="menuBtn active"
-        data-page="dashboard"
-        onclick="showPage('dashboard')">
-        🏠 Dashboard
-      </button>
+            <div
+                class="menu-item"
+                data-page="dpd"
+                onclick="showPage('dpd')">
+                🏢 Monitoring DPD
+            </div>
 
-      <button
-        class="menuBtn"
-        data-page="dpd"
-        onclick="showPage('dpd')">
-        🏢 Monitoring DPD
-      </button>
+            <div
+                class="menu-item"
+                data-page="struktur"
+                onclick="showPage('struktur')">
+                👥 Struktur Organisasi
+            </div>
 
-      <button
-        class="menuBtn"
-        data-page="struktur"
-        onclick="showPage('struktur')">
-        👥 Struktur Organisasi
-      </button>
+            <div
+                class="menu-item"
+                data-page="agenda"
+                onclick="showPage('agenda')">
+                📅 Agenda
+            </div>
 
-      <button
-        class="menuBtn"
-        data-page="agenda"
-        onclick="showPage('agenda')">
-        📅 Agenda
-      </button>
+            <div
+                class="menu-item"
+                data-page="laporan"
+                onclick="showPage('laporan')">
+                📑 Laporan
+            </div>
 
-      <button
-        class="menuBtn"
-        data-page="laporan"
-        onclick="showPage('laporan')">
-        📊 Laporan
-      </button>
+            <div
+                class="menu-item"
+                data-page="pemberitahuan"
+                onclick="showPage('pemberitahuan')">
+                🔔 Pemberitahuan
+            </div>
 
-      <button
-        class="menuBtn"
-        data-page="pemberitahuan"
-        onclick="showPage('pemberitahuan')">
-        🔔 Pemberitahuan
-      </button>
+            <div
+                class="menu-item"
+                data-page="profil"
+                onclick="showPage('profil')">
+                👤 Profil Admin
+            </div>
 
-      <div class="menuTitle">
-        AKUN
-      </div>
-
-      <button
-        class="menuBtn"
-        data-page="profil"
-        onclick="showPage('profil')">
-        👤 Profil Admin
-      </button>
-
-      <div class="adminCard">
-
-        <small>LOGIN SEBAGAI</small>
-
-        <strong id="sidebarUsername">
-          -
-        </strong>
-
-        <div
-          id="sidebarRole"
-          class="adminRole">
-          -
         </div>
 
-      </div>
+        <div class="sidebar-bottom">
 
-      <button
-        class="logoutBtn"
-        onclick="logout()">
-        Keluar
-      </button>
+            <div class="user-mini">
+                <strong id="sideUsername">-</strong>
+                <span id="sideRole">-</span>
+            </div>
+
+            <button
+                class="btn btn-danger"
+                style="width:100%"
+                onclick="logout()">
+                Keluar
+            </button>
+
+        </div>
 
     </aside>
-
-
-    <div
-      id="overlay"
-      class="overlay"
-      onclick="closeSidebar()">
-    </div>
 
 
     <!-- MAIN -->
 
     <main class="main">
 
-      <header class="topbar">
-
-        <div style="display:flex;align-items:center;gap:10px;">
-
-          <button
-            class="mobileMenu"
-            onclick="openSidebar()">
-            ☰
-          </button>
-
-          <div>
-            <div
-              id="topTitle"
-              class="topTitle">
-              Dashboard
-            </div>
-
-            <div
-              id="topRole"
-              class="topRole">
-              -
-            </div>
-          </div>
-
-        </div>
-
-        <div style="font-size:11px;color:#777;">
-          MB SULSEL • COMMAND CENTER
-        </div>
-
-      </header>
-
-
-      <div class="content">
-
-
-        <!-- =====================================================
-             DASHBOARD
-        ====================================================== -->
-
-        <section
-          id="page-dashboard"
-          class="page active">
-
-          <div class="pageHeader">
-
-            <h1>
-              Command Center
-            </h1>
-
-            <p>
-              Monitoring organisasi Muda Bergerak Sulawesi Selatan.
-            </p>
-
-          </div>
-
-
-          <div class="stats">
-
-            <div class="stat">
-              <small>TOTAL DPD</small>
-              <strong id="statDPD">0</strong>
-              <span>24 Kab/Kota</span>
-            </div>
-
-            <div class="stat">
-              <small>TOTAL PENGURUS</small>
-              <strong id="statPengurus">0</strong>
-              <span>Seluruh DPD</span>
-            </div>
-
-            <div class="stat">
-              <small>DPD AKTIF</small>
-              <strong id="statAktif">0</strong>
-              <span>Status organisasi</span>
-            </div>
-
-            <div class="stat">
-              <small>PROGRESS RATA-RATA</small>
-              <strong id="statProgress">0%</strong>
-              <span>Pembentukan DPD</span>
-            </div>
-
-          </div>
-
-
-          <div class="section">
-
-            <div class="sectionHeader">
-
-              <h3>
-                Monitoring 24 DPD Kabupaten/Kota
-              </h3>
-
-              <button
-                class="btn btnOrange"
-                onclick="showPage('dpd')">
-                LIHAT SEMUA
-              </button>
-
-            </div>
-
-            <div class="sectionBody">
-
-              <div
-                id="dashboardDPDGrid"
-                class="dpdGrid">
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             DPD
-        ====================================================== -->
-
-        <section
-          id="page-dpd"
-          class="page">
-
-          <div class="pageHeader">
-
-            <h1>
-              Monitoring DPD
-            </h1>
-
-            <p>
-              Pilih DPD untuk melihat struktur organisasi.
-            </p>
-
-          </div>
-
-
-          <div class="section">
-
-            <div class="sectionHeader">
-
-              <h3>
-                DPD Kabupaten / Kota
-              </h3>
-
-            </div>
-
-            <div class="sectionBody">
-
-              <div
-                id="dpdGrid"
-                class="dpdGrid">
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             STRUKTUR
-        ====================================================== -->
-
-        <section
-          id="page-struktur"
-          class="page">
-
-          <div class="structureHeader">
-
-            <div>
-
-              <button
-                class="backBtn"
-                onclick="showPage('dpd')">
-                ← Kembali ke DPD
-              </button>
-
-            </div>
-
-            <div
-              id="structureActions">
-            </div>
-
-          </div>
-
-
-          <div class="structureTitle pageHeader">
-
-            <h1 id="structureDPDName">
-              Struktur Organisasi
-            </h1>
-
-            <p id="structureDPDStatus">
-              -
-            </p>
-
-          </div>
-
-
-          <!-- PENGURUS INTI -->
-
-          <div class="section">
-
-            <div class="sectionHeader">
-
-              <h3>
-                PENGURUS INTI
-              </h3>
-
-              <button
-                class="btn btnOrange"
-                onclick="openAddModal('PENGURUS_INTI')">
-                + TAMBAH
-              </button>
-
-            </div>
-
-            <div class="sectionBody">
-
-              <div
-                id="coreGrid"
-                class="coreGrid">
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- 6 BIDANG -->
-
-          <div class="section">
-
-            <div class="sectionHeader">
-
-              <h3>
-                6 BIDANG
-              </h3>
-
-              <button
-                class="btn btnOrange"
-                onclick="openAddModal('ANGGOTA_BIDANG')">
-                + TAMBAH ANGGOTA
-              </button>
-
-            </div>
-
-            <div class="sectionBody">
-
-              <div
-                id="fieldsGrid"
-                class="fieldsGrid">
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             AGENDA
-        ====================================================== -->
-
-        <section
-          id="page-agenda"
-          class="page">
-
-          <div class="pageHeader">
-
-            <h1>
-              Agenda
-            </h1>
-
-            <p>
-              Agenda kegiatan Muda Bergerak Sulsel.
-            </p>
-
-          </div>
-
-          <div class="section">
-
-            <div class="sectionBody">
-
-              <div class="tableWrap">
-
-                <table>
-
-                  <thead>
-
-                    <tr>
-                      <th>Judul</th>
-                      <th>Tanggal</th>
-                      <th>Waktu</th>
-                      <th>Lokasi</th>
-                      <th>Status</th>
-                    </tr>
-
-                  </thead>
-
-                  <tbody id="agendaTable">
-                  </tbody>
-
-                </table>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             LAPORAN
-        ====================================================== -->
-
-        <section
-          id="page-laporan"
-          class="page">
-
-          <div class="pageHeader">
-
-            <h1>
-              Laporan
-            </h1>
-
-            <p>
-              Data laporan kegiatan organisasi.
-            </p>
-
-          </div>
-
-          <div class="section">
-
-            <div class="sectionBody">
-
-              <div class="tableWrap">
-
-                <table>
-
-                  <thead>
-
-                    <tr>
-                      <th>Judul</th>
-                      <th>Tanggal</th>
-                      <th>Kategori</th>
-                      <th>Status</th>
-                    </tr>
-
-                  </thead>
-
-                  <tbody id="laporanTable">
-                  </tbody>
-
-                </table>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             PEMBERITAHUAN
-        ====================================================== -->
-
-        <section
-          id="page-pemberitahuan"
-          class="page">
-
-          <div class="pageHeader">
-
-            <h1>
-              Pemberitahuan
-            </h1>
-
-            <p>
-              Informasi terbaru dari organisasi.
-            </p>
-
-          </div>
-
-          <div
-            id="pemberitahuanList">
-          </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             PROFIL
-        ====================================================== -->
-
-        <section
-          id="page-profil"
-          class="page">
-
-          <div class="pageHeader">
-
-            <h1>
-              Profil Admin
-            </h1>
-
-            <p>
-              Informasi akun yang sedang digunakan.
-            </p>
-
-          </div>
-
-          <div class="section">
-
-            <div class="sectionBody">
-
-              <div class="formGrid">
-
-                <div class="formGroup">
-
-                  <label>USERNAME</label>
-
-                  <input
-                    id="profileUsername"
-                    readonly>
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:12px;">
+
+                <button
+                    class="mobile-menu"
+                    onclick="toggleSidebar()">
+                    ☰
+                </button>
+
+                <div class="top-left">
+
+                    <div
+                        class="top-title"
+                        id="topTitle">
+                        DASHBOARD
+                    </div>
+
+                    <div
+                        class="top-role"
+                        id="topRole">
+                        DPW SULAWESI SELATAN
+                    </div>
 
                 </div>
 
-                <div class="formGroup">
+            </div>
 
-                  <label>ROLE</label>
+            <div>
+                <span
+                    id="topUsername"
+                    style="font-size:12px;font-weight:800;">
+                    -
+                </span>
+            </div>
 
-                  <input
-                    id="profileRole"
-                    readonly>
+        </header>
+
+
+        <div class="content">
+
+
+            <!-- ================= DASHBOARD ================= -->
+
+            <section
+                class="page active"
+                id="page-dashboard">
+
+                <div class="page-head">
+                    <h2>Dashboard</h2>
+                    <p>
+                        Pusat kontrol organisasi Muda Bergerak Sulawesi Selatan.
+                    </p>
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat-card">
+                        <div class="label">TOTAL DPD</div>
+                        <div
+                            class="value"
+                            id="statDPD">
+                            0
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="label">DPD AKTIF</div>
+                        <div
+                            class="value"
+                            id="statAktif">
+                            0
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="label">TOTAL PENGURUS</div>
+                        <div
+                            class="value"
+                            id="statPengurus">
+                            0
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="label">PROGRESS RATA-RATA</div>
+                        <div
+                            class="value"
+                            id="statProgress">
+                            0%
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <h3 style="margin-bottom:15px;">
+                        DPD SULAWESI SELATAN
+                    </h3>
+
+                    <div
+                        class="grid"
+                        id="dashboardDPDGrid">
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= DPD ================= -->
+
+            <section
+                class="page"
+                id="page-dpd">
+
+                <div class="page-head">
+
+                    <h2>Monitoring DPD</h2>
+
+                    <p>
+                        Monitoring perkembangan DPD Muda Bergerak Sulawesi Selatan.
+                    </p>
 
                 </div>
 
                 <div
-                  class="formGroup full">
+                    class="grid"
+                    id="dpdGrid">
+                </div>
 
-                  <label>DPD</label>
+            </section>
 
-                  <input
-                    id="profileDPD"
-                    readonly>
+
+            <!-- ================= STRUKTUR ================= -->
+
+            <section
+                class="page"
+                id="page-struktur">
+
+                <div
+                    class="structure-header">
+
+                    <h2 id="structureDPDName">
+                        STRUKTUR ORGANISASI
+                    </h2>
+
+                    <p id="structureDPDStatus">
+                        -
+                    </p>
 
                 </div>
 
-              </div>
+                <div
+                    id="structureCore"
+                    class="structure-core">
+                </div>
 
-            </div>
+                <div
+                    id="structureFields"
+                    class="fields-grid">
+                </div>
 
-          </div>
+            </section>
 
-        </section>
 
-      </div>
+            <!-- ================= AGENDA ================= -->
+
+            <section
+                class="page"
+                id="page-agenda">
+
+                <div class="page-head">
+                    <h2>Agenda</h2>
+                    <p>
+                        Agenda kegiatan organisasi.
+                    </p>
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Tanggal</th>
+                                <th>Waktu</th>
+                                <th>Lokasi</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="agendaTable">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= LAPORAN ================= -->
+
+            <section
+                class="page"
+                id="page-laporan">
+
+                <div class="page-head">
+
+                    <h2>Laporan</h2>
+
+                    <p>
+                        Laporan kegiatan organisasi.
+                    </p>
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Judul</th>
+                                <th>Tanggal</th>
+                                <th>Kategori</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="laporanTable">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= PEMBERITAHUAN ================= -->
+
+            <section
+                class="page"
+                id="page-pemberitahuan">
+
+                <div class="page-head">
+
+                    <h2>Pemberitahuan</h2>
+
+                    <p>
+                        Informasi dan pemberitahuan organisasi.
+                    </p>
+
+                </div>
+
+                <div
+                    id="notificationList"
+                    class="grid">
+                </div>
+
+            </section>
+
+
+            <!-- ================= PROFIL ================= -->
+
+            <section
+                class="page"
+                id="page-profil">
+
+                <div class="page-head">
+
+                    <h2>Profil Admin</h2>
+
+                    <p>
+                        Informasi akun yang sedang digunakan.
+                    </p>
+
+                </div>
+
+                <div class="card profile-box">
+
+                    <div class="profile-row">
+                        <span>Username</span>
+                        <strong id="profileUsername">-</strong>
+                    </div>
+
+                    <div class="profile-row">
+                        <span>Role</span>
+                        <strong id="profileRole">-</strong>
+                    </div>
+
+                    <div class="profile-row">
+                        <span>DPD</span>
+                        <strong id="profileDPD">-</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
 
     </main>
-
-  </div>
 
 </div>
 
 
-<!-- ============================================================
-     MODAL PENGURUS
-============================================================ -->
+<!-- ================= MODAL PENGURUS ================= -->
 
 <div
-  id="pengurusModal"
-  class="modal">
+    class="modal"
+    id="pengurusModal">
 
-  <div class="modalBox">
+    <div class="modal-box">
 
-    <div class="modalHeader">
+        <div class="modal-head">
 
-      <h2 id="modalTitle">
-        Tambah Pengurus
-      </h2>
+            <h3 id="modalTitle">
+                Tambah Pengurus
+            </h3>
 
-      <button
-        class="closeModal"
-        onclick="closeModal()">
-        ✕
-      </button>
+            <button
+                class="close"
+                onclick="closePengurusModal()">
+                ×
+            </button>
 
-    </div>
-
-
-    <input
-      id="editPengurusId"
-      type="hidden">
-
-
-    <div class="formGrid">
-
-      <div
-        id="dpdFormGroup"
-        class="formGroup full">
-
-        <label>
-          DPD
-        </label>
-
-        <select
-          id="pengurusDPD">
-        </select>
-
-      </div>
-
-
-      <div class="formGroup full">
-
-        <label>
-          NAMA LENGKAP
-        </label>
+        </div>
 
         <input
-          id="pengurusNama"
-          placeholder="Nama lengkap">
-
-      </div>
-
-
-      <div class="formGroup">
-
-        <label>
-          JABATAN
-        </label>
-
-        <select
-          id="pengurusJabatan">
-
-          <option value="Ketua DPD">
-            Ketua DPD
-          </option>
-
-          <option value="Sekretaris">
-            Sekretaris
-          </option>
-
-          <option value="Bendahara">
-            Bendahara
-          </option>
-
-          <option value="Koordinator Bidang">
-            Koordinator Bidang
-          </option>
-
-          <option value="Anggota Bidang">
-            Anggota Bidang
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div
-        id="bidangFormGroup"
-        class="formGroup">
-
-        <label>
-          BIDANG
-        </label>
-
-        <select
-          id="pengurusBidang">
-
-          <option value="">
-            Pilih Bidang
-          </option>
-
-          <option value="Politik">
-            Politik
-          </option>
-
-          <option value="Hukum">
-            Hukum
-          </option>
-
-          <option value="Sosial Kemasyarakatan">
-            Sosial Kemasyarakatan
-          </option>
-
-          <option value="Keorganisasian">
-            Keorganisasian
-          </option>
-
-          <option value="Humas & Media">
-            Humas & Media
-          </option>
-
-          <option value="Ekonomi Kreatif">
-            Ekonomi Kreatif
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="formGroup">
-
-        <label>
-          NO. HP
-        </label>
+            type="hidden"
+            id="pengurusId">
 
         <input
-          id="pengurusHP"
-          type="tel"
-          placeholder="08xxxxxxxxxx">
+            type="hidden"
+            id="pengurusDPD">
 
-      </div>
+        <div class="form-group">
 
+            <label>Nama Lengkap</label>
 
-      <div class="formGroup">
+            <input
+                type="text"
+                id="pengurusNama"
+                placeholder="Nama lengkap">
 
-        <label>
-          STATUS
-        </label>
+        </div>
 
-        <select
-          id="pengurusStatus">
+        <div class="form-group">
 
-          <option value="AKTIF">
-            AKTIF
-          </option>
+            <label>Jenis Struktur</label>
 
-          <option value="NONAKTIF">
-            NONAKTIF
-          </option>
+            <select
+                id="pengurusTipe"
+                onchange="changePengurusType()">
 
-        </select>
+                <option value="KETUA_DPD">
+                    Ketua DPD
+                </option>
 
-      </div>
+                <option value="SEKRETARIS">
+                    Sekretaris
+                </option>
+
+                <option value="BENDAHARA">
+                    Bendahara
+                </option>
+
+                <option value="KOORDINATOR_BIDANG">
+                    Koordinator Bidang
+                </option>
+
+                <option value="ANGGOTA_BIDANG">
+                    Anggota Bidang
+                </option>
+
+            </select>
+
+        </div>
+
+        <div
+            class="form-group"
+            id="bidangGroup">
+
+            <label>Bidang</label>
+
+            <select id="pengurusBidang">
+
+                <option value="">
+                    Pilih Bidang
+                </option>
+
+                <option value="Politik">
+                    Politik
+                </option>
+
+                <option value="Hukum">
+                    Hukum
+                </option>
+
+                <option value="Sosial Kemasyarakatan">
+                    Sosial Kemasyarakatan
+                </option>
+
+                <option value="Keorganisasian">
+                    Keorganisasian
+                </option>
+
+                <option value="Humas & Media">
+                    Humas & Media
+                </option>
+
+                <option value="Ekonomi Kreatif">
+                    Ekonomi Kreatif
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>No. HP</label>
+
+            <input
+                type="text"
+                id="pengurusHP"
+                placeholder="08xxxxxxxxxx">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Status</label>
+
+            <select id="pengurusStatus">
+
+                <option value="AKTIF">
+                    AKTIF
+                </option>
+
+                <option value="NONAKTIF">
+                    NONAKTIF
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="btn btn-dark"
+                onclick="closePengurusModal()">
+                Batal
+            </button>
+
+            <button
+                class="btn btn-orange"
+                onclick="savePengurus()">
+                Simpan
+            </button>
+
+        </div>
 
     </div>
-
-
-    <div class="formActions">
-
-      <button
-        class="btn btnDark"
-        onclick="closeModal()">
-        BATAL
-      </button>
-
-      <button
-        class="btn btnOrange"
-        onclick="savePengurus()">
-        SIMPAN
-      </button>
-
-    </div>
-
-  </div>
 
 </div>
 
 
 <script>
 
-/* ============================================================
+/* =========================================================
    SUPABASE
-============================================================ */
+========================================================= */
 
 const SUPABASE_URL =
-  "https://rgffzcpsofmjnqdfyolg.supabase.co";
+    "https://rgffzcpsofmjnqdfyolg.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_ZfZ1m8X7gadvnoAQh9XmNg_hyupNKb6";
+    "sb_publishable_ZfZ1m8X7gadvnoAQh9XmNg_hyupNKb6";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
-/* ============================================================
-   STATE
-============================================================ */
+/* =========================================================
+   GLOBAL
+========================================================= */
 
 let currentUser = null;
 let currentAdmin = null;
+
 let dpdData = [];
 let pengurusData = [];
+
 let selectedDPD = null;
-
-
-/* ============================================================
-   6 BIDANG
-============================================================ */
+let editingPengurusId = null;
 
 const bidangList = [
-  "Politik",
-  "Hukum",
-  "Sosial Kemasyarakatan",
-  "Keorganisasian",
-  "Humas & Media",
-  "Ekonomi Kreatif"
+    "Politik",
+    "Hukum",
+    "Sosial Kemasyarakatan",
+    "Keorganisasian",
+    "Humas & Media",
+    "Ekonomi Kreatif"
 ];
 
 
-/* ============================================================
-   INIT
-============================================================ */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
-
-    const {
-      data
-    } = await supabaseClient.auth.getSession();
-
-    if(
-      data &&
-      data.session
-    ){
-
-      await loadAdmin();
-
-    }else{
-
-      showLogin();
-
-    }
-
-  }
-);
-
-
-/* ============================================================
+/* =========================================================
    LOGIN
-============================================================ */
+========================================================= */
 
 async function login(){
 
-  const username =
-    document
-      .getElementById("username")
-      .value
-      .trim();
+    const username =
+        document.getElementById("loginUsername")
+        .value
+        .trim();
 
-  const password =
-    document
-      .getElementById("password")
-      .value;
+    const password =
+        document.getElementById("loginPassword")
+        .value;
 
-  const error =
-    document.getElementById("loginError");
+    const errorBox =
+        document.getElementById("loginError");
 
+    errorBox.style.display = "none";
 
-  error.style.display = "none";
+    if(!username || !password){
 
+        errorBox.textContent =
+            "Username dan password wajib diisi.";
 
-  if(!username || !password){
+        errorBox.style.display = "block";
 
-    showLoginError(
-      "Username dan password wajib diisi."
-    );
-
-    return;
-
-  }
-
-
-  try{
+        return;
+    }
 
     const email =
-      username + "@mbsulsel.id";
-
+        username + "@mbsulsel.id";
 
     const {
-      data,
-      error: loginError
-    } =
-      await supabaseClient.auth.signInWithPassword({
+        data,
+        error
+    } = await supabaseClient.auth.signInWithPassword({
         email,
         password
-      });
+    });
 
+    if(error){
 
-    if(loginError)
-      throw loginError;
+        errorBox.textContent =
+            error.message;
 
+        errorBox.style.display =
+            "block";
 
-    currentUser =
-      data.user;
+        return;
+    }
 
+    currentUser = data.user;
 
     await loadAdmin();
 
-
-  }catch(err){
-
-    console.error(err);
-
-    showLoginError(
-      "Username atau password salah."
-    );
-
-  }
-
 }
 
 
-/* ============================================================
+/* =========================================================
    LOAD ADMIN
-============================================================ */
+========================================================= */
 
 async function loadAdmin(){
 
-  const {
-    data: userData
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  if(!userData.user){
-
-    showLogin();
-
-    return;
-
-  }
-
-
-  currentUser =
-    userData.user;
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("ADMIN_USERS")
-      .select("*")
-      .eq(
-        "user_id",
-        currentUser.id
-      )
-      .maybeSingle();
-
-
-  if(error){
-
-    console.error(error);
-
-    alert(
-      "Gagal mengambil data admin."
-    );
-
-    return;
-
-  }
-
-
-  if(!data){
-
-    await supabaseClient.auth.signOut();
-
-    showLogin();
-
-    showLoginError(
-      "Akun belum terdaftar sebagai admin."
-    );
-
-    return;
-
-  }
-
-
-  currentAdmin =
-    data;
-
-
-  showApp();
-
-
-  await loadAll();
-
-}
-
-
-/* ============================================================
-   LOAD ALL
-============================================================ */
-
-async function loadAll(){
-
-  await loadDPD();
-
-  await loadPengurus();
-
-  await loadAgenda();
-
-  await loadLaporan();
-
-  await loadPemberitahuan();
-
-  updateProfile();
-
-}
-
-
-/* ============================================================
-   LOAD DPD
-============================================================ */
-
-async function loadDPD(){
-
-  let query =
-    supabaseClient
-      .from("DPD")
-      .select("*")
-      .order("id");
-
-
-  if(
-    isDPD()
-    &&
-    currentAdmin.dpd_id
-  ){
-
-    query =
-      query.eq(
-        "id",
-        currentAdmin.dpd_id
-      );
-
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await query;
-
-
-  if(error){
-
-    console.error(error);
-
-    return;
-
-  }
-
-
-  dpdData =
-    data || [];
-
-
-  renderDPD();
-
-}
-
-
-/* ============================================================
-   LOAD PENGURUS
-============================================================ */
-
-async function loadPengurus(){
-
-  let query =
-    supabaseClient
-      .from("PENGURUS")
-      .select("*")
-      .order("dpd_id")
-      .order("tipe")
-      .order("bidang")
-      .order("nama");
-
-
-  if(
-    isDPD()
-    &&
-    currentAdmin.dpd_id
-  ){
-
-    query =
-      query.eq(
-        "dpd_id",
-        currentAdmin.dpd_id
-      );
-
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await query;
-
-
-  if(error){
-
-    console.error(error);
-
-    alert(
-      "Gagal mengambil data pengurus: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  pengurusData =
-    data || [];
-
-
-  document.getElementById(
-    "statPengurus"
-  ).textContent =
-    pengurusData.length;
-
-
-  if(selectedDPD){
-
-    renderStructure();
-
-  }
-
-}
-
-
-/* ============================================================
-   RENDER DPD
-============================================================ */
-
-function renderDPD(){
-
-  const dashboardGrid =
-    document.getElementById(
-      "dashboardDPDGrid"
-    );
-
-  const grid =
-    document.getElementById(
-      "dpdGrid"
-    );
-
-
-  dashboardGrid.innerHTML = "";
-
-  grid.innerHTML = "";
-
-
-  let aktif = 0;
-  let totalProgress = 0;
-
-
-  dpdData.forEach(
-    (dpd,index) => {
-
-      if(
-        String(dpd.status || "")
-          .toUpperCase()
-          === "AKTIF"
-      ){
-
-        aktif++;
-
-      }
-
-
-      totalProgress +=
-        Number(dpd.progress || 0);
-
-
-      const card =
-        createDPDCard(
-          dpd,
-          index
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("ADMIN_USERS")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .single();
+
+    if(error){
+
+        alert(
+            "Data ADMIN_USERS tidak ditemukan.\n\n" +
+            error.message
         );
 
+        await logout();
 
-      dashboardGrid
-        .appendChild(
-          card.cloneNode(true)
-        );
-
-
-      grid
-        .appendChild(card);
-
-    }
-  );
-
-
-  document.getElementById(
-    "statDPD"
-  ).textContent =
-    isDPW()
-      ? "24"
-      : dpdData.length;
-
-
-  document.getElementById(
-    "statAktif"
-  ).textContent =
-    aktif;
-
-
-  const average =
-    dpdData.length
-      ? Math.round(
-          totalProgress /
-          dpdData.length
-        )
-      : 0;
-
-
-  document.getElementById(
-    "statProgress"
-  ).textContent =
-    average + "%";
-
-
-  document
-    .querySelectorAll(
-      "#dashboardDPDGrid .dpdCard"
-    )
-    .forEach(
-      (card,index) => {
-
-        card.onclick = () => {
-
-          openStructure(
-            dpdData[index]
-          );
-
-        };
-
-      }
-    );
-
-}
-
-
-/* ============================================================
-   CREATE DPD CARD
-============================================================ */
-
-function createDPDCard(
-  dpd,
-  index
-){
-
-  const card =
-    document.createElement("div");
-
-  card.className =
-    "dpdCard";
-
-
-  card.onclick =
-    () => openStructure(dpd);
-
-
-  card.innerHTML = `
-
-    <div class="dpdNumber">
-      DPD ${String(index+1).padStart(2,"0")}
-    </div>
-
-    <div class="dpdName">
-      ${escapeHTML(
-        dpd.nama || "DPD"
-      )}
-    </div>
-
-    <div class="dpdStatus">
-      ${escapeHTML(
-        dpd.status || "-"
-      )}
-    </div>
-
-    <div class="progress">
-      <div
-        style="width:${Number(
-          dpd.progress || 0
-        )}%">
-      </div>
-    </div>
-
-    <div class="progressText">
-
-      <span>
-        Progress
-      </span>
-
-      <strong>
-        ${Number(
-          dpd.progress || 0
-        )}%
-      </strong>
-
-    </div>
-
-  `;
-
-
-  return card;
-
-}
-
-
-/* ============================================================
-   OPEN STRUCTURE
-============================================================ */
-
-function openStructure(dpd){
-
-  selectedDPD =
-    dpd;
-
-
-  renderStructure();
-
-
-  showPage(
-    "struktur"
-  );
-
-}
-
-
-/* ============================================================
-   RENDER STRUCTURE
-============================================================ */
-
-function renderStructure(){
-
-  if(!selectedDPD)
-    return;
-
-
-  document.getElementById(
-    "structureDPDName"
-  ).textContent =
-    selectedDPD.nama ||
-    "Struktur Organisasi";
-
-
-  document.getElementById(
-    "structureDPDStatus"
-  ).textContent =
-    "Status: " +
-    (
-      selectedDPD.status ||
-      "-"
-    );
-
-
-  renderCore();
-
-  renderFields();
-
-}
-
-
-/* ============================================================
-   RENDER CORE
-============================================================ */
-
-function renderCore(){
-
-  const grid =
-    document.getElementById(
-      "coreGrid"
-    );
-
-
-  grid.innerHTML = "";
-
-
-  const corePositions = [
-    {
-      position:"KETUA DPD",
-      jabatan:"Ketua DPD",
-      icon:"👑"
-    },
-    {
-      position:"SEKRETARIS",
-      jabatan:"Sekretaris",
-      icon:"📝"
-    },
-    {
-      position:"BENDAHARA",
-      jabatan:"Bendahara",
-      icon:"💰"
-    }
-  ];
-
-
-  corePositions.forEach(
-    item => {
-
-      const person =
-        pengurusData.find(
-          p =>
-            Number(p.dpd_id)
-            ===
-            Number(selectedDPD.id)
-            &&
-            p.jabatan
-              ===
-            item.jabatan
-            &&
-            String(p.status)
-              .toUpperCase()
-              ===
-            "AKTIF"
-        );
-
-
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "coreCard";
-
-
-      let html = `
-
-        <div class="coreIcon">
-          ${item.icon}
-        </div>
-
-        <div class="corePosition">
-          ${item.position}
-        </div>
-
-      `;
-
-
-      if(person){
-
-        html += `
-
-          <div class="coreName">
-            ${escapeHTML(
-              person.nama
-            )}
-          </div>
-
-          <div style="margin-top:10px;">
-
-            <button
-              class="miniBtn"
-              onclick="editPengurus(${person.id})">
-              EDIT
-            </button>
-
-            <button
-              class="miniBtn delete"
-              onclick="deletePengurus(${person.id})">
-              HAPUS
-            </button>
-
-          </div>
-
-        `;
-
-      }else{
-
-        html += `
-
-          <div class="emptyName">
-            Belum diisi
-          </div>
-
-          <div style="margin-top:10px;">
-
-            <button
-              class="miniBtn"
-              onclick="openAddCore(
-                '${item.jabatan}'
-              )">
-              + Tambah
-            </button>
-
-          </div>
-
-        `;
-
-      }
-
-
-      card.innerHTML =
-        html;
-
-
-      grid.appendChild(card);
-
-    }
-  );
-
-}
-
-
-/* ============================================================
-   RENDER FIELDS
-============================================================ */
-
-function renderFields(){
-
-  const grid =
-    document.getElementById(
-      "fieldsGrid"
-    );
-
-
-  grid.innerHTML = "";
-
-
-  bidangList.forEach(
-    bidang => {
-
-      const coordinators =
-        pengurusData.filter(
-          p =>
-            Number(p.dpd_id)
-            ===
-            Number(selectedDPD.id)
-            &&
-            p.bidang
-              ===
-            bidang
-            &&
-            (
-              p.tipe
-                ===
-              "KOORDINATOR_BIDANG"
-              ||
-              p.jabatan
-                ===
-              "Koordinator Bidang"
-            )
-            &&
-            String(p.status)
-              .toUpperCase()
-              ===
-            "AKTIF"
-        );
-
-
-      const members =
-        pengurusData.filter(
-          p =>
-            Number(p.dpd_id)
-            ===
-            Number(selectedDPD.id)
-            &&
-            p.bidang
-              ===
-            bidang
-            &&
-            (
-              p.tipe
-                ===
-              "ANGGOTA_BIDANG"
-              ||
-              p.jabatan
-                ===
-              "Anggota Bidang"
-            )
-            &&
-            String(p.status)
-              .toUpperCase()
-              ===
-            "AKTIF"
-        );
-
-
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "fieldCard";
-
-
-      const coordinatorHTML =
-        coordinators.length
-          ? coordinators.map(
-              person => `
-
-                <div class="coordinator">
-
-                  <div class="coordinatorLabel">
-                    Koordinator Bidang
-                  </div>
-
-                  <div class="coordinatorName">
-                    ${escapeHTML(
-                      person.nama
-                    )}
-                  </div>
-
-                  <div style="margin-top:9px;">
-
-                    <button
-                      class="miniBtn"
-                      onclick="editPengurus(${person.id})">
-                      EDIT
-                    </button>
-
-                    <button
-                      class="miniBtn delete"
-                      onclick="deletePengurus(${person.id})">
-                      HAPUS
-                    </button>
-
-                  </div>
-
-                </div>
-
-              `
-            ).join("")
-          : `
-
-              <div class="coordinator">
-
-                <div class="coordinatorLabel">
-                  Koordinator Bidang
-                </div>
-
-                <div class="emptyName">
-                  Belum diisi
-                </div>
-
-                <div style="margin-top:9px;">
-
-                  <button
-                    class="miniBtn"
-                    onclick="openAddCoordinator(
-                      '${escapeAttribute(bidang)}'
-                    )">
-                    + Tambah Koordinator
-                  </button>
-
-                </div>
-
-              </div>
-
-            `;
-
-
-      const memberHTML =
-        members.length
-          ? members.map(
-              person => `
-
-                <div class="member">
-
-                  <div class="memberName">
-                    ${escapeHTML(
-                      person.nama
-                    )}
-                  </div>
-
-                  <div class="memberActions">
-
-                    <button
-                      class="miniBtn"
-                      onclick="editPengurus(${person.id})">
-                      EDIT
-                    </button>
-
-                    <button
-                      class="miniBtn delete"
-                      onclick="deletePengurus(${person.id})">
-                      HAPUS
-                    </button>
-
-                  </div>
-
-                </div>
-
-              `
-            ).join("")
-          : `
-
-              <div
-                style="
-                  color:#555;
-                  font-size:11px;
-                  padding:4px 0 10px;
-                ">
-                Belum ada anggota bidang.
-              </div>
-
-            `;
-
-
-      card.innerHTML = `
-
-        <div class="fieldHeader">
-
-          <h3>
-            BIDANG ${escapeHTML(
-              bidang.toUpperCase()
-            )}
-          </h3>
-
-          <small>
-            Koordinator & Anggota
-          </small>
-
-        </div>
-
-        ${coordinatorHTML}
-
-        <div class="members">
-
-          <div class="memberTitle">
-            ANGGOTA BIDANG
-          </div>
-
-          ${memberHTML}
-
-          <button
-            class="btn btnDark"
-            style="width:100%;margin-top:5px;"
-            onclick="openAddMember(
-              '${escapeAttribute(bidang)}'
-            )">
-            + Tambah Anggota
-          </button>
-
-        </div>
-
-      `;
-
-
-      grid.appendChild(card);
-
-    }
-  );
-
-}
-
-
-/* ============================================================
-   OPEN ADD MODAL
-============================================================ */
-
-function openAddModal(
-  tipe="ANGGOTA_BIDANG"
-){
-
-  if(!selectedDPD){
-
-    alert(
-      "Pilih DPD terlebih dahulu."
-    );
-
-    return;
-
-  }
-
-
-  document.getElementById(
-    "editPengurusId"
-  ).value = "";
-
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    "Tambah Pengurus";
-
-
-  document.getElementById(
-    "pengurusNama"
-  ).value = "";
-
-
-  document.getElementById(
-    "pengurusHP"
-  ).value = "";
-
-
-  document.getElementById(
-    "pengurusStatus"
-  ).value =
-    "AKTIF";
-
-
-  document.getElementById(
-    "pengurusJabatan"
-  ).value =
-    tipe === "PENGURUS_INTI"
-      ? "Ketua DPD"
-      : "Anggota Bidang";
-
-
-  document.getElementById(
-    "pengurusBidang"
-  ).value = "";
-
-
-  setDPDSelect();
-
-
-  updateBidangVisibility();
-
-
-  document
-    .getElementById(
-      "pengurusModal"
-    )
-    .classList.add("show");
-
-}
-
-
-/* ============================================================
-   ADD CORE
-============================================================ */
-
-function openAddCore(jabatan){
-
-  if(!selectedDPD)
-    return;
-
-
-  openAddModal(
-    "PENGURUS_INTI"
-  );
-
-
-  document.getElementById(
-    "pengurusJabatan"
-  ).value =
-    jabatan;
-
-
-  updateBidangVisibility();
-
-}
-
-
-/* ============================================================
-   ADD COORDINATOR
-============================================================ */
-
-function openAddCoordinator(
-  bidang
-){
-
-  if(!selectedDPD)
-    return;
-
-
-  openAddModal(
-    "KOORDINATOR_BIDANG"
-  );
-
-
-  document.getElementById(
-    "pengurusJabatan"
-  ).value =
-    "Koordinator Bidang";
-
-
-  document.getElementById(
-    "pengurusBidang"
-  ).value =
-    bidang;
-
-
-  updateBidangVisibility();
-
-}
-
-
-/* ============================================================
-   ADD MEMBER
-============================================================ */
-
-function openAddMember(
-  bidang
-){
-
-  if(!selectedDPD)
-    return;
-
-
-  openAddModal(
-    "ANGGOTA_BIDANG"
-  );
-
-
-  document.getElementById(
-    "pengurusJabatan"
-  ).value =
-    "Anggota Bidang";
-
-
-  document.getElementById(
-    "pengurusBidang"
-  ).value =
-    bidang;
-
-
-  updateBidangVisibility();
-
-}
-
-
-/* ============================================================
-   BIDANG VISIBILITY
-============================================================ */
-
-document
-  .getElementById(
-    "pengurusJabatan"
-  )
-  .addEventListener(
-    "change",
-    updateBidangVisibility
-  );
-
-
-function updateBidangVisibility(){
-
-  const jabatan =
-    document.getElementById(
-      "pengurusJabatan"
-    ).value;
-
-
-  const group =
-    document.getElementById(
-      "bidangFormGroup"
-    );
-
-
-  if(
-    jabatan ===
-      "Koordinator Bidang"
-    ||
-    jabatan ===
-      "Anggota Bidang"
-  ){
-
-    group.style.display =
-      "block";
-
-  }else{
-
-    group.style.display =
-      "none";
-
-  }
-
-}
-
-
-/* ============================================================
-   DPD SELECT
-============================================================ */
-
-function setDPDSelect(){
-
-  const select =
-    document.getElementById(
-      "pengurusDPD"
-    );
-
-
-  select.innerHTML = "";
-
-
-  dpdData.forEach(
-    dpd => {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-
-      option.value =
-        dpd.id;
-
-
-      option.textContent =
-        dpd.nama;
-
-
-      if(
-        selectedDPD &&
-        Number(
-          selectedDPD.id
-        )
-        ===
-        Number(dpd.id)
-      ){
-
-        option.selected =
-          true;
-
-      }
-
-
-      select.appendChild(
-        option
-      );
-
-    }
-  );
-
-
-  const group =
-    document.getElementById(
-      "dpdFormGroup"
-    );
-
-
-  if(isDPD()){
-
-    group.style.display =
-      "none";
-
-  }else{
-
-    group.style.display =
-      "block";
-
-  }
-
-}
-
-
-/* ============================================================
-   SAVE PENGURUS
-============================================================ */
-
-async function savePengurus(){
-
-  const id =
-    document.getElementById(
-      "editPengurusId"
-    ).value;
-
-
-  const dpdId =
-    isDPD()
-      ? currentAdmin.dpd_id
-      : document.getElementById(
-          "pengurusDPD"
-        ).value;
-
-
-  const nama =
-    document.getElementById(
-      "pengurusNama"
-    ).value.trim();
-
-
-  const jabatan =
-    document.getElementById(
-      "pengurusJabatan"
-    ).value;
-
-
-  const bidang =
-    document.getElementById(
-      "pengurusBidang"
-    ).value;
-
-
-  const noHP =
-    document.getElementById(
-      "pengurusHP"
-    ).value.trim();
-
-
-  const status =
-    document.getElementById(
-      "pengurusStatus"
-    ).value;
-
-
-  if(!dpdId){
-
-    alert(
-      "DPD wajib dipilih."
-    );
-
-    return;
-
-  }
-
-
-  if(!nama){
-
-    alert(
-      "Nama wajib diisi."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    (
-      jabatan ===
-      "Koordinator Bidang"
-      ||
-      jabatan ===
-      "Anggota Bidang"
-    )
-    &&
-    !bidang
-  ){
-
-    alert(
-      "Bidang wajib dipilih."
-    );
-
-    return;
-
-  }
-
-
-  const tipe =
-    jabatan === "Koordinator Bidang"
-      ? "KOORDINATOR_BIDANG"
-      : jabatan === "Anggota Bidang"
-        ? "ANGGOTA_BIDANG"
-        : "PENGURUS_INTI";
-
-
-  const payload = {
-
-    dpd_id:
-      Number(dpdId),
-
-    nama,
-
-    jabatan,
-
-    bidang:
-      (
-        jabatan ===
-        "Koordinator Bidang"
-        ||
-        jabatan ===
-        "Anggota Bidang"
-      )
-        ? bidang
-        : null,
-
-    tipe,
-
-    no_hp:
-      noHP || null,
-
-    status
-
-  };
-
-
-  let result;
-
-
-  if(id){
-
-    result =
-      await supabaseClient
-        .from("PENGURUS")
-        .update(payload)
-        .eq(
-          "id",
-          id
-        );
-
-  }else{
-
-    result =
-      await supabaseClient
-        .from("PENGURUS")
-        .insert([
-          payload
-        ]);
-
-  }
-
-
-  if(result.error){
-
-    console.error(
-      result.error
-    );
-
-    alert(
-      "Gagal menyimpan:\n" +
-      result.error.message
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-
-  await loadPengurus();
-
-
-  alert(
-    "Data pengurus berhasil disimpan."
-  );
-
-}
-
-
-/* ============================================================
-   EDIT PENGURUS
-============================================================ */
-
-function editPengurus(id){
-
-  const person =
-    pengurusData.find(
-      p =>
-        Number(p.id)
-        ===
-        Number(id)
-    );
-
-
-  if(!person)
-    return;
-
-
-  document.getElementById(
-    "editPengurusId"
-  ).value =
-    person.id;
-
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    "Edit Pengurus";
-
-
-  document.getElementById(
-    "pengurusNama"
-  ).value =
-    person.nama || "";
-
-
-  document.getElementById(
-    "pengurusJabatan"
-  ).value =
-    person.jabatan || "";
-
-
-  document.getElementById(
-    "pengurusBidang"
-  ).value =
-    person.bidang || "";
-
-
-  document.getElementById(
-    "pengurusHP"
-  ).value =
-    person.no_hp || "";
-
-
-  document.getElementById(
-    "pengurusStatus"
-  ).value =
-    person.status || "AKTIF";
-
-
-  selectedDPD =
-    dpdData.find(
-      d =>
-        Number(d.id)
-        ===
-        Number(person.dpd_id)
-    ) ||
-    selectedDPD;
-
-
-  setDPDSelect();
-
-  updateBidangVisibility();
-
-
-  document
-    .getElementById(
-      "pengurusModal"
-    )
-    .classList.add("show");
-
-}
-
-
-/* ============================================================
-   DELETE
-============================================================ */
-
-async function deletePengurus(id){
-
-  const person =
-    pengurusData.find(
-      p =>
-        Number(p.id)
-        ===
-        Number(id)
-    );
-
-
-  if(!person)
-    return;
-
-
-  const confirmDelete =
-    confirm(
-      "Hapus data pengurus:\n\n" +
-      person.nama +
-      "?"
-    );
-
-
-  if(!confirmDelete)
-    return;
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("PENGURUS")
-      .delete()
-      .eq(
-        "id",
-        id
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-    alert(
-      "Gagal menghapus:\n" +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  await loadPengurus();
-
-
-  alert(
-    "Data berhasil dihapus."
-  );
-
-}
-
-
-/* ============================================================
-   CLOSE MODAL
-============================================================ */
-
-function closeModal(){
-
-  document
-    .getElementById(
-      "pengurusModal"
-    )
-    .classList.remove("show");
-
-}
-
-
-/* ============================================================
-   AGENDA
-============================================================ */
-
-async function loadAgenda(){
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("AGENDA")
-      .select("*")
-      .order(
-        "tanggal",
-        {
-          ascending:true
-        }
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-    return;
-
-  }
-
-
-  const tbody =
-    document.getElementById(
-      "agendaTable"
-    );
-
-
-  tbody.innerHTML = "";
-
-
-  (data || []).forEach(
-    item => {
-
-      const tr =
-        document.createElement("tr");
-
-
-      tr.innerHTML = `
-
-        <td>
-          ${escapeHTML(
-            item.judul || "-"
-          )}
-        </td>
-
-        <td>
-          ${escapeHTML(
-            item.tanggal || "-"
-          )}
-        </td>
-
-        <td>
-          ${escapeHTML(
-            item.waktu || "-"
-          )}
-        </td>
-
-        <td>
-          ${escapeHTML(
-            item.lokasi || "-"
-          )}
-        </td>
-
-        <td>
-          <span class="badge badgeOrange">
-            ${escapeHTML(
-              item.status || "-"
-            )}
-          </span>
-        </td>
-
-      `;
-
-
-      tbody.appendChild(tr);
-
-    }
-  );
-
-}
-
-
-/* ============================================================
-   LAPORAN
-============================================================ */
-
-async function loadLaporan(){
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("LAPORAN")
-      .select("*")
-      .order(
-        "tanggal",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-    return;
-
-  }
-
-
-  const tbody =
-    document.getElementById(
-      "laporanTable"
-    );
-
-
-  tbody.innerHTML = "";
-
-
-  (data || []).forEach(
-    item => {
-
-      const tr =
-        document.createElement("tr");
-
-
-      tr.innerHTML = `
-
-        <td>
-          ${escapeHTML(
-            item.judul || "-"
-          )}
-        </td>
-
-        <td>
-          ${escapeHTML(
-            item.tanggal || "-"
-          )}
-        </td>
-
-        <td>
-          ${escapeHTML(
-            item.kategori || "-"
-          )}
-        </td>
-
-        <td>
-
-          <span class="badge badgeOrange">
-            ${escapeHTML(
-              item.status || "-"
-            )}
-          </span>
-
-        </td>
-
-      `;
-
-
-      tbody.appendChild(tr);
-
-    }
-  );
-
-}
-
-
-/* ============================================================
-   PEMBERITAHUAN
-============================================================ */
-
-async function loadPemberitahuan(){
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("PEMBERITAHUAN")
-      .select("*")
-      .order(
-        "tanggal",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-    return;
-
-  }
-
-
-  const container =
-    document.getElementById(
-      "pemberitahuanList"
-    );
-
-
-  container.innerHTML = "";
-
-
-  (data || []).forEach(
-    item => {
-
-      if(
-        item.aktif === false
-      )
         return;
-
-
-      const box =
-        document.createElement(
-          "div"
-        );
-
-
-      box.className =
-        "section";
-
-
-      box.innerHTML = `
-
-        <div class="sectionBody">
-
-          <div
-            style="
-              color:var(--orange);
-              font-size:10px;
-              font-weight:bold;
-            ">
-            ${escapeHTML(
-              item.tipe || "INFO"
-            )}
-          </div>
-
-          <h3
-            style="
-              margin-top:7px;
-              font-size:16px;
-            ">
-            ${escapeHTML(
-              item.judul || "-"
-            )}
-          </h3>
-
-          <p
-            style="
-              margin-top:8px;
-              color:#999;
-              font-size:12px;
-              line-height:1.6;
-            ">
-            ${escapeHTML(
-              item.isi || ""
-            )}
-          </p>
-
-        </div>
-
-      `;
-
-
-      container.appendChild(
-        box
-      );
-
     }
-  );
+
+    currentAdmin = data;
+
+    document.getElementById("loginScreen")
+        .style.display = "none";
+
+    document.getElementById("app")
+        .style.display = "block";
+
+    document.getElementById("sideUsername")
+        .textContent =
+        currentAdmin.username || "-";
+
+    document.getElementById("topUsername")
+        .textContent =
+        currentAdmin.username || "-";
+
+    document.getElementById("sideRole")
+        .textContent =
+        currentAdmin.role || "-";
+
+    await loadDPD();
+
+    await loadPengurus();
+
+    updateProfile();
+
+    showPage("dashboard");
 
 }
 
 
-/* ============================================================
-   PROFILE
-============================================================ */
-
-function updateProfile(){
-
-  const username =
-    currentAdmin.username ||
-    currentUser.email
-      .split("@")[0];
-
-
-  document.getElementById(
-    "sidebarUsername"
-  ).textContent =
-    username;
-
-
-  document.getElementById(
-    "sidebarRole"
-  ).textContent =
-    currentAdmin.role ||
-    "-";
-
-
-  document.getElementById(
-    "topRole"
-  ).textContent =
-    currentAdmin.role ||
-    "-";
-
-
-  document.getElementById(
-    "profileUsername"
-  ).value =
-    username;
-
-
-  document.getElementById(
-    "profileRole"
-  ).value =
-    currentAdmin.role ||
-    "-";
-
-
-  const dpd =
-    dpdData.find(
-      d =>
-        Number(d.id)
-        ===
-        Number(
-          currentAdmin.dpd_id
-        )
-    );
-
-
-  document.getElementById(
-    "profileDPD"
-  ).value =
-    dpd
-      ? dpd.nama
-      : isDPW()
-        ? "SELURUH DPD SULAWESI SELATAN"
-        : "-";
-
-}
-
-
-/* ============================================================
-   PAGE NAVIGATION
-============================================================ */
-
-function showPage(page){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      el =>
-        el.classList.remove(
-          "active"
-        )
-    );
-
-
-  const target =
-    document.getElementById(
-      "page-" + page
-    );
-
-
-  if(target){
-
-    target.classList.add(
-      "active"
-    );
-
-  }
-
-
-  document
-    .querySelectorAll(
-      ".menuBtn"
-    )
-    .forEach(
-      btn => {
-
-        btn.classList.remove(
-          "active"
-        );
-
-
-        if(
-          btn.dataset.page
-          ===
-          page
-        ){
-
-          btn.classList.add(
-            "active"
-          );
-
-        }
-
-      }
-    );
-
-
-  const titles = {
-
-    dashboard:
-      "Dashboard",
-
-    dpd:
-      "Monitoring DPD",
-
-    struktur:
-      "Struktur Organisasi",
-
-    agenda:
-      "Agenda",
-
-    laporan:
-      "Laporan",
-
-    pemberitahuan:
-      "Pemberitahuan",
-
-    profil:
-      "Profil Admin"
-
-  };
-
-
-  document.getElementById(
-    "topTitle"
-  ).textContent =
-    titles[page] ||
-    "Command Center";
-
-
-  closeSidebar();
-
-}
-
-
-/* ============================================================
-   APP / LOGIN
-============================================================ */
-
-function showApp(){
-
-  document.getElementById(
-    "loginPage"
-  ).style.display =
-    "none";
-
-
-  document.getElementById(
-    "app"
-  ).style.display =
-    "block";
-
-}
-
-
-function showLogin(){
-
-  document.getElementById(
-    "loginPage"
-  ).style.display =
-    "flex";
-
-
-  document.getElementById(
-    "app"
-  ).style.display =
-    "none";
-
-}
-
-
-function showLoginError(message){
-
-  const error =
-    document.getElementById(
-      "loginError"
-    );
-
-
-  error.textContent =
-    message;
-
-
-  error.style.display =
-    "block";
-
-}
-
-
-/* ============================================================
-   LOGOUT
-============================================================ */
-
-async function logout(){
-
-  await supabaseClient.auth.signOut();
-
-  currentUser = null;
-
-  currentAdmin = null;
-
-  dpdData = [];
-
-  pengurusData = [];
-
-  selectedDPD = null;
-
-  showLogin();
-
-}
-
-
-/* ============================================================
+/* =========================================================
    ROLE
-============================================================ */
+========================================================= */
 
 function isDPW(){
 
-  return String(
-    currentAdmin?.role || ""
-  )
-  .toUpperCase()
-  .includes("DPW");
+    return String(currentAdmin?.role || "")
+        .toUpperCase()
+        .includes("DPW");
 
 }
-
 
 function isDPD(){
 
-  return String(
-    currentAdmin?.role || ""
-  )
-  .toUpperCase()
-  .includes("DPD");
+    return String(currentAdmin?.role || "")
+        .toUpperCase()
+        .includes("DPD");
 
 }
 
 
-/* ============================================================
-   MOBILE SIDEBAR
-============================================================ */
+/* =========================================================
+   HEADER DINAMIS
+========================================================= */
 
-function openSidebar(){
+function updateHeader(page){
 
-  document
-    .getElementById(
-      "sidebar"
-    )
-    .classList.add(
-      "open"
-    );
+    const titleMap = {
 
-  document
-    .getElementById(
-      "overlay"
-    )
-    .classList.add(
-      "open"
-    );
+        dashboard:
+            "DASHBOARD",
+
+        dpd:
+            "MONITORING DPD",
+
+        struktur:
+            "STRUKTUR ORGANISASI",
+
+        agenda:
+            "AGENDA",
+
+        laporan:
+            "LAPORAN",
+
+        pemberitahuan:
+            "PEMBERITAHUAN",
+
+        profil:
+            "PROFIL ADMIN"
+
+    };
+
+    let subtitle = "";
+
+    /*
+       Jika sedang membuka struktur DPD tertentu
+    */
+
+    if(
+        page === "struktur" &&
+        selectedDPD
+    ){
+
+        subtitle =
+            selectedDPD.nama ||
+            "DPD";
+
+    }
+
+    /*
+       Jika login sebagai DPD
+    */
+
+    else if(isDPD()){
+
+        const ownDPD =
+            dpdData.find(
+                d =>
+                    Number(d.id) ===
+                    Number(currentAdmin.dpd_id)
+            );
+
+        subtitle =
+            ownDPD
+                ? ownDPD.nama
+                : "DPD";
+
+    }
+
+    /*
+       Jika login sebagai DPW
+    */
+
+    else if(isDPW()){
+
+        subtitle =
+            "DPW SULAWESI SELATAN";
+
+    }
+
+    else{
+
+        subtitle =
+            currentAdmin?.role ||
+            "";
+
+    }
+
+    document.getElementById("topTitle")
+        .textContent =
+        titleMap[page] ||
+        "COMMAND CENTER";
+
+    document.getElementById("topRole")
+        .textContent =
+        subtitle;
 
 }
 
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(page){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(el => {
+
+            el.classList.remove("active");
+
+        });
+
+    const target =
+        document.getElementById(
+            "page-" + page
+        );
+
+    if(target){
+
+        target.classList.add("active");
+
+    }
+
+    document
+        .querySelectorAll(".menu-item")
+        .forEach(item => {
+
+            item.classList.remove("active");
+
+        });
+
+    const activeMenu =
+        document.querySelector(
+            `[data-page="${page}"]`
+        );
+
+    if(activeMenu){
+
+        activeMenu.classList.add("active");
+
+    }
+
+    updateHeader(page);
+
+    if(page === "dashboard"){
+
+        loadDashboard();
+
+    }
+
+    if(page === "dpd"){
+
+        renderDPD();
+
+    }
+
+    if(page === "struktur"){
+
+        renderStructure();
+
+    }
+
+    if(page === "agenda"){
+
+        loadAgenda();
+
+    }
+
+    if(page === "laporan"){
+
+        loadLaporan();
+
+    }
+
+    if(page === "pemberitahuan"){
+
+        loadPemberitahuan();
+
+    }
+
+    if(page === "profil"){
+
+        updateProfile();
+
+    }
+
+    closeSidebar();
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
 
 function closeSidebar(){
 
-  document
-    .getElementById(
-      "sidebar"
-    )
-    .classList.remove(
-      "open"
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+}
+
+
+/* =========================================================
+   LOAD DPD
+========================================================= */
+
+async function loadDPD(){
+
+    let query =
+        supabaseClient
+            .from("DPD")
+            .select("*")
+            .order("id", {
+                ascending:true
+            });
+
+    if(isDPD()){
+
+        query =
+            query.eq(
+                "id",
+                Number(currentAdmin.dpd_id)
+            );
+
+    }
+
+    const {
+        data,
+        error
+    } = await query;
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Gagal mengambil data DPD:\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+    dpdData =
+        data || [];
+
+    renderDPD();
+
+}
+
+
+/* =========================================================
+   RENDER DPD
+========================================================= */
+
+function renderDPD(){
+
+    const grid =
+        document.getElementById("dpdGrid");
+
+    const dashboardGrid =
+        document.getElementById(
+            "dashboardDPDGrid"
+        );
+
+    if(grid){
+
+        grid.innerHTML = "";
+
+    }
+
+    if(dashboardGrid){
+
+        dashboardGrid.innerHTML = "";
+
+    }
+
+    dpdData.forEach(dpd => {
+
+        const progress =
+            Number(dpd.progress || 0);
+
+        const status =
+            dpd.status ||
+            "BELUM ADA DATA";
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "dpd-card";
+
+        card.innerHTML = `
+
+            <h3>
+                ${escapeHTML(
+                    dpd.nama || "DPD"
+                )}
+            </h3>
+
+            <div class="status">
+                ${escapeHTML(status)}
+            </div>
+
+            <div class="progress">
+                <div
+                    style="width:${progress}%">
+                </div>
+            </div>
+
+            <div
+                style="
+                    font-size:11px;
+                    color:#777;
+                    margin-top:7px;
+                ">
+                Progress ${progress}%
+            </div>
+
+        `;
+
+        card.onclick = () => {
+
+            openStructure(dpd);
+
+        };
+
+        if(grid){
+
+            grid.appendChild(
+                card.cloneNode(true)
+            );
+
+            const last =
+                grid.lastElementChild;
+
+            last.onclick = () => {
+
+                openStructure(dpd);
+
+            };
+
+        }
+
+        if(dashboardGrid){
+
+            dashboardGrid.appendChild(
+                card.cloneNode(true)
+            );
+
+            const last =
+                dashboardGrid.lastElementChild;
+
+            last.onclick = () => {
+
+                openStructure(dpd);
+
+            };
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   OPEN STRUCTURE
+========================================================= */
+
+function openStructure(dpd){
+
+    selectedDPD =
+        dpd;
+
+    renderStructure();
+
+    showPage(
+        "struktur"
     );
 
-  document
-    .getElementById(
-      "overlay"
-    )
-    .classList.remove(
-      "open"
+    updateHeader(
+        "struktur"
     );
 
 }
 
 
-/* ============================================================
-   SECURITY / HTML ESCAPE
-============================================================ */
+/* =========================================================
+   LOAD PENGURUS
+========================================================= */
+
+async function loadPengurus(){
+
+    let query =
+        supabaseClient
+            .from("BIDANG_DPD")
+            .select("*")
+            .order("id", {
+                ascending:true
+            });
+
+    if(isDPD()){
+
+        query =
+            query.eq(
+                "dpd_id",
+                Number(currentAdmin.dpd_id)
+            );
+
+    }
+
+    const {
+        data,
+        error
+    } = await query;
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Gagal mengambil struktur organisasi:\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+    pengurusData =
+        data || [];
+
+}
+
+
+/* =========================================================
+   RENDER STRUCTURE
+========================================================= */
+
+function renderStructure(){
+
+    if(!selectedDPD){
+
+        /*
+           Jika DPD belum dipilih,
+           otomatis gunakan DPD sendiri
+           ketika login sebagai DPD.
+        */
+
+        if(isDPD()){
+
+            selectedDPD =
+                dpdData.find(
+                    d =>
+                        Number(d.id) ===
+                        Number(
+                            currentAdmin.dpd_id
+                        )
+                );
+
+        }
+
+    }
+
+    if(!selectedDPD){
+
+        document.getElementById(
+            "structureDPDName"
+        ).textContent =
+            "PILIH DPD";
+
+        document.getElementById(
+            "structureDPDStatus"
+        ).textContent =
+            "Silakan pilih DPD terlebih dahulu.";
+
+        return;
+
+    }
+
+    document.getElementById(
+        "structureDPDName"
+    ).textContent =
+        selectedDPD.nama ||
+        "DPD";
+
+    document.getElementById(
+        "structureDPDStatus"
+    ).textContent =
+        "Status: " +
+        (selectedDPD.status || "-");
+
+    renderCore();
+
+    renderFields();
+
+}
+
+
+/* =========================================================
+   CORE STRUCTURE
+========================================================= */
+
+function renderCore(){
+
+    const container =
+        document.getElementById(
+            "structureCore"
+        );
+
+    container.innerHTML = "";
+
+    const coreTypes = [
+        {
+            tipe:"KETUA_DPD",
+            label:"Ketua DPD"
+        },
+        {
+            tipe:"SEKRETARIS",
+            label:"Sekretaris"
+        },
+        {
+            tipe:"BENDAHARA",
+            label:"Bendahara"
+        }
+    ];
+
+    coreTypes.forEach(core => {
+
+        const person =
+            pengurusData.find(row =>
+
+                Number(row.dpd_id) ===
+                Number(selectedDPD.id)
+
+                &&
+
+                String(row.tipe || "")
+                    .toUpperCase() ===
+                core.tipe
+
+                &&
+
+                String(row.status || "")
+                    .toUpperCase() ===
+                "AKTIF"
+
+        );
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "person-card core";
+
+        card.innerHTML = `
+
+            <div class="person-jabatan">
+                ${core.label}
+            </div>
+
+            <div class="person-name">
+                ${
+                    person
+                    ? escapeHTML(person.nama)
+                    : "Belum diisi"
+                }
+            </div>
+
+            ${
+                person?.no_hp
+                ? `
+                    <div class="person-phone">
+                        ${escapeHTML(person.no_hp)}
+                    </div>
+                `
+                : ""
+            }
+
+            ${
+                canManageSelectedDPD()
+                ?
+                `
+                <div class="person-actions">
+
+                    ${
+                        person
+                        ?
+                        `
+                        <button
+                            class="btn btn-dark"
+                            onclick='editPengurus(${JSON.stringify(person)})'>
+                            Edit
+                        </button>
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="deletePengurus(${person.id})">
+                            Hapus
+                        </button>
+                        `
+                        :
+                        `
+                        <button
+                            class="btn btn-orange"
+                            onclick="openAddCore('${core.tipe}')">
+                            Tambah
+                        </button>
+                        `
+                    }
+
+                </div>
+                `
+                :
+                ""
+            }
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   RENDER BIDANG
+========================================================= */
+
+function renderFields(){
+
+    const container =
+        document.getElementById(
+            "structureFields"
+        );
+
+    container.innerHTML = "";
+
+    bidangList.forEach(bidang => {
+
+        const coordinator =
+            pengurusData.find(row =>
+
+                Number(row.dpd_id) ===
+                Number(selectedDPD.id)
+
+                &&
+
+                String(row.bidang || "") ===
+                bidang
+
+                &&
+
+                (
+                    String(row.tipe || "")
+                        .toUpperCase() ===
+                    "KOORDINATOR_BIDANG"
+
+                    ||
+
+                    String(row.jabatan || "")
+                        .toUpperCase() ===
+                    "KOORDINATOR BIDANG"
+                )
+
+                &&
+
+                String(row.status || "")
+                    .toUpperCase() ===
+                "AKTIF"
+
+        );
+
+        const members =
+            pengurusData.filter(row =>
+
+                Number(row.dpd_id) ===
+                Number(selectedDPD.id)
+
+                &&
+
+                String(row.bidang || "") ===
+                bidang
+
+                &&
+
+                (
+                    String(row.tipe || "")
+                        .toUpperCase() ===
+                    "ANGGOTA_BIDANG"
+
+                    ||
+
+                    String(row.jabatan || "")
+                        .toUpperCase() ===
+                    "ANGGOTA BIDANG"
+                )
+
+                &&
+
+                String(row.status || "")
+                    .toUpperCase() ===
+                "AKTIF"
+
+        );
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "field-card";
+
+        let membersHTML = "";
+
+        if(members.length){
+
+            membersHTML =
+                members.map(member => `
+
+                    <div class="member">
+
+                        <strong>
+                            ${escapeHTML(member.nama)}
+                        </strong>
+
+                        ${
+                            member.no_hp
+                            ?
+                            `
+                            <div
+                                style="
+                                    color:#888;
+                                    font-size:10px;
+                                ">
+                                ${escapeHTML(
+                                    member.no_hp
+                                )}
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                        ${
+                            canManageSelectedDPD()
+                            ?
+                            `
+                            <div
+                                class="person-actions">
+
+                                <button
+                                    class="btn btn-dark"
+                                    onclick='editPengurus(${JSON.stringify(member)})'>
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="btn btn-danger"
+                                    onclick="deletePengurus(${member.id})">
+                                    Hapus
+                                </button>
+
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                `).join("");
+
+        }else{
+
+            membersHTML =
+                `<div class="empty">
+                    Belum ada anggota bidang.
+                </div>`;
+
+        }
+
+        card.innerHTML = `
+
+            <div class="field-head">
+
+                <strong>
+                    ${escapeHTML(bidang)}
+                </strong>
+
+                ${
+                    canManageSelectedDPD()
+                    ?
+                    `
+                    <button
+                        class="btn btn-orange"
+                        style="
+                            padding:6px 9px;
+                            font-size:10px;
+                        "
+                        onclick='openAddField("${escapeJS(bidang)}")'>
+                        + Tambah
+                    </button>
+                    `
+                    :
+                    ""
+                }
+
+            </div>
+
+            <div class="field-body">
+
+                ${
+                    coordinator
+                    ?
+                    `
+                    <div class="coordinator">
+
+                        <small>
+                            KOORDINATOR BIDANG
+                        </small>
+
+                        <strong>
+                            ${escapeHTML(
+                                coordinator.nama
+                            )}
+                        </strong>
+
+                        ${
+                            coordinator.no_hp
+                            ?
+                            `
+                            <div
+                                style="
+                                    color:#888;
+                                    font-size:10px;
+                                    margin-top:4px;
+                                ">
+                                ${escapeHTML(
+                                    coordinator.no_hp
+                                )}
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                        ${
+                            canManageSelectedDPD()
+                            ?
+                            `
+                            <div class="person-actions">
+
+                                <button
+                                    class="btn btn-dark"
+                                    onclick='editPengurus(${JSON.stringify(coordinator)})'>
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="btn btn-danger"
+                                    onclick="deletePengurus(${coordinator.id})">
+                                    Hapus
+                                </button>
+
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+                    `
+                    :
+                    `
+                    <div class="empty">
+                        Koordinator belum diisi.
+                    </div>
+                    `
+                }
+
+                ${membersHTML}
+
+            </div>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   PERMISSION
+========================================================= */
+
+function canManageSelectedDPD(){
+
+    if(!currentAdmin){
+
+        return false;
+
+    }
+
+    if(isDPW()){
+
+        return true;
+
+    }
+
+    if(isDPD()){
+
+        return Number(
+            currentAdmin.dpd_id
+        ) === Number(
+            selectedDPD?.id
+        );
+
+    }
+
+    return false;
+
+}
+
+
+/* =========================================================
+   ADD CORE
+========================================================= */
+
+function openAddCore(tipe){
+
+    editingPengurusId =
+        null;
+
+    document.getElementById(
+        "pengurusId"
+    ).value = "";
+
+    document.getElementById(
+        "pengurusDPD"
+    ).value =
+        selectedDPD.id;
+
+    document.getElementById(
+        "pengurusNama"
+    ).value = "";
+
+    document.getElementById(
+        "pengurusHP"
+    ).value = "";
+
+    document.getElementById(
+        "pengurusStatus"
+    ).value =
+        "AKTIF";
+
+    document.getElementById(
+        "pengurusTipe"
+    ).value =
+        tipe;
+
+    changePengurusType();
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Tambah " +
+        tipe.replace(
+            "_",
+            " "
+        );
+
+    document.getElementById(
+        "pengurusModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   ADD FIELD
+========================================================= */
+
+function openAddField(bidang){
+
+    editingPengurusId =
+        null;
+
+    document.getElementById(
+        "pengurusId"
+    ).value = "";
+
+    document.getElementById(
+        "pengurusDPD"
+    ).value =
+        selectedDPD.id;
+
+    document.getElementById(
+        "pengurusNama"
+    ).value = "";
+
+    document.getElementById(
+        "pengurusHP"
+    ).value = "";
+
+    document.getElementById(
+        "pengurusStatus"
+    ).value =
+        "AKTIF";
+
+    document.getElementById(
+        "pengurusTipe"
+    ).value =
+        "ANGGOTA_BIDANG";
+
+    document.getElementById(
+        "pengurusBidang"
+    ).value =
+        bidang;
+
+    changePengurusType();
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Tambah Anggota / Koordinator";
+
+    document.getElementById(
+        "pengurusModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   CHANGE TYPE
+========================================================= */
+
+function changePengurusType(){
+
+    const tipe =
+        document.getElementById(
+            "pengurusTipe"
+        ).value;
+
+    const group =
+        document.getElementById(
+            "bidangGroup"
+        );
+
+    if(
+        tipe === "KOORDINATOR_BIDANG" ||
+        tipe === "ANGGOTA_BIDANG"
+    ){
+
+        group.style.display =
+            "block";
+
+    }else{
+
+        group.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   EDIT
+========================================================= */
+
+function editPengurus(row){
+
+    if(!canManageSelectedDPD()){
+
+        alert(
+            "Anda tidak memiliki akses untuk mengubah data ini."
+        );
+
+        return;
+
+    }
+
+    editingPengurusId =
+        row.id;
+
+    document.getElementById(
+        "pengurusId"
+    ).value =
+        row.id;
+
+    document.getElementById(
+        "pengurusDPD"
+    ).value =
+        row.dpd_id;
+
+    document.getElementById(
+        "pengurusNama"
+    ).value =
+        row.nama || "";
+
+    document.getElementById(
+        "pengurusTipe"
+    ).value =
+        row.tipe || "ANGGOTA_BIDANG";
+
+    document.getElementById(
+        "pengurusBidang"
+    ).value =
+        row.bidang || "";
+
+    document.getElementById(
+        "pengurusHP"
+    ).value =
+        row.no_hp || "";
+
+    document.getElementById(
+        "pengurusStatus"
+    ).value =
+        row.status || "AKTIF";
+
+    changePengurusType();
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Edit Pengurus";
+
+    document.getElementById(
+        "pengurusModal"
+    ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+async function savePengurus(){
+
+    if(!selectedDPD){
+
+        alert(
+            "DPD belum dipilih."
+        );
+
+        return;
+
+    }
+
+    if(!canManageSelectedDPD()){
+
+        alert(
+            "Anda tidak memiliki akses."
+        );
+
+        return;
+
+    }
+
+    const nama =
+        document.getElementById(
+            "pengurusNama"
+        ).value.trim();
+
+    const tipe =
+        document.getElementById(
+            "pengurusTipe"
+        ).value;
+
+    const bidang =
+        document.getElementById(
+            "pengurusBidang"
+        ).value;
+
+    const noHP =
+        document.getElementById(
+            "pengurusHP"
+        ).value.trim();
+
+    const status =
+        document.getElementById(
+            "pengurusStatus"
+        ).value;
+
+    if(!nama){
+
+        alert(
+            "Nama wajib diisi."
+        );
+
+        return;
+
+    }
+
+    if(
+        (
+            tipe === "KOORDINATOR_BIDANG" ||
+            tipe === "ANGGOTA_BIDANG"
+        )
+        &&
+        !bidang
+    ){
+
+        alert(
+            "Silakan pilih bidang."
+        );
+
+        return;
+
+    }
+
+    let jabatan = "";
+
+    if(tipe === "KETUA_DPD"){
+
+        jabatan =
+            "Ketua DPD";
+
+    }
+
+    else if(tipe === "SEKRETARIS"){
+
+        jabatan =
+            "Sekretaris";
+
+    }
+
+    else if(tipe === "BENDAHARA"){
+
+        jabatan =
+            "Bendahara";
+
+    }
+
+    else if(
+        tipe === "KOORDINATOR_BIDANG"
+    ){
+
+        jabatan =
+            "Koordinator Bidang";
+
+    }
+
+    else if(
+        tipe === "ANGGOTA_BIDANG"
+    ){
+
+        jabatan =
+            "Anggota Bidang";
+
+    }
+
+    const payload = {
+
+        dpd_id:
+            Number(selectedDPD.id),
+
+        nama:
+            nama,
+
+        jabatan:
+            jabatan,
+
+        bidang:
+            (
+                tipe === "KOORDINATOR_BIDANG" ||
+                tipe === "ANGGOTA_BIDANG"
+            )
+            ? bidang
+            : null,
+
+        tipe:
+            tipe,
+
+        no_hp:
+            noHP || null,
+
+        status:
+            status
+
+    };
+
+    let result;
+
+    if(editingPengurusId){
+
+        result =
+            await supabaseClient
+                .from("BIDANG_DPD")
+                .update(payload)
+                .eq(
+                    "id",
+                    editingPengurusId
+                );
+
+    }else{
+
+        result =
+            await supabaseClient
+                .from("BIDANG_DPD")
+                .insert(payload);
+
+    }
+
+    if(result.error){
+
+        alert(
+            "Gagal menyimpan data:\n\n" +
+            result.error.message
+        );
+
+        console.error(
+            result.error
+        );
+
+        return;
+
+    }
+
+    closePengurusModal();
+
+    await loadPengurus();
+
+    renderStructure();
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+async function deletePengurus(id){
+
+    if(!canManageSelectedDPD()){
+
+        alert(
+            "Anda tidak memiliki akses."
+        );
+
+        return;
+
+    }
+
+    if(
+        !confirm(
+            "Yakin ingin menghapus data ini?"
+        )
+    ){
+
+        return;
+
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("BIDANG_DPD")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+    if(error){
+
+        alert(
+            "Gagal menghapus:\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+    await loadPengurus();
+
+    renderStructure();
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function closePengurusModal(){
+
+    document
+        .getElementById(
+            "pengurusModal"
+        )
+        .classList.remove("show");
+
+    editingPengurusId =
+        null;
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+async function loadDashboard(){
+
+    const total =
+        dpdData.length;
+
+    const aktif =
+        dpdData.filter(
+            d =>
+                String(d.status || "")
+                    .toUpperCase()
+                    .includes("AKTIF")
+        ).length;
+
+    const totalPengurus =
+        pengurusData.filter(
+            p =>
+                Number(p.dpd_id) ===
+                (
+                    isDPD()
+                    ?
+                    Number(currentAdmin.dpd_id)
+                    :
+                    Number(p.dpd_id)
+                )
+        ).length;
+
+    let progress = 0;
+
+    if(total){
+
+        progress =
+            Math.round(
+                dpdData.reduce(
+                    (sum,d) =>
+                        sum +
+                        Number(
+                            d.progress || 0
+                        ),
+                    0
+                ) / total
+            );
+
+    }
+
+    document.getElementById(
+        "statDPD"
+    ).textContent =
+        total;
+
+    document.getElementById(
+        "statAktif"
+    ).textContent =
+        aktif;
+
+    document.getElementById(
+        "statPengurus"
+    ).textContent =
+        totalPengurus;
+
+    document.getElementById(
+        "statProgress"
+    ).textContent =
+        progress + "%";
+
+    renderDPD();
+
+}
+
+
+/* =========================================================
+   AGENDA
+========================================================= */
+
+async function loadAgenda(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("AGENDA")
+            .select("*")
+            .order(
+                "tanggal",
+                {
+                    ascending:true
+                }
+            );
+
+    const tbody =
+        document.getElementById(
+            "agendaTable"
+        );
+
+    tbody.innerHTML = "";
+
+    if(error){
+
+        tbody.innerHTML =
+            `
+            <tr>
+                <td colspan="5">
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </td>
+            </tr>
+            `;
+
+        return;
+
+    }
+
+    if(!data?.length){
+
+        tbody.innerHTML =
+            `
+            <tr>
+                <td colspan="5">
+                    Belum ada agenda.
+                </td>
+            </tr>
+            `;
+
+        return;
+
+    }
+
+    data.forEach(row => {
+
+        tbody.innerHTML += `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(
+                        row.judul || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        row.tanggal || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        row.waktu || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        row.lokasi || "-"
+                    )}
+                </td>
+
+                <td>
+                    <span class="badge badge-orange">
+                        ${escapeHTML(
+                            row.status || "-"
+                        )}
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================================================
+   LAPORAN
+========================================================= */
+
+async function loadLaporan(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("LAPORAN")
+            .select("*")
+            .order(
+                "tanggal",
+                {
+                    ascending:false
+                }
+            );
+
+    const tbody =
+        document.getElementById(
+            "laporanTable"
+        );
+
+    tbody.innerHTML = "";
+
+    if(error){
+
+        tbody.innerHTML =
+            `
+            <tr>
+                <td colspan="4">
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </td>
+            </tr>
+            `;
+
+        return;
+
+    }
+
+    if(!data?.length){
+
+        tbody.innerHTML =
+            `
+            <tr>
+                <td colspan="4">
+                    Belum ada laporan.
+                </td>
+            </tr>
+            `;
+
+        return;
+
+    }
+
+    data.forEach(row => {
+
+        tbody.innerHTML += `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(
+                        row.judul || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        row.tanggal || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        row.kategori || "-"
+                    )}
+                </td>
+
+                <td>
+                    <span class="badge badge-orange">
+                        ${escapeHTML(
+                            row.status || "-"
+                        )}
+                    </span>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================================================
+   PEMBERITAHUAN
+========================================================= */
+
+async function loadPemberitahuan(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("PEMBERITAHUAN")
+            .select("*")
+            .order(
+                "tanggal",
+                {
+                    ascending:false
+                }
+            );
+
+    const container =
+        document.getElementById(
+            "notificationList"
+        );
+
+    container.innerHTML = "";
+
+    if(error){
+
+        container.innerHTML =
+            `
+            <div class="card">
+                ${escapeHTML(
+                    error.message
+                )}
+            </div>
+            `;
+
+        return;
+
+    }
+
+    if(!data?.length){
+
+        container.innerHTML =
+            `
+            <div class="card">
+                Belum ada pemberitahuan.
+            </div>
+            `;
+
+        return;
+
+    }
+
+    data.forEach(row => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "card";
+
+        card.innerHTML = `
+
+            <div
+                style="
+                    color:var(--orange);
+                    font-size:11px;
+                    font-weight:900;
+                ">
+                ${escapeHTML(
+                    row.tipe || "INFO"
+                )}
+            </div>
+
+            <h3
+                style="
+                    margin:8px 0;
+                    font-size:15px;
+                ">
+                ${escapeHTML(
+                    row.judul || "-"
+                )}
+            </h3>
+
+            <p
+                style="
+                    color:#666;
+                    font-size:12px;
+                    line-height:1.6;
+                ">
+                ${escapeHTML(
+                    row.isi || "-"
+                )}
+            </p>
+
+        `;
+
+        container.appendChild(
+            card
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function updateProfile(){
+
+    document.getElementById(
+        "profileUsername"
+    ).textContent =
+        currentAdmin?.username ||
+        "-";
+
+    document.getElementById(
+        "profileRole"
+    ).textContent =
+        currentAdmin?.role ||
+        "-";
+
+    let dpdName = "-";
+
+    if(
+        currentAdmin?.dpd_id
+    ){
+
+        const dpd =
+            dpdData.find(
+                d =>
+                    Number(d.id) ===
+                    Number(
+                        currentAdmin.dpd_id
+                    )
+            );
+
+        if(dpd){
+
+            dpdName =
+                dpd.nama;
+
+        }
+
+    }
+
+    if(isDPW()){
+
+        dpdName =
+            "DPW SULAWESI SELATAN";
+
+    }
+
+    document.getElementById(
+        "profileDPD"
+    ).textContent =
+        dpdName;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    currentUser = null;
+
+    currentAdmin = null;
+
+    selectedDPD = null;
+
+    document.getElementById(
+        "app"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "loginScreen"
+    ).style.display =
+        "flex";
+
+    document.getElementById(
+        "loginPassword"
+    ).value =
+        "";
+
+}
+
+
+/* =========================================================
+   CHECK SESSION
+========================================================= */
+
+async function checkSession(){
+
+    const {
+        data:{
+            user
+        }
+    } =
+        await supabaseClient.auth.getUser();
+
+    if(user){
+
+        currentUser =
+            user;
+
+        await loadAdmin();
+
+    }
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function escapeHTML(value){
 
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
+    if(value === null ||
+       value === undefined){
 
-}
-
-
-function escapeAttribute(value){
-
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /\\/g,
-    "\\\\"
-  )
-  .replace(
-    /'/g,
-    "\\'"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  );
-
-}
-
-
-/* ============================================================
-   CLOSE MODAL CLICK OUTSIDE
-============================================================ */
-
-document
-  .getElementById(
-    "pengurusModal"
-  )
-  .addEventListener(
-    "click",
-    function(e){
-
-      if(
-        e.target ===
-        this
-      ){
-
-        closeModal();
-
-      }
+        return "";
 
     }
-  );
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+function escapeJS(value){
+
+    return String(value || "")
+        .replaceAll("\\","\\\\")
+        .replaceAll("'","\\'")
+        .replaceAll('"','\\"');
+
+}
 
 
-/* ============================================================
+/* =========================================================
    ENTER LOGIN
-============================================================ */
+========================================================= */
 
 document
-  .getElementById(
-    "password"
-  )
-  .addEventListener(
-    "keydown",
-    function(e){
+    .getElementById("loginPassword")
+    .addEventListener(
+        "keydown",
+        function(event){
 
-      if(
-        e.key ===
-        "Enter"
-      ){
+            if(event.key === "Enter"){
 
-        login();
+                login();
 
-      }
+            }
 
-    }
-  );
+        }
+    );
+
+
+/* =========================================================
+   START
+========================================================= */
+
+checkSession();
 
 </script>
 
