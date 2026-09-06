@@ -3,1441 +3,532 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Command Center Admin</title>
+<title>Command Center Muda Bergerak Sulsel</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#080808;color:#fff;font-family:Arial,sans-serif}
-.hidden{display:none!important}
-button{border:0;border-radius:8px;padding:11px 16px;background:#ff6a00;color:#fff;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.6}
-input,select,textarea{width:100%;padding:12px;margin:6px 0 12px;background:#151515;border:1px solid #333;color:#fff;border-radius:8px}
-textarea{min-height:90px;resize:vertical}
-label{font-size:13px;color:#bbb}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#111;color:#fff}
+button{cursor:pointer;border:0;border-radius:8px;padding:11px 15px;font-weight:bold}
+input,select{width:100%;padding:11px;border-radius:7px;border:1px solid #444;background:#222;color:#fff;margin:6px 0 12px}
 .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.login-box{width:100%;max-width:420px;background:#111;border:1px solid #292929;border-radius:18px;padding:30px;box-shadow:0 0 40px #000;text-align:center}
-.logo{width:90px;height:90px;object-fit:contain;display:block;margin:0 auto 18px}
-.welcome{font-size:16px;font-weight:bold;margin-bottom:8px}
-.title{font-size:24px;font-weight:900;margin:0;color:#ff6a00}
-.subtitle{font-size:12px;font-weight:bold;letter-spacing:.5px;color:#fff;margin:6px 0 25px}
-.form{text-align:left}
-.orange{color:#ff6a00}
-.msg{font-size:13px;margin-top:12px;color:#ff7777}
-.app{min-height:100vh}
-header{background:#111;border-bottom:1px solid #292929;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:10}
-.brand{display:flex;align-items:center;gap:10px}
-.brand img{width:42px;height:42px;object-fit:contain}
-.brand b{font-size:15px}
-.user{text-align:right;font-size:12px;color:#aaa}
-.user strong{color:#fff}
-nav{display:flex;gap:8px;overflow:auto;padding:12px;background:#0d0d0d;border-bottom:1px solid #222}
-nav button{white-space:nowrap;background:#181818;border:1px solid #333}
-nav button.active{background:#ff6a00;border-color:#ff6a00}
-main{padding:18px;max-width:1400px;margin:auto}
-.card{background:#111;border:1px solid #292929;border-radius:14px;padding:18px;margin-bottom:18px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.section{display:none}
-.section.active{display:block}
-.table-wrap{overflow:auto}
-table{width:100%;border-collapse:collapse;min-width:700px}
-th,td{padding:11px 9px;border-bottom:1px solid #292929;text-align:left;font-size:13px}
-th{color:#ff6a00;background:#151515}
-.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#222;font-size:11px}
-.progress{height:8px;background:#252525;border-radius:20px;overflow:hidden}
-.progress i{display:block;height:100%;background:#ff6a00}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.small{font-size:12px;color:#888}
-hr{border:0;border-top:1px solid #292929;margin:18px 0}
-@media(max-width:700px){
- .grid{grid-template-columns:1fr}
- header{align-items:flex-start}
-}
+.box{width:100%;max-width:400px;background:#181818;padding:30px;border-radius:16px;text-align:center;box-shadow:0 0 30px #000}
+.logo{width:100px;height:100px;object-fit:contain;margin-bottom:10px}
+.orange{color:#ff7900}.btn{background:#ff7900;color:#fff;width:100%}
+.error{color:#ff5555;margin-top:12px;font-size:14px}.hidden{display:none!important}
+header{background:#181818;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #ff7900}
+header small{display:block;color:#aaa;margin-top:4px}
+.logout{background:#333;color:#fff}
+nav{display:flex;gap:8px;overflow:auto;padding:12px;background:#151515}
+nav button{background:#252525;color:#fff;white-space:nowrap}
+nav button.active{background:#ff7900}
+main{padding:20px;max-width:1200px;margin:auto}
+.card{background:#181818;padding:18px;border-radius:12px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+h2{margin-top:0}.save{background:#ff7900;color:#fff}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:10px;border-bottom:1px solid #333;text-align:left}
+th{color:#ff7900}
+.tablewrap{overflow:auto}
+.badge{padding:5px 8px;background:#333;border-radius:6px}
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
 <div id="loginPage" class="login">
-<div class="login-box">
+  <div class="box">
+    <img class="logo" src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png">
+    <h2>Welcome Admin</h2>
+    <div class="orange"><b>COMMAND CENTER</b></div>
+    <div style="margin-bottom:25px">MUDA BERGERAK PROV. SULAWESI SELATAN</div>
 
-<img class="logo"
-src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png">
-
-<div class="welcome">Welcome Admin</div>
-<div class="title">COMMAND CENTER</div>
-<div class="subtitle">MUDA BERGERAK PROV. SULAWESI SELATAN</div>
-
-<div class="form">
-
-<label>Username</label>
-<input id="username"
-autocomplete="username"
-placeholder="Masukkan username">
-
-<label>Password</label>
-<input id="password"
-type="password"
-autocomplete="current-password"
-placeholder="Masukkan password">
-
-<button id="loginBtn"
-onclick="login()"
-style="width:100%">
-LOGIN
-</button>
-
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <button class="btn" onclick="login()">LOGIN</button>
+    <div id="loginMsg" class="error"></div>
+  </div>
 </div>
 
-<div id="loginMsg" class="msg"></div>
-
-</div>
-</div>
-
-
-<!-- APP -->
-<div id="app" class="app hidden">
+<div id="app" class="hidden">
 
 <header>
-
-<div class="brand">
-<img src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png">
-
-<div>
-<b>COMMAND CENTER</b>
-<div class="small">MUDA BERGERAK PROV. SULAWESI SELATAN</div>
-</div>
-</div>
-
-<div class="user">
-<strong id="currentUsername">-</strong><br>
-<span id="currentRole">-</span><br>
-<button onclick="logout()" style="padding:6px 10px;margin-top:5px">
-Logout
-</button>
-</div>
-
+  <div>
+    <b>COMMAND CENTER</b>
+    <small>MUDA BERGERAK SULAWESI SELATAN</small>
+  </div>
+  <div style="text-align:right">
+    <span id="adminInfo"></span>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
 </header>
 
-
 <nav>
-
-<button id="navDPW"
-onclick="showSection('dpw')">
-Struktur DPW
-</button>
-
-<button id="navDPD"
-onclick="showSection('dpd')">
-24 DPD
-</button>
-
-<button id="navBidang"
-onclick="showSection('bidang')">
-Bidang DPD
-</button>
-
+  <button id="n-dpw" onclick="showPage('dpw')">Struktur DPW</button>
+  <button id="n-dpd" onclick="showPage('dpd')">24 DPD</button>
+  <button id="n-bidang" onclick="showPage('bidang')">Bidang DPD</button>
 </nav>
-
 
 <main>
 
-<!-- DPW -->
-<section id="sec-dpw" class="section">
-
-<div class="card">
-
-<h2>Struktur <span class="orange">DPW</span></h2>
-
-<div class="grid">
-
-<div>
-<label>Ketua</label>
-<input id="dpw_ketua">
-</div>
-
-<div>
-<label>Sekretaris</label>
-<input id="dpw_sekretaris">
-</div>
-
-<div>
-<label>Bendahara</label>
-<input id="dpw_bendahara">
-</div>
-
-<div>
-<label>Sekretariat</label>
-<input id="dpw_sekretariat">
-</div>
-
-<div>
-<label>Politik</label>
-<textarea id="dpw_politik"></textarea>
-</div>
-
-<div>
-<label>Hukum</label>
-<textarea id="dpw_hukum"></textarea>
-</div>
-
-<div>
-<label>Sosial Kemasyarakatan</label>
-<textarea id="dpw_sosial_kemasyarakatan"></textarea>
-</div>
-
-<div>
-<label>Keorganisasian</label>
-<textarea id="dpw_keorganisasian"></textarea>
-</div>
-
-<div>
-<label>Humas & Media</label>
-<textarea id="dpw_humas_media"></textarea>
-</div>
-
-<div>
-<label>Ekonomi Kreatif</label>
-<textarea id="dpw_ekonomi_kreatif"></textarea>
-</div>
-
-</div>
-
-<button onclick="saveDPW()">
-Simpan Struktur DPW
-</button>
-
-<div id="dpwMsg" class="msg"></div>
-
-</div>
+<section id="page-dpw" class="page">
+  <div class="card">
+    <h2>Struktur DPW</h2>
+    <div class="grid">
+      <label>Ketua<input id="dpw_ketua"></label>
+      <label>Sekretaris<input id="dpw_sekretaris"></label>
+      <label>Bendahara<input id="dpw_bendahara"></label>
+      <label>Sekretariat<input id="dpw_sekretariat"></label>
+      <label>Politik<input id="dpw_politik"></label>
+      <label>Hukum<input id="dpw_hukum"></label>
+      <label>Sosial Kemasyarakatan<input id="dpw_sosial_kemasyarakatan"></label>
+      <label>Keorganisasian<input id="dpw_keorganisasian"></label>
+      <label>Humas & Media<input id="dpw_humas_media"></label>
+      <label>Ekonomi Kreatif<input id="dpw_ekonomi_kreatif"></label>
+    </div>
+    <button class="save" onclick="saveDPW()">Simpan Struktur DPW</button>
+    <div id="dpwMsg"></div>
+  </div>
 </section>
 
+<section id="page-dpd" class="page hidden">
+  <div class="card">
+    <h2>Monitoring 24 DPD</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>DPD</th><th>Ketua</th><th>Sekretariat</th><th>Progress</th><th>Aksi</th></tr>
+        </thead>
+        <tbody id="dpdTable"></tbody>
+      </table>
+    </div>
+  </div>
 
-<!-- DPD -->
-<section id="sec-dpd" class="section">
-
-<div class="card">
-
-<h2>Monitoring <span class="orange">24 DPD</span></h2>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>DPD</th>
-<th>Ketua</th>
-<th>Sekretariat</th>
-<th>Progress</th>
-<th>Aksi</th>
-</tr>
-</thead>
-
-<tbody id="dpdTable"></tbody>
-
-</table>
-
-</div>
-</div>
-
-
-<div id="editDPDCard" class="card hidden">
-
-<h2>Edit <span class="orange">DPD</span></h2>
-
-<input type="hidden" id="edit_dpd_id">
-
-<div class="grid">
-
-<div>
-<label>Ketua</label>
-<input id="edit_ketua">
-</div>
-
-<div>
-<label>Sekretaris</label>
-<input id="edit_sekretaris">
-</div>
-
-<div>
-<label>Bendahara</label>
-<input id="edit_bendahara">
-</div>
-
-<div>
-<label>Sekretariat</label>
-<input id="edit_sekretariat">
-</div>
-
-<div>
-<label>Progress (%)</label>
-<input id="edit_progress" type="number" min="0" max="100">
-</div>
-
-</div>
-
-<div class="actions">
-
-<button onclick="saveDPD()">Simpan</button>
-
-<button onclick="closeEditDPD()" style="background:#333">
-Batal
-</button>
-
-</div>
-
-<div id="dpdMsg" class="msg"></div>
-
-</div>
-
+  <div id="editDPD" class="card hidden">
+    <h2 id="editTitle">Edit DPD</h2>
+    <input type="hidden" id="editId">
+    <div class="grid">
+      <label>Ketua<input id="e_ketua"></label>
+      <label>Sekretaris<input id="e_sekretaris"></label>
+      <label>Bendahara<input id="e_bendahara"></label>
+      <label>Sekretariat<input id="e_sekretariat"></label>
+      <label>Progress (%)<input id="e_progress" type="number" min="0" max="100"></label>
+    </div>
+    <button class="save" onclick="saveDPD()">Simpan</button>
+    <button onclick="document.getElementById('editDPD').classList.add('hidden')">Batal</button>
+    <div id="dpdMsg"></div>
+  </div>
 </section>
 
+<section id="page-bidang" class="page hidden">
+  <div class="card">
+    <h2>Bidang DPD</h2>
+    <select id="bidangDpd" onchange="loadBidang()"></select>
+    <select id="bidangNama" onchange="loadBidang()">
+      <option value="Politik">Politik</option>
+      <option value="Hukum">Hukum</option>
+      <option value="Sosial Kemasyarakatan">Sosial Kemasyarakatan</option>
+      <option value="Keorganisasian">Keorganisasian</option>
+      <option value="Humas & Media">Humas & Media</option>
+      <option value="Ekonomi Kreatif">Ekonomi Kreatif</option>
+    </select>
 
-<!-- BIDANG -->
-<section id="sec-bidang" class="section">
-
-<div class="card">
-
-<h2>Bidang <span class="orange">DPD</span></h2>
-
-<label>Pilih DPD</label>
-
-<select id="bidangDPD"
-onchange="loadBidang()">
-</select>
-
-<hr>
-
-<div class="grid">
-
-<div>
-<label>Politik</label>
-<textarea id="bidang_politik"></textarea>
-</div>
-
-<div>
-<label>Hukum</label>
-<textarea id="bidang_hukum"></textarea>
-</div>
-
-<div>
-<label>Sosial Kemasyarakatan</label>
-<textarea id="bidang_sosial"></textarea>
-</div>
-
-<div>
-<label>Keorganisasian</label>
-<textarea id="bidang_organisasi"></textarea>
-</div>
-
-<div>
-<label>Humas & Media</label>
-<textarea id="bidang_humas"></textarea>
-</div>
-
-<div>
-<label>Ekonomi Kreatif</label>
-<textarea id="bidang_ekonomi"></textarea>
-</div>
-
-</div>
-
-<button onclick="saveBidang()">
-Simpan Bidang
-</button>
-
-<div id="bidangMsg" class="msg"></div>
-
-</div>
-
+    <label>Ketua Bidang<input id="b_ketua"></label>
+    <label>Progress (%)<input id="b_progress" type="number" min="0" max="100"></label>
+    <button class="save" onclick="saveBidang()">Simpan Bidang</button>
+    <div id="bidangMsg"></div>
+  </div>
 </section>
 
 </main>
 </div>
 
-
 <script>
+const SUPABASE_URL="https://rgffzcpsofmjnqdfyolg.supabase.co";
+const SUPABASE_KEY="sb_publishable_ZfZ1m8X7gadvnoAQh9XmNg_hyupNKb6";
 
-const SUPABASE_URL=
-"https://rgffzcpsofmjnqdfyolg.supabase.co";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+  auth:{
+    persistSession:true,
+    autoRefreshToken:true,
+    detectSessionInUrl:false
+  }
+});
 
-const SUPABASE_KEY=
-"sb_publishable_ZfZ1m8X7gadvnoAQh9XmNg_hyupNK6";
-
-const db=window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY,
-{
-auth:{
-persistSession:true,
-autoRefreshToken:true,
-detectSessionInUrl:false
-}
-}
-);
-
-let currentUser=null;
 let currentAdmin=null;
-
-
-function msg(id,text,ok=false){
-
-const el=document.getElementById(id);
-
-if(!el)return;
-
-el.textContent=text;
-
-el.style.color=
-ok?"#65e572":"#ff7777";
-}
-
-
-function esc(v){
-
-return String(v??"")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;");
-}
-
+let dpdData=[];
+let bidangData=[];
 
 /* LOGIN */
-
 async function login(){
+  const username=document.getElementById("username").value.trim();
+  const password=document.getElementById("password").value;
+  const msg=document.getElementById("loginMsg");
 
-const username=
-document.getElementById("username")
-.value.trim();
+  msg.style.color="#ff5555";
+  msg.textContent="Memeriksa Login...";
 
-const password=
-document.getElementById("password")
-.value;
+  if(!username||!password){
+    msg.textContent="Username dan password wajib diisi.";
+    return;
+  }
 
-const btn=
-document.getElementById("loginBtn");
+  try{
+    const res=await fetch(SUPABASE_URL+"/functions/v1/admin-login",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "apikey":SUPABASE_KEY,
+        "Authorization":"Bearer "+SUPABASE_KEY
+      },
+      body:JSON.stringify({username,password})
+    });
 
-if(!username||!password){
+    const text=await res.text();
+    let data;
 
-msg(
-"loginMsg",
-"Username dan password wajib diisi."
-);
+    try{data=JSON.parse(text)}
+    catch{
+      throw new Error("Response server tidak valid.");
+    }
 
-return;
+    if(!res.ok){
+      throw new Error(data.error||data.message||"Login gagal.");
+    }
+
+    if(!data.session||!data.session.access_token||!data.session.refresh_token){
+      throw new Error("Session login tidak ditemukan.");
+    }
+
+    const sessionResult=await db.auth.setSession({
+      access_token:data.session.access_token,
+      refresh_token:data.session.refresh_token
+    });
+
+    if(sessionResult.error){
+      throw new Error(sessionResult.error.message);
+    }
+
+    currentAdmin=data.admin;
+    localStorage.setItem("cc_admin",JSON.stringify(currentAdmin));
+
+    openApp();
+
+  }catch(e){
+    console.error(e);
+    msg.textContent=e.message||"Login gagal.";
+  }
 }
-
-btn.disabled=true;
-btn.textContent="Memeriksa Login...";
-
-msg(
-"loginMsg",
-"Memeriksa Login...",
-true
-);
-
-try{
-
-const response=await fetch(
-SUPABASE_URL+
-"/functions/v1/admin-login",
-{
-method:"POST",
-
-headers:{
-"Content-Type":"application/json",
-"apikey":SUPABASE_KEY,
-"Authorization":
-"Bearer "+SUPABASE_KEY
-},
-
-body:JSON.stringify({
-username:username,
-password:password
-})
-}
-);
-
-const text=await response.text();
-
-let result;
-
-try{
-
-result=JSON.parse(text);
-
-}catch{
-
-throw new Error(
-"Respons server tidak valid: "+
-text.substring(0,200)
-);
-
-}
-
-if(!response.ok){
-
-throw new Error(
-result.error||
-result.message||
-"Login gagal ("+
-response.status+
-")"
-);
-
-}
-
-if(
-!result.session||
-!result.session.access_token||
-!result.session.refresh_token
-){
-
-throw new Error(
-"Session login tidak diterima."
-);
-
-}
-
-
-const sessionResult=
-await db.auth.setSession({
-
-access_token:
-result.session.access_token,
-
-refresh_token:
-result.session.refresh_token
-
-});
-
-
-if(sessionResult.error){
-
-throw new Error(
-"Session gagal: "+
-sessionResult.error.message
-);
-
-}
-
-
-currentUser=
-sessionResult.data?.session?.user||
-result.session.user;
-
-currentAdmin=result.admin;
-
-
-localStorage.setItem(
-"cc_admin",
-JSON.stringify(currentAdmin)
-);
-
-
-msg(
-"loginMsg",
-"Login berhasil.",
-true
-);
-
-await openApp();
-
-
-}catch(e){
-
-console.error(
-"LOGIN ERROR:",
-e
-);
-
-msg(
-"loginMsg",
-e?.message||
-"Login gagal."
-);
-
-}finally{
-
-btn.disabled=false;
-btn.textContent="LOGIN";
-
-}
-
-}
-
 
 /* SESSION */
-
 async function checkSession(){
+  try{
+    const saved=localStorage.getItem("cc_admin");
+    const session=await db.auth.getSession();
 
-try{
-
-const {data,error}=
-await db.auth.getSession();
-
-if(error||!data.session)return;
-
-const saved=
-localStorage.getItem("cc_admin");
-
-if(!saved)return;
-
-currentUser=
-data.session.user;
-
-currentAdmin=
-JSON.parse(saved);
-
-await openApp();
-
-}catch(e){
-
-console.error(e);
-
+    if(saved&&session.data.session){
+      currentAdmin=JSON.parse(saved);
+      openApp();
+    }
+  }catch(e){
+    console.error(e);
+  }
 }
 
+/* APP */
+function openApp(){
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+
+  document.getElementById("adminInfo").innerHTML=
+    (currentAdmin.username||"Admin")+" <small>"+(currentAdmin.role||"")+"</small>";
+
+  setupAccess();
+  loadAll();
 }
 
+/* ACCESS */
+function setupAccess(){
+  const isDPD=currentAdmin.role==="DPD";
 
-/* OPEN APP */
+  document.getElementById("n-dpw").style.display=isDPD?"none":"block";
 
-async function openApp(){
-
-document.getElementById("loginPage")
-.classList.add("hidden");
-
-document.getElementById("app")
-.classList.remove("hidden");
-
-
-document.getElementById(
-"currentUsername"
-).textContent=
-currentAdmin?.username||"-";
-
-
-document.getElementById(
-"currentRole"
-).textContent=
-currentAdmin?.role||"-";
-
-
-applyPermissions();
-
-
-if(currentAdmin?.role==="DPD"){
-
-showSection("dpd");
-
-}else{
-
-showSection("dpw");
-
+  if(isDPD){
+    showPage("dpd");
+  }else{
+    showPage("dpw");
+  }
 }
-
-
-try{
-await loadDPW();
-}catch(e){
-console.error(e);
-}
-
-try{
-await loadDPD();
-}catch(e){
-console.error(e);
-}
-
-try{
-await loadBidangSelect();
-}catch(e){
-console.error(e);
-}
-
-}
-
-
-/* PERMISSION */
-
-function applyPermissions(){
-
-if(currentAdmin?.role==="DPD"){
-
-document.getElementById(
-"navDPW"
-).style.display="none";
-
-}else{
-
-document.getElementById(
-"navDPW"
-).style.display="block";
-
-}
-
-}
-
 
 /* NAV */
+function showPage(page){
+  document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
 
-function showSection(name){
-
-document.querySelectorAll(".section")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-document.querySelectorAll("nav button")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-document.getElementById(
-"sec-"+name
-)?.classList.add("active");
-
-
-const map={
-dpw:"navDPW",
-dpd:"navDPD",
-bidang:"navBidang"
-};
-
-document.getElementById(
-map[name]
-)?.classList.add("active");
-
+  document.getElementById("page-"+page).classList.remove("hidden");
+  document.getElementById("n-"+page).classList.add("active");
 }
 
+/* LOAD ALL */
+async function loadAll(){
+  await loadDPW();
+  await loadDPD();
+  loadBidangSelect();
+}
 
 /* DPW */
-
 async function loadDPW(){
+  try{
+    const {data,error}=await db.from("struktur_dpw").select("*").limit(1);
+    if(error)throw error;
+    if(!data||!data.length)return;
 
-const {data,error}=await db
-.from("struktur_dpw")
-.select("*")
-.limit(1)
-.maybeSingle();
+    const x=data[0];
 
-if(error){
-
-console.error(error);
-return;
-
+    [
+      "ketua","sekretaris","bendahara","sekretariat",
+      "politik","hukum","sosial_kemasyarakatan",
+      "keorganisasian","humas_media","ekonomi_kreatif"
+    ].forEach(k=>{
+      const el=document.getElementById("dpw_"+k);
+      if(el)el.value=x[k]||"";
+    });
+  }catch(e){
+    console.error("DPW:",e);
+  }
 }
-
-if(!data)return;
-
-[
-"ketua",
-"sekretaris",
-"bendahara",
-"sekretariat",
-"politik",
-"hukum",
-"sosial_kemasyarakatan",
-"keorganisasian",
-"humas_media",
-"ekonomi_kreatif"
-].forEach(f=>{
-
-const el=
-document.getElementById("dpw_"+f);
-
-if(el)el.value=data[f]||"";
-
-});
-
-}
-
 
 async function saveDPW(){
+  const msg=document.getElementById("dpwMsg");
 
-if(currentAdmin?.role!=="DPW"){
+  if(currentAdmin.role==="DPD"){
+    msg.textContent="Akses ditolak.";
+    return;
+  }
 
-msg(
-"dpwMsg",
-"Hanya admin DPW yang dapat mengubah data."
-);
+  const obj={};
 
-return;
+  [
+    "ketua","sekretaris","bendahara","sekretariat",
+    "politik","hukum","sosial_kemasyarakatan",
+    "keorganisasian","humas_media","ekonomi_kreatif"
+  ].forEach(k=>{
+    obj[k]=document.getElementById("dpw_"+k).value;
+  });
+
+  try{
+    const {data}=await db.from("struktur_dpw").select("id").limit(1);
+
+    let result;
+
+    if(data&&data.length){
+      result=await db.from("struktur_dpw").update(obj).eq("id",data[0].id);
+    }else{
+      result=await db.from("struktur_dpw").insert(obj);
+    }
+
+    if(result.error)throw result.error;
+    msg.textContent="✓ Struktur DPW tersimpan.";
+  }catch(e){
+    msg.textContent="Gagal: "+e.message;
+  }
 }
-
-const payload={};
-
-[
-"ketua",
-"sekretaris",
-"bendahara",
-"sekretariat",
-"politik",
-"hukum",
-"sosial_kemasyarakatan",
-"keorganisasian",
-"humas_media",
-"ekonomi_kreatif"
-].forEach(f=>{
-
-payload[f]=
-document.getElementById(
-"dpw_"+f
-)?.value||"";
-
-});
-
-
-const {data:old,error}=await db
-.from("struktur_dpw")
-.select("id")
-.limit(1)
-.maybeSingle();
-
-if(error){
-
-msg("dpwMsg",error.message);
-return;
-
-}
-
-let result;
-
-if(old?.id){
-
-result=await db
-.from("struktur_dpw")
-.update(payload)
-.eq("id",old.id);
-
-}else{
-
-result=await db
-.from("struktur_dpw")
-.insert(payload);
-
-}
-
-if(result.error){
-
-msg(
-"dpwMsg",
-result.error.message
-);
-
-return;
-}
-
-msg(
-"dpwMsg",
-"Struktur DPW berhasil disimpan.",
-true
-);
-
-}
-
 
 /* DPD */
-
 async function loadDPD(){
+  try{
+    let q=db.from("DPD").select("*").order("id");
 
-let query=db
-.from("DPD")
-.select("*")
-.order("id");
+    if(currentAdmin.role==="DPD"){
+      q=q.eq("id",currentAdmin.dpd_id);
+    }
 
+    const {data,error}=await q;
+    if(error)throw error;
 
-if(currentAdmin?.role==="DPD"){
-
-query=query.eq(
-"id",
-currentAdmin.dpd_id
-);
-
+    dpdData=data||[];
+    renderDPD();
+  }catch(e){
+    console.error("DPD:",e);
+    document.getElementById("dpdTable").innerHTML=
+      "<tr><td colspan='5'>Gagal memuat data.</td></tr>";
+  }
 }
 
+function renderDPD(){
+  const tbody=document.getElementById("dpdTable");
+  tbody.innerHTML="";
 
-const {data,error}=await query;
+  dpdData.forEach((x,i)=>{
+    const no=x.id||i+1;
+    const tr=document.createElement("tr");
 
-const tbody=
-document.getElementById("dpdTable");
+    tr.innerHTML=`
+      <td>DPD ${String(no).padStart(2,"0")}</td>
+      <td>${x.ketua||"-"}</td>
+      <td>${x.sekretariat||"-"}</td>
+      <td><span class="badge">${x.progress||0}%</span></td>
+      <td><button onclick="editDPD(${x.id})">Edit</button></td>
+    `;
 
-tbody.innerHTML="";
-
-
-if(error){
-
-tbody.innerHTML=
-`<tr>
-<td colspan="5">
-${esc(error.message)}
-</td>
-</tr>`;
-
-return;
-
+    tbody.appendChild(tr);
+  });
 }
 
+function editDPD(id){
+  const x=dpdData.find(a=>a.id==id);
+  if(!x)return;
 
-if(!data?.length){
+  if(currentAdmin.role==="DPD"&&Number(id)!==Number(currentAdmin.dpd_id)){
+    alert("Anda hanya dapat mengedit DPD sendiri.");
+    return;
+  }
 
-tbody.innerHTML=
-`<tr>
-<td colspan="5">
-Belum ada data DPD.
-</td>
-</tr>`;
+  document.getElementById("editDPD").classList.remove("hidden");
+  document.getElementById("editTitle").textContent="Edit DPD "+String(id).padStart(2,"0");
+  document.getElementById("editId").value=id;
 
-return;
-
+  document.getElementById("e_ketua").value=x.ketua||"";
+  document.getElementById("e_sekretaris").value=x.sekretaris||"";
+  document.getElementById("e_bendahara").value=x.bendahara||"";
+  document.getElementById("e_sekretariat").value=x.sekretariat||"";
+  document.getElementById("e_progress").value=x.progress||0;
 }
-
-
-data.forEach(row=>{
-
-const progress=Math.max(
-0,
-Math.min(
-100,
-Number(row.progress)||0
-)
-);
-
-
-const tr=document.createElement("tr");
-
-
-tr.innerHTML=`
-
-<td>
-<span class="badge">
-DPD ${esc(row.id)}
-</span>
-</td>
-
-<td>${esc(row.ketua)}</td>
-
-<td>${esc(row.sekretariat)}</td>
-
-<td>
-
-${progress}%
-
-<div class="progress">
-<i style="width:${progress}%"></i>
-</div>
-
-</td>
-
-<td>
-
-<button
-onclick='editDPD(${JSON.stringify(row)})'>
-Edit
-</button>
-
-</td>
-
-`;
-
-
-tbody.appendChild(tr);
-
-});
-
-}
-
-
-/* EDIT DPD */
-
-function editDPD(row){
-
-if(
-currentAdmin?.role==="DPD" &&
-Number(currentAdmin.dpd_id)!==
-Number(row.id)
-)return;
-
-
-document.getElementById(
-"editDPDCard"
-).classList.remove("hidden");
-
-
-document.getElementById(
-"edit_dpd_id"
-).value=row.id||"";
-
-
-document.getElementById(
-"edit_ketua"
-).value=row.ketua||"";
-
-
-document.getElementById(
-"edit_sekretaris"
-).value=row.sekretaris||"";
-
-
-document.getElementById(
-"edit_bendahara"
-).value=row.bendahara||"";
-
-
-document.getElementById(
-"edit_sekretariat"
-).value=row.sekretariat||"";
-
-
-document.getElementById(
-"edit_progress"
-).value=row.progress||0;
-
-}
-
-
-function closeEditDPD(){
-
-document.getElementById(
-"editDPDCard"
-).classList.add("hidden");
-
-}
-
 
 async function saveDPD(){
+  const id=document.getElementById("editId").value;
 
-const id=
-document.getElementById(
-"edit_dpd_id"
-).value;
+  if(currentAdmin.role==="DPD"&&Number(id)!==Number(currentAdmin.dpd_id)){
+    alert("Akses ditolak.");
+    return;
+  }
 
+  const obj={
+    ketua:document.getElementById("e_ketua").value,
+    sekretaris:document.getElementById("e_sekretaris").value,
+    bendahara:document.getElementById("e_bendahara").value,
+    sekretariat:document.getElementById("e_sekretariat").value,
+    progress:Number(document.getElementById("e_progress").value)||0
+  };
 
-if(
-currentAdmin?.role==="DPD" &&
-Number(currentAdmin.dpd_id)!==
-Number(id)
-){
+  try{
+    const {error}=await db.from("DPD").update(obj).eq("id",id);
+    if(error)throw error;
 
-msg(
-"dpdMsg",
-"Anda hanya dapat mengubah DPD sendiri."
-);
-
-return;
-
+    document.getElementById("dpdMsg").textContent="✓ Data DPD tersimpan.";
+    document.getElementById("editDPD").classList.add("hidden");
+    await loadDPD();
+  }catch(e){
+    document.getElementById("dpdMsg").textContent="Gagal: "+e.message;
+  }
 }
-
-
-const payload={
-
-ketua:
-document.getElementById(
-"edit_ketua"
-).value,
-
-sekretaris:
-document.getElementById(
-"edit_sekretaris"
-).value,
-
-bendahara:
-document.getElementById(
-"edit_bendahara"
-).value,
-
-sekretariat:
-document.getElementById(
-"edit_sekretariat"
-).value,
-
-progress:Math.max(
-0,
-Math.min(
-100,
-Number(
-document.getElementById(
-"edit_progress"
-).value
-)||0
-)
-)
-
-};
-
-
-const {error}=await db
-.from("DPD")
-.update(payload)
-.eq("id",id);
-
-
-if(error){
-
-msg(
-"dpdMsg",
-error.message
-);
-
-return;
-
-}
-
-
-msg(
-"dpdMsg",
-"Data DPD berhasil disimpan.",
-true
-);
-
-
-closeEditDPD();
-
-await loadDPD();
-
-}
-
 
 /* BIDANG */
+function loadBidangSelect(){
+  const s=document.getElementById("bidangDpd");
+  s.innerHTML="";
 
-async function loadBidangSelect(){
+  if(currentAdmin.role==="DPD"){
+    const o=document.createElement("option");
+    o.value=currentAdmin.dpd_id;
+    o.textContent="DPD "+String(currentAdmin.dpd_id).padStart(2,"0");
+    s.appendChild(o);
+  }else{
+    for(let i=1;i<=24;i++){
+      const o=document.createElement("option");
+      o.value=i;
+      o.textContent="DPD "+String(i).padStart(2,"0");
+      s.appendChild(o);
+    }
+  }
 
-const select=
-document.getElementById(
-"bidangDPD"
-);
-
-
-const {data,error}=await db
-.from("DPD")
-.select("id,ketua")
-.order("id");
-
-
-select.innerHTML="";
-
-
-if(error){
-
-console.error(error);
-return;
-
+  loadBidang();
 }
-
-
-let rows=data||[];
-
-
-if(currentAdmin?.role==="DPD"){
-
-rows=rows.filter(
-x=>
-Number(x.id)===
-Number(currentAdmin.dpd_id)
-);
-
-}
-
-
-rows.forEach(row=>{
-
-const option=
-document.createElement("option");
-
-option.value=row.id;
-
-option.textContent=
-"DPD "+row.id+
-(row.ketua?
-" — "+row.ketua:
-"");
-
-select.appendChild(option);
-
-});
-
-
-if(rows.length)
-await loadBidang();
-
-}
-
 
 async function loadBidang(){
+  const dpd=document.getElementById("bidangDpd").value;
+  const bidang=document.getElementById("bidangNama").value;
 
-const dpdId=
-document.getElementById(
-"bidangDPD"
-).value;
+  if(!dpd)return;
 
+  try{
+    const {data,error}=await db
+      .from("BIDANG_DPD")
+      .select("*")
+      .eq("dpd_id",dpd)
+      .eq("bidang",bidang)
+      .limit(1);
 
-if(!dpdId)return;
+    if(error)throw error;
 
+    const x=data&&data.length?data[0]:null;
 
-const {data,error}=await db
-.from("BIDANG_DPD")
-.select("*")
-.eq("dpd_id",dpdId);
-
-
-if(error){
-
-console.error(error);
-return;
-
+    document.getElementById("b_ketua").value=x?.ketua_bidang||"";
+    document.getElementById("b_progress").value=x?.progress||0;
+  }catch(e){
+    console.error("Bidang:",e);
+  }
 }
-
-
-const map={
-
-"Politik":"bidang_politik",
-
-"Hukum":"bidang_hukum",
-
-"Sosial Kemasyarakatan":
-"bidang_sosial",
-
-"Keorganisasian":
-"bidang_organisasi",
-
-"Humas & Media":
-"bidang_humas",
-
-"Ekonomi Kreatif":
-"bidang_ekonomi"
-
-};
-
-
-Object.values(map).forEach(id=>{
-
-document.getElementById(id).value="";
-
-});
-
-
-(data||[]).forEach(row=>{
-
-const el=
-document.getElementById(
-map[row.bidang]
-);
-
-if(el)
-el.value=
-row.ketua_bidang||"";
-
-});
-
-}
-
-
-/* SAVE BIDANG */
 
 async function saveBidang(){
+  const dpd=Number(document.getElementById("bidangDpd").value);
+  const bidang=document.getElementById("bidangNama").value;
 
-const dpdId=
-document.getElementById(
-"bidangDPD"
-).value;
+  if(currentAdmin.role==="DPD"&&dpd!==Number(currentAdmin.dpd_id)){
+    alert("Anda hanya dapat mengedit bidang DPD sendiri.");
+    return;
+  }
 
+  const obj={
+    dpd_id:dpd,
+    bidang:bidang,
+    ketua_bidang:document.getElementById("b_ketua").value,
+    progress:Number(document.getElementById("b_progress").value)||0
+  };
 
-if(!dpdId)return;
+  try{
+    const {data,error}=await db
+      .from("BIDANG_DPD")
+      .select("id")
+      .eq("dpd_id",dpd)
+      .eq("bidang",bidang)
+      .limit(1);
 
+    if(error)throw error;
 
-if(
-currentAdmin?.role==="DPD" &&
-Number(currentAdmin.dpd_id)!==
-Number(dpdId)
-){
+    let result;
 
-msg(
-"bidangMsg",
-"Anda hanya dapat mengubah DPD sendiri."
-);
+    if(data&&data.length){
+      result=await db
+        .from("BIDANG_DPD")
+        .update({
+          ketua_bidang:obj.ketua_bidang,
+          progress:obj.progress
+        })
+        .eq("id",data[0].id);
+    }else{
+      result=await db.from("BIDANG_DPD").insert(obj);
+    }
 
-return;
+    if(result.error)throw result.error;
 
+    document.getElementById("bidangMsg").textContent="✓ Data bidang tersimpan.";
+  }catch(e){
+    document.getElementById("bidangMsg").textContent="Gagal: "+e.message;
+  }
 }
-
-
-const fields=[
-
-["Politik","bidang_politik"],
-
-["Hukum","bidang_hukum"],
-
-["Sosial Kemasyarakatan",
-"bidang_sosial"],
-
-["Keorganisasian",
-"bidang_organisasi"],
-
-["Humas & Media",
-"bidang_humas"],
-
-["Ekonomi Kreatif",
-"bidang_ekonomi"]
-
-];
-
-
-for(
-const [bidang,element]
-of fields
-){
-
-const value=
-document.getElementById(
-element
-).value;
-
-
-const {
-data:existing,
-error:findError
-}=await db
-.from("BIDANG_DPD")
-.select("id")
-.eq("dpd_id",dpdId)
-.eq("bidang",bidang)
-.maybeSingle();
-
-
-if(findError){
-
-msg(
-"bidangMsg",
-findError.message
-);
-
-return;
-
-}
-
-
-let result;
-
-
-if(existing?.id){
-
-result=await db
-.from("BIDANG_DPD")
-.update({
-ketua_bidang:value
-})
-.eq("id",existing.id);
-
-
-}else{
-
-result=await db
-.from("BIDANG_DPD")
-.insert({
-
-dpd_id:dpdId,
-
-bidang:bidang,
-
-ketua_bidang:value,
-
-progress:0
-
-});
-
-}
-
-
-if(result.error){
-
-msg(
-"bidangMsg",
-result.error.message
-);
-
-return;
-
-}
-
-}
-
-
-msg(
-"bidangMsg",
-"Data bidang berhasil disimpan.",
-true
-);
-
-
-await loadBidang();
-
-}
-
 
 /* LOGOUT */
-
 async function logout(){
-
-await db.auth.signOut();
-
-localStorage.removeItem(
-"cc_admin"
-);
-
-currentUser=null;
-currentAdmin=null;
-
-
-document.getElementById(
-"app"
-).classList.add("hidden");
-
-
-document.getElementById(
-"loginPage"
-).classList.remove("hidden");
-
-
-document.getElementById(
-"username"
-).value="";
-
-
-document.getElementById(
-"password"
-).value="";
-
-
-msg(
-"loginMsg",
-""
-);
-
+  await db.auth.signOut();
+  localStorage.removeItem("cc_admin");
+  currentAdmin=null;
+  location.reload();
 }
 
-
-/* ENTER LOGIN */
-
-document.getElementById(
-"password"
-).addEventListener(
-"keydown",
-e=>{
-
-if(e.key==="Enter")
-login();
-
-}
-);
-
-
-/* START */
+document.getElementById("password").addEventListener("keydown",e=>{
+  if(e.key==="Enter")login();
+});
 
 checkSession();
-
 </script>
 
 </body>
