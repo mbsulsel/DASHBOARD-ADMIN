@@ -3,78 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin — COMMAND CENTER MB SULSEL</title>
+<title>Command Center — Admin MB Sulsel</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f3f3;color:#222}
-header{background:#171717;color:#fff;padding:14px;border-bottom:3px solid #ff7900}
-.head{display:flex;align-items:center;gap:10px;max-width:1100px;margin:auto}
-.logo{width:52px;height:52px;object-fit:contain}
-h1{font-size:17px;margin:0}h2{font-size:13px;color:#ff7900;margin:4px 0}
-small{color:#777}
-nav{background:#222;overflow-x:auto;white-space:nowrap}
-nav button{background:none;border:0;color:#ddd;padding:12px;font-weight:bold}
-nav button.active,nav button:hover{background:#ff7900;color:#fff}
-main{max-width:1100px;margin:auto;padding:14px}
-.page{display:none}.page.active{display:block}
-.box{background:#fff;border-radius:10px;padding:15px;margin-bottom:12px;box-shadow:0 2px 8px #0001}
-.box h3{margin:0 0 12px;color:#ff7900;font-size:15px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-label{font-size:11px;font-weight:bold;display:block;margin-bottom:4px}
-input,textarea,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:7px;font:inherit}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#090909;
+color:#eee
+}
+header{
+background:#111;
+border-bottom:2px solid #ff7900;
+padding:14px
+}
+.head{
+max-width:1100px;
+margin:auto;
+display:flex;
+align-items:center;
+gap:12px
+}
+.logo{
+width:52px;
+height:52px;
+object-fit:contain
+}
+h1{
+font-size:17px;
+margin:0;
+color:#fff
+}
+h2{
+font-size:12px;
+margin:4px 0;
+color:#ff7900
+}
+nav{
+background:#111;
+border-bottom:1px solid #222;
+overflow-x:auto;
+white-space:nowrap
+}
+nav button{
+background:none;
+border:0;
+color:#bbb;
+padding:13px;
+font-weight:bold
+}
+nav button:hover,
+nav button.active{
+background:#ff7900;
+color:#fff
+}
+main{
+max-width:1100px;
+margin:auto;
+padding:14px
+}
+.page{display:none}
+.page.active{display:block}
+.box{
+background:#111;
+border:1px solid #292929;
+border-radius:10px;
+padding:15px;
+margin-bottom:12px;
+box-shadow:0 0 12px #000
+}
+.box h3{
+margin:0 0 12px;
+color:#ff7900;
+font-size:15px
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:9px
+}
+label{
+font-size:11px;
+font-weight:bold;
+display:block;
+margin-bottom:4px;
+color:#ddd
+}
+input,textarea,select{
+width:100%;
+padding:10px;
+border:1px solid #333;
+border-radius:7px;
+background:#191919;
+color:#fff;
+font:inherit;
+outline:none
+}
+input:focus,textarea:focus,select:focus{
+border-color:#ff7900
+}
 textarea{min-height:75px}
-.btn{border:0;border-radius:7px;padding:10px 14px;background:#ff7900;color:#fff;font-weight:bold;cursor:pointer}
-.btn.dark{background:#222}.btn.red{background:#c62828}
-.actions{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
-.login{max-width:400px;margin:70px auto;padding:20px}
-.login img{display:block;margin:auto;width:75px;height:75px;object-fit:contain}
-.login h2{text-align:center;font-size:18px}
-.login p{text-align:center;font-size:11px;color:#777}
-.login .btn{width:100%;margin-top:10px}
-.msg{padding:10px;border-radius:7px;margin-top:10px;font-size:11px;display:none}
-.ok{background:#e7f7ed;color:#176b35}.err{background:#ffeaea;color:#a00000}
+.btn{
+border:0;
+border-radius:7px;
+padding:10px 14px;
+background:#ff7900;
+color:#fff;
+font-weight:bold;
+cursor:pointer
+}
+.btn:hover{background:#ff8d26}
+.btn.dark{background:#222}
+.actions{
+display:flex;
+gap:7px;
+margin-top:12px;
+flex-wrap:wrap
+}
+.login{
+max-width:400px;
+margin:70px auto;
+padding:25px
+}
+.login img{
+display:block;
+margin:auto;
+width:80px;
+height:80px;
+object-fit:contain
+}
+.login h2{
+text-align:center;
+font-size:19px;
+color:#ff7900
+}
+.login p{
+text-align:center;
+font-size:11px;
+color:#888
+}
+.login .btn{
+width:100%;
+margin-top:12px
+}
+.msg{
+padding:10px;
+border-radius:7px;
+margin-top:10px;
+font-size:11px;
+display:none
+}
+.ok{
+background:#102617;
+color:#6ee79b;
+border:1px solid #176b35
+}
+.err{
+background:#2b1111;
+color:#ff7777;
+border:1px solid #8b2222
+}
 .table-wrap{overflow:auto}
-table{width:100%;border-collapse:collapse;min-width:700px}
-th,td{padding:9px;border-bottom:1px solid #eee;text-align:left;font-size:11px}
-th{background:#171717;color:#fff}
-.badge{padding:5px 8px;border-radius:20px;font-size:9px;font-weight:bold;color:#fff}
-.green{background:#179447}.orange{background:#ef9000}.gray{background:#777}
-.progress-bg{height:7px;background:#ddd;border-radius:10px;overflow:hidden;margin-top:5px}
-.progress-bar{height:100%;background:#ff7900}
+table{
+width:100%;
+border-collapse:collapse;
+min-width:700px
+}
+th,td{
+padding:9px;
+border-bottom:1px solid #292929;
+text-align:left;
+font-size:11px
+}
+th{
+background:#1b1b1b;
+color:#ff7900
+}
+.badge{
+padding:5px 8px;
+border-radius:20px;
+font-size:9px;
+font-weight:bold;
+color:#fff
+}
+.green{background:#179447}
+.orange{background:#ef9000}
+.gray{background:#555}
+.progress-bg{
+height:7px;
+background:#292929;
+border-radius:10px;
+overflow:hidden;
+margin-top:5px
+}
+.progress-bar{
+height:100%;
+background:#ff7900
+}
+.user{
+font-size:11px;
+color:#888
+}
 #app{display:none}
-.user{font-size:11px;color:#aaa}
-@media(max-width:650px){.grid{grid-template-columns:1fr}h1{font-size:14px}}
+@media(max-width:650px){
+.grid{grid-template-columns:1fr}
+h1{font-size:14px}
+}
 </style>
 </head>
 
 <body>
 
 <div id="loginPage" class="login box">
+
 <img src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png">
+
 <h2>COMMAND CENTER</h2>
-<p>Admin Muda Bergerak Sulawesi Selatan</p>
+<p>ADMIN MUDA BERGERAK SULAWESI SELATAN</p>
 
 <label>Username</label>
-<input id="username" placeholder="Username">
+<input id="username" autocomplete="username" placeholder="Username">
 
 <label style="margin-top:10px">Password</label>
-<input id="password" type="password" placeholder="Password">
+<input id="password" type="password" autocomplete="current-password" placeholder="Password">
 
 <button class="btn" onclick="login()">LOGIN</button>
+
 <div id="loginMsg" class="msg"></div>
+
 </div>
+
 
 <div id="app">
 
 <header>
 <div class="head">
+
 <img class="logo" src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png">
+
 <div>
 <h1>MUDA BERGERAK SULAWESI SELATAN</h1>
 <h2>COMMAND CENTER — ADMIN</h2>
 <div class="user" id="userInfo"></div>
 </div>
+
 </div>
 </header>
 
@@ -87,23 +261,25 @@ th{background:#171717;color:#fff}
 
 <main>
 
-<!-- DPW -->
 <section id="dpw" class="page active">
 
 <div class="box">
 <h3>STRUKTUR DPW MUDA BERGERAK SULAWESI SELATAN</h3>
 
 <div class="grid">
+
 <div><label>Ketua DPW</label><input id="dpw_ketua"></div>
 <div><label>Sekretaris</label><input id="dpw_sekretaris"></div>
 <div><label>Bendahara</label><input id="dpw_bendahara"></div>
 <div><label>Sekretariat</label><input id="dpw_sekretariat"></div>
+
 <div><label>Bidang Politik</label><input id="dpw_politik"></div>
 <div><label>Bidang Hukum</label><input id="dpw_hukum"></div>
 <div><label>Bidang Sosial Kemasyarakatan</label><input id="dpw_sosial_kemasyarakatan"></div>
 <div><label>Bidang Keorganisasian</label><input id="dpw_keorganisasian"></div>
 <div><label>Bidang Humas & Media</label><input id="dpw_humas_media"></div>
 <div><label>Bidang Ekonomi Kreatif</label><input id="dpw_ekonomi_kreatif"></div>
+
 </div>
 
 <div class="actions">
@@ -123,12 +299,11 @@ th{background:#171717;color:#fff}
 
 </section>
 
-<!-- DPD -->
+
 <section id="dpd" class="page">
 
 <div class="box">
 <h3>MONITORING & EDIT 24 DPD</h3>
-
 <input id="cariDPD" placeholder="🔎 Cari Kabupaten/Kota..." oninput="renderDPD()">
 </div>
 
@@ -136,7 +311,7 @@ th{background:#171717;color:#fff}
 
 </section>
 
-<!-- BIDANG -->
+
 <section id="bidang" class="page">
 
 <div class="box">
@@ -152,13 +327,14 @@ th{background:#171717;color:#fff}
 </div>
 
 <div id="bidangMsg" class="msg"></div>
+
 </div>
 
 </section>
 
 </main>
-
 </div>
+
 
 <script>
 "use strict";
@@ -167,13 +343,14 @@ const URL="https://rgffzcpsofmjnqdfyolg.supabase.co";
 const KEY="sb_publishable_ZfZ1m8X7gadvnoAQh9XmNg_hyupNKb6";
 
 const db=window.supabase.createClient(URL,KEY,{
-db:{schema:"public"},
 auth:{
 persistSession:true,
 autoRefreshToken:true,
 detectSessionInUrl:false
 }
 });
+
+const LOGIN_URL=URL+"/functions/v1/admin-login";
 
 let currentUser=null;
 let currentAdmin=null;
@@ -225,62 +402,42 @@ msg("loginMsg","Memeriksa login...",true);
 
 try{
 
-const {data:admin,error}=await db
-.from("ADMIN_USERS")
-.select("*")
-.eq("username",username)
-.maybeSingle();
+const r=await fetch(LOGIN_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"apikey":KEY
+},
+body:JSON.stringify({username,password})
+});
+
+const result=await r.json();
+
+if(!r.ok){
+msg("loginMsg",result.error||"Login gagal.",false);
+return;
+}
+
+if(!result.session||!result.admin){
+msg("loginMsg","Data login tidak lengkap.",false);
+return;
+}
+
+const {error}=await db.auth.setSession({
+access_token:result.session.access_token,
+refresh_token:result.session.refresh_token
+});
 
 if(error)throw error;
 
-if(!admin){
-msg("loginMsg","Username tidak ditemukan.",false);
-return;
-}
-
-if(!admin.user_id){
-msg("loginMsg","Akun belum terhubung ke Supabase Auth.",false);
-return;
-}
-
-/*
- Login menggunakan email Auth yang terkait dengan user_id.
- Jika sistem login lama kamu sudah mempunyai mekanisme sendiri,
- bagian ini dapat diganti tanpa mengubah database.
-*/
-
-const {data:userList,error:authErr}=await db.auth.admin?.listUsers?.()||{data:null,error:null};
-
-if(authErr){
-console.log(authErr);
-}
-
-/*
- Karena browser tidak boleh memakai service_role,
- kita tidak menebak email Auth.
- Sistem lama dapat dipertahankan jika session sudah aktif.
-*/
-
-const session=await db.auth.getSession();
-
-if(session.data.session&&
-session.data.session.user.id===admin.user_id){
-
-currentUser=session.data.session.user;
-currentAdmin=admin;
+currentUser=result.session.user;
+currentAdmin=result.admin;
 
 openApp();
-return;
-}
-
-msg(
-"Login Auth belum aktif pada browser ini. Gunakan mekanisme login Auth yang sudah terhubung ke akun admin.",
-false
-);
 
 }catch(e){
 console.error(e);
-msg("Gagal login: "+e.message,false);
+msg("loginMsg","Gagal login: "+e.message,false);
 }
 }
 
@@ -337,11 +494,9 @@ if(id==="bidang")loadBidangSelect();
 }
 
 async function loadAll(){
-
 await loadDPW();
 await loadDPD();
 await loadBidangData();
-
 renderDPD();
 loadBidangSelect();
 }
@@ -385,9 +540,7 @@ obj[x[0]]=document.getElementById(x[1]).value.trim();
 
 obj.updated_at=new Date().toISOString();
 
-const id=dpwData?.id;
-
-if(!id){
+if(!dpwData?.id){
 msg("dpwMsg","Data Struktur DPW tidak ditemukan.",false);
 return;
 }
@@ -395,7 +548,7 @@ return;
 const {error}=await db
 .from("struktur_dpw")
 .update(obj)
-.eq("id",id);
+.eq("id",dpwData.id);
 
 if(error){
 msg("dpwMsg","Gagal menyimpan: "+error.message,false);
@@ -403,7 +556,6 @@ return;
 }
 
 msg("dpwMsg","Struktur DPW berhasil disimpan.",true);
-
 await loadDPW();
 }
 
@@ -454,12 +606,13 @@ BIDANG.forEach(n=>{
 const r=rows.find(x=>
 String(x.bidang||"").trim().toLowerCase()===n.toLowerCase()
 );
+
 let p=r?Number(r.progress)||0:0;
 p=Math.max(0,Math.min(100,p));
 total+=p/100;
 });
 
-return Math.round((total/10)*100);
+return Math.round(total/10*100);
 }
 
 function statusDPD(p){
@@ -529,6 +682,7 @@ Progress DPD: <b>${p}%</b>
 </div>
 
 <div id="msg_${d.id}" class="msg"></div>
+
 </div>`;
 }).join("");
 }
