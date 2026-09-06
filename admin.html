@@ -2,6246 +2,736 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Command Center — Muda Bergerak Sulsel</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — COMMAND CENTER MB SULSEL</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root{
-    --orange:#ff7900;
-    --orange2:#ff9d2e;
-    --black:#070707;
-    --black2:#101010;
-    --black3:#171717;
-    --gray:#999;
-    --white:#fff;
-    --border:#292929;
-    --green:#22c55e;
-    --red:#ef4444;
-}
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f3f3f3;
-    color:#171717;
-}
-
-button,input,select,textarea{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.hidden{
-    display:none!important;
-}
-
-/* ================= LOGIN ================= */
-
-#loginScreen{
-    position:fixed;
-    inset:0;
-    background:
-        radial-gradient(circle at top right,#ff790033,transparent 35%),
-        #070707;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:9999;
-}
-
-.login-box{
-    width:100%;
-    max-width:420px;
-    background:#111;
-    border:1px solid #2b2b2b;
-    border-radius:22px;
-    padding:35px 28px;
-    box-shadow:0 25px 80px #000;
-}
-
-.login-logo{
-    width:90px;
-    height:90px;
-    object-fit:contain;
-    display:block;
-    margin:0 auto 18px;
-}
-
-.login-title{
-    text-align:center;
-    color:#fff;
-    font-size:23px;
-    font-weight:900;
-}
-
-.login-subtitle{
-    text-align:center;
-    color:#999;
-    font-size:12px;
-    margin-top:6px;
-    margin-bottom:28px;
-}
-
-.input-group{
-    margin-bottom:16px;
-}
-
-.input-group label{
-    display:block;
-    color:#bbb;
-    font-size:12px;
-    font-weight:bold;
-    margin-bottom:7px;
-}
-
-.input-group input{
-    width:100%;
-    padding:14px 15px;
-    background:#080808;
-    border:1px solid #333;
-    border-radius:10px;
-    color:#fff;
-    outline:none;
-    font-size:14px;
-}
-
-.input-group input:focus{
-    border-color:var(--orange);
-}
-
-.login-btn{
-    width:100%;
-    padding:14px;
-    border:0;
-    border-radius:10px;
-    background:var(--orange);
-    color:#fff;
-    font-size:14px;
-    font-weight:900;
-    margin-top:5px;
-}
-
-.login-btn:hover{
-    background:#ff8d1f;
-}
-
-.login-error{
-    color:#ff6868;
-    background:#3a1010;
-    border:1px solid #692020;
-    border-radius:8px;
-    padding:10px;
-    margin-bottom:15px;
-    font-size:12px;
-    display:none;
-}
-
-/* ================= APP ================= */
-
-#app{
-    display:none;
-    min-height:100vh;
-}
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    width:250px;
-    background:#070707;
-    color:#fff;
-    z-index:1000;
-    overflow-y:auto;
-    border-right:1px solid #242424;
-}
-
-.brand{
-    padding:22px 18px;
-    border-bottom:1px solid #242424;
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.brand img{
-    width:45px;
-    height:45px;
-    object-fit:contain;
-}
-
-.brand-title{
-    font-size:14px;
-    font-weight:900;
-}
-
-.brand-title span{
-    color:var(--orange);
-}
-
-.brand-small{
-    color:#777;
-    font-size:9px;
-    margin-top:3px;
-}
-
-.nav{
-    padding:15px 10px;
-}
-
-.nav-label{
-    color:#666;
-    font-size:9px;
-    font-weight:bold;
-    letter-spacing:1px;
-    padding:12px 10px 7px;
-}
-
-.nav-item{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px 13px;
-    border-radius:9px;
-    color:#aaa;
-    cursor:pointer;
-    font-size:12px;
-    font-weight:bold;
-    margin-bottom:3px;
-}
-
-.nav-item:hover{
-    background:#171717;
-    color:#fff;
-}
-
-.nav-item.active{
-    background:var(--orange);
-    color:#fff;
-}
-
-.nav-icon{
-    width:19px;
-    text-align:center;
-    font-size:15px;
-}
-
-.sidebar-bottom{
-    position:absolute;
-    bottom:0;
-    left:0;
-    right:0;
-    padding:12px;
-    border-top:1px solid #242424;
-    background:#070707;
-}
-
-.user-mini{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    padding:8px;
-}
-
-.user-avatar{
-    width:34px;
-    height:34px;
-    border-radius:50%;
-    background:var(--orange);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    font-weight:900;
-    font-size:12px;
-}
-
-.user-info{
-    min-width:0;
-}
-
-.user-name{
-    color:#fff;
-    font-size:11px;
-    font-weight:bold;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.user-role{
-    color:#777;
-    font-size:9px;
-    margin-top:2px;
-}
-
-.logout-btn{
-    width:100%;
-    margin-top:8px;
-    padding:9px;
-    border:1px solid #333;
-    border-radius:8px;
-    background:#111;
-    color:#bbb;
-    font-size:10px;
-}
-
-/* ================= MAIN ================= */
-
-.main{
-    margin-left:250px;
-    min-height:100vh;
-}
-
-.topbar{
-    height:76px;
-    background:#fff;
-    border-bottom:1px solid #ddd;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 28px;
-    position:sticky;
-    top:0;
-    z-index:500;
-}
-
-.top-left{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.mobile-menu{
-    display:none;
-    border:0;
-    background:#111;
-    color:#fff;
-    width:40px;
-    height:40px;
-    border-radius:9px;
-}
-
-.top-title{
-    font-size:17px;
-    font-weight:900;
-}
-
-.top-role{
-    font-size:10px;
-    color:var(--orange);
-    font-weight:900;
-    margin-top:4px;
-}
-
-.top-date{
-    font-size:10px;
-    color:#888;
-}
-
-.content{
-    padding:28px;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-/* ================= COMMON ================= */
-
-.page-head{
-    margin-bottom:22px;
-}
-
-.page-head h1{
-    font-size:25px;
-    font-weight:900;
-}
-
-.page-head p{
-    color:#888;
-    font-size:12px;
-    margin-top:5px;
-}
-
-.btn{
-    border:0;
-    border-radius:9px;
-    padding:10px 14px;
-    font-size:10px;
-    font-weight:900;
-}
-
-.btn-orange{
-    background:var(--orange);
-    color:#fff;
-}
-
-.btn-dark{
-    background:#111;
-    color:#fff;
-}
-
-.btn-outline{
-    background:#fff;
-    border:1px solid #ddd;
-    color:#333;
-}
-
-.btn-danger{
-    background:var(--red);
-    color:#fff;
-}
-
-.btn-small{
-    padding:6px 9px;
-    font-size:9px;
-}
-
-.card{
-    background:#fff;
-    border:1px solid #e1e1e1;
-    border-radius:15px;
-    box-shadow:0 3px 15px #00000008;
-}
-
-.grid{
-    display:grid;
-    gap:15px;
-}
-
-.stats-grid{
-    grid-template-columns:repeat(4,1fr);
-    margin-bottom:22px;
-}
-
-.stat-card{
-    padding:20px;
-    position:relative;
-    overflow:hidden;
-}
-
-.stat-label{
-    color:#888;
-    font-size:10px;
-    font-weight:bold;
-}
-
-.stat-number{
-    font-size:29px;
-    font-weight:900;
-    margin-top:7px;
-}
-
-.stat-accent{
-    width:30px;
-    height:3px;
-    background:var(--orange);
-    margin-top:10px;
-    border-radius:3px;
-}
-
-.panel{
-    background:#fff;
-    border:1px solid #e1e1e1;
-    border-radius:15px;
-    overflow:hidden;
-}
-
-.panel-head{
-    padding:16px 18px;
-    border-bottom:1px solid #eee;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.panel-title{
-    font-size:13px;
-    font-weight:900;
-}
-
-.panel-body{
-    padding:18px;
-}
-
-/* ================= DASHBOARD ================= */
-
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:18px;
-}
-
-.quick-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-
-.quick-btn{
-    padding:15px;
-    background:#fafafa;
-    border:1px solid #eee;
-    border-radius:10px;
-    text-align:left;
-}
-
-.quick-btn:hover{
-    border-color:var(--orange);
-}
-
-.quick-icon{
-    font-size:20px;
-}
-
-.quick-title{
-    font-size:11px;
-    font-weight:900;
-    margin-top:8px;
-}
-
-.quick-desc{
-    color:#888;
-    font-size:9px;
-    margin-top:3px;
-}
-
-/* ================= DPD ================= */
-
-.dpd-toolbar{
-    display:flex;
-    gap:10px;
-    margin-bottom:18px;
-    flex-wrap:wrap;
-}
-
-.search{
-    flex:1;
-    min-width:220px;
-    padding:11px 13px;
-    border:1px solid #ddd;
-    border-radius:9px;
-    outline:none;
-    background:#fff;
-}
-
-.dpd-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-.dpd-card{
-    background:#fff;
-    border:1px solid #e0e0e0;
-    border-radius:15px;
-    overflow:hidden;
-    cursor:pointer;
-}
-
-.dpd-card:hover{
-    border-color:var(--orange);
-}
-
-.dpd-top{
-    height:6px;
-    background:var(--orange);
-}
-
-.dpd-body{
-    padding:17px;
-}
-
-.dpd-number{
-    font-size:9px;
-    color:var(--orange);
-    font-weight:900;
-}
-
-.dpd-name{
-    font-size:15px;
-    font-weight:900;
-    margin-top:5px;
-}
-
-.dpd-status{
-    display:inline-block;
-    margin-top:10px;
-    font-size:9px;
-    font-weight:bold;
-    padding:5px 8px;
-    border-radius:20px;
-    background:#eaf8ef;
-    color:#18833d;
-}
-
-.progress-wrap{
-    margin-top:13px;
-}
-
-.progress-info{
-    display:flex;
-    justify-content:space-between;
-    font-size:9px;
-    color:#888;
-    margin-bottom:5px;
-}
-
-.progress{
-    height:6px;
-    background:#eee;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    height:100%;
-    background:var(--orange);
-    border-radius:10px;
-}
-
-.dpd-foot{
-    padding:10px 17px;
-    border-top:1px solid #eee;
-    font-size:9px;
-    color:#999;
-}
-
-/* ================= STRUCTURE ================= */
-
-.structure-header{
-    background:#070707;
-    color:#fff;
-    border-radius:16px;
-    padding:22px;
-    margin-bottom:18px;
-    border-bottom:4px solid var(--orange);
-}
-
-.structure-header-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.structure-title{
-    font-size:20px;
-    font-weight:900;
-}
-
-.structure-subtitle{
-    color:var(--orange2);
-    font-size:10px;
-    font-weight:bold;
-    margin-top:5px;
-}
-
-.structure-actions{
-    display:flex;
-    gap:8px;
-}
-
-.core-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:13px;
-    margin-bottom:20px;
-}
-
-.core-card{
-    background:#151515;
-    color:#fff;
-    border-radius:13px;
-    padding:17px;
-    border-top:3px solid var(--orange);
-    min-height:120px;
-}
-
-.core-role{
-    color:#aaa;
-    font-size:9px;
-    font-weight:bold;
-}
-
-.core-name{
-    font-size:14px;
-    font-weight:900;
-    margin-top:10px;
-}
-
-.core-empty{
-    color:#666;
-    font-size:11px;
-    margin-top:10px;
-}
-
-.core-actions{
-    margin-top:10px;
-    display:flex;
-    gap:5px;
-}
-
-.fields-title{
-    font-size:15px;
-    font-weight:900;
-    margin-bottom:12px;
-}
-
-.fields-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
-.field-card{
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:15px;
-    overflow:hidden;
-}
-
-.field-head{
-    background:#101010;
-    color:#fff;
-    padding:15px 17px;
-    border-left:5px solid var(--orange);
-}
-
-.field-name{
-    font-size:13px;
-    font-weight:900;
-}
-
-.field-body{
-    padding:16px;
-}
-
-.coordinator{
-    background:#fff8f1;
-    border:1px solid #ffe0c1;
-    border-radius:10px;
-    padding:12px;
-    margin-bottom:12px;
-}
-
-.coordinator-label{
-    font-size:8px;
-    color:var(--orange);
-    font-weight:900;
-}
-
-.coordinator-name{
-    font-size:12px;
-    font-weight:900;
-    margin-top:5px;
-}
-
-.member-title{
-    font-size:9px;
-    color:#888;
-    font-weight:bold;
-    margin-bottom:7px;
-}
-
-.member{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    padding:9px 0;
-    border-bottom:1px solid #eee;
-}
-
-.member-name{
-    font-size:10px;
-    font-weight:bold;
-}
-
-.member-actions{
-    display:flex;
-    gap:4px;
-}
-
-.empty{
-    color:#aaa;
-    font-size:10px;
-    padding:10px 0;
-}
-
-.field-actions{
-    margin-top:10px;
-}
-
-/* ================= TABLE ================= */
-
-.table-wrap{
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:15px;
-    overflow:auto;
-}
-
-.table-head{
-    padding:17px;
-    border-bottom:1px solid #eee;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:650px;
-}
-
-th{
-    background:#101010;
-    color:#fff;
-    padding:12px;
-    text-align:left;
-    font-size:9px;
-}
-
-td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-    font-size:10px;
-}
-
-/* ================= FORM ================= */
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:13px;
-}
-
-.form-group{
-    margin-bottom:3px;
-}
-
-.form-group.full{
-    grid-column:1/-1;
-}
-
-.form-group label{
-    display:block;
-    font-size:9px;
-    font-weight:900;
-    color:#555;
-    margin-bottom:6px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-    width:100%;
-    padding:11px 12px;
-    border:1px solid #ddd;
-    border-radius:9px;
-    outline:none;
-    font-size:11px;
-    background:#fff;
-}
-
-.form-group textarea{
-    min-height:100px;
-    resize:vertical;
-}
-
-.form-actions{
-    display:flex;
-    justify-content:flex-end;
-    gap:8px;
-    margin-top:17px;
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:#000000aa;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:5000;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:550px;
-    background:#fff;
-    border-radius:17px;
-    overflow:hidden;
-    max-height:90vh;
-    overflow-y:auto;
-}
-
-.modal-head{
-    background:#070707;
-    color:#fff;
-    padding:17px 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.modal-title{
-    font-size:14px;
-    font-weight:900;
-}
-
-.modal-close{
-    width:30px;
-    height:30px;
-    border:0;
-    border-radius:7px;
-    background:#222;
-    color:#fff;
-    font-size:20px;
-}
-
-.modal-body{
-    padding:20px;
-}
-
-/* ================= TOAST ================= */
-
-#toast{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    z-index:10000;
-    background:#111;
-    color:#fff;
-    border-left:4px solid var(--orange);
-    padding:13px 17px;
-    border-radius:9px;
-    font-size:11px;
-    box-shadow:0 10px 30px #0003;
-    display:none;
-}
-
-#toast.show{
-    display:block;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:1100px){
-
-    .stats-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .dpd-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .dashboard-grid{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:800px){
-
-    .sidebar{
-        transform:translateX(-100%);
-        transition:.25s;
-    }
-
-    .sidebar.open{
-        transform:translateX(0);
-    }
-
-    .main{
-        margin-left:0;
-    }
-
-    .mobile-menu{
-        display:block;
-    }
-
-    .topbar{
-        padding:0 15px;
-    }
-
-    .top-date{
-        display:none;
-    }
-
-    .content{
-        padding:18px 13px;
-    }
-
-    .dpd-grid{
-        grid-template-columns:1fr;
-    }
-
-    .core-grid{
-        grid-template-columns:1fr;
-    }
-
-    .fields-grid{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:550px){
-
-    .stats-grid{
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-    }
-
-    .stat-card{
-        padding:14px;
-    }
-
-    .stat-number{
-        font-size:23px;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .form-group.full{
-        grid-column:auto;
-    }
-
-    .structure-header-top{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f3f3;color:#222}
+header{background:#171717;color:#fff;padding:14px;border-bottom:3px solid #ff7900}
+.head{display:flex;align-items:center;gap:10px;max-width:1100px;margin:auto}
+.logo{width:52px;height:52px;object-fit:contain}
+h1{font-size:17px;margin:0}h2{font-size:13px;color:#ff7900;margin:4px 0}
+small{color:#777}
+nav{background:#222;overflow-x:auto;white-space:nowrap}
+nav button{background:none;border:0;color:#ddd;padding:12px;font-weight:bold}
+nav button.active,nav button:hover{background:#ff7900;color:#fff}
+main{max-width:1100px;margin:auto;padding:14px}
+.page{display:none}.page.active{display:block}
+.box{background:#fff;border-radius:10px;padding:15px;margin-bottom:12px;box-shadow:0 2px 8px #0001}
+.box h3{margin:0 0 12px;color:#ff7900;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+label{font-size:11px;font-weight:bold;display:block;margin-bottom:4px}
+input,textarea,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:7px;font:inherit}
+textarea{min-height:75px}
+.btn{border:0;border-radius:7px;padding:10px 14px;background:#ff7900;color:#fff;font-weight:bold;cursor:pointer}
+.btn.dark{background:#222}.btn.red{background:#c62828}
+.actions{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.login{max-width:400px;margin:70px auto;padding:20px}
+.login img{display:block;margin:auto;width:75px;height:75px;object-fit:contain}
+.login h2{text-align:center;font-size:18px}
+.login p{text-align:center;font-size:11px;color:#777}
+.login .btn{width:100%;margin-top:10px}
+.msg{padding:10px;border-radius:7px;margin-top:10px;font-size:11px;display:none}
+.ok{background:#e7f7ed;color:#176b35}.err{background:#ffeaea;color:#a00000}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{padding:9px;border-bottom:1px solid #eee;text-align:left;font-size:11px}
+th{background:#171717;color:#fff}
+.badge{padding:5px 8px;border-radius:20px;font-size:9px;font-weight:bold;color:#fff}
+.green{background:#179447}.orange{background:#ef9000}.gray{background:#777}
+.progress-bg{height:7px;background:#ddd;border-radius:10px;overflow:hidden;margin-top:5px}
+.progress-bar{height:100%;background:#ff7900}
+#app{display:none}
+.user{font-size:11px;color:#aaa}
+@media(max-width:650px){.grid{grid-template-columns:1fr}h1{font-size:14px}}
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<div id="loginPage" class="login box">
+<img src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png">
+<h2>COMMAND CENTER</h2>
+<p>Admin Muda Bergerak Sulawesi Selatan</p>
 
-<div id="loginScreen">
+<label>Username</label>
+<input id="username" placeholder="Username">
 
-    <div class="login-box">
+<label style="margin-top:10px">Password</label>
+<input id="password" type="password" placeholder="Password">
 
-        <img
-            class="login-logo"
-            src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png"
-            alt="Logo">
-
-        <div class="login-title">
-            COMMAND CENTER
-        </div>
-
-        <div class="login-subtitle">
-            MUDA BERGERAK SULAWESI SELATAN
-        </div>
-
-        <div id="loginError" class="login-error"></div>
-
-        <div class="input-group">
-            <label>USERNAME</label>
-            <input
-                id="username"
-                type="text"
-                placeholder="Masukkan username">
-        </div>
-
-        <div class="input-group">
-            <label>PASSWORD</label>
-            <input
-                id="password"
-                type="password"
-                placeholder="Masukkan password">
-        </div>
-
-        <button
-            class="login-btn"
-            onclick="login()">
-            MASUK COMMAND CENTER
-        </button>
-
-    </div>
-
+<button class="btn" onclick="login()">LOGIN</button>
+<div id="loginMsg" class="msg"></div>
 </div>
-
-
-<!-- APP -->
 
 <div id="app">
 
-    <aside
-        class="sidebar"
-        id="sidebar">
-
-        <div class="brand">
-
-            <img
-                src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png"
-                alt="Logo">
-
-            <div>
-
-                <div class="brand-title">
-                    MUDA <span>BERGERAK</span>
-                </div>
-
-                <div class="brand-small">
-                    SULAWESI SELATAN
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="nav">
-
-            <div class="nav-label">
-                UTAMA
-            </div>
-
-            <div
-                class="nav-item active"
-                data-page="dashboard"
-                onclick="showPage('dashboard')">
-
-                <span class="nav-icon">⌂</span>
-                Dashboard
-
-            </div>
-
-            <div
-                class="nav-item"
-                data-page="dpd"
-                onclick="showPage('dpd')">
-
-                <span class="nav-icon">▦</span>
-                Monitoring DPD
-
-            </div>
-
-            <div
-                class="nav-item"
-                data-page="struktur"
-                onclick="openOwnStructure()">
-
-                <span class="nav-icon">♙</span>
-                Struktur Organisasi
-
-            </div>
-
-
-            <div class="nav-label">
-                MANAJEMEN
-            </div>
-
-            <div
-                class="nav-item"
-                data-page="agenda"
-                onclick="showPage('agenda')">
-
-                <span class="nav-icon">◷</span>
-                Agenda
-
-            </div>
-
-            <div
-                class="nav-item"
-                data-page="laporan"
-                onclick="showPage('laporan')">
-
-                <span class="nav-icon">▤</span>
-                Laporan
-
-            </div>
-
-            <div
-                class="nav-item"
-                data-page="pemberitahuan"
-                onclick="showPage('pemberitahuan')">
-
-                <span class="nav-icon">●</span>
-                Pemberitahuan
-
-            </div>
-
-
-            <div class="nav-label">
-                AKUN
-            </div>
-
-            <div
-                class="nav-item"
-                data-page="profil"
-                onclick="showPage('profil')">
-
-                <span class="nav-icon">◎</span>
-                Profil Admin
-
-            </div>
-
-        </div>
-
-
-        <div class="sidebar-bottom">
-
-            <div class="user-mini">
-
-                <div
-                    class="user-avatar"
-                    id="sideAvatar">
-                    A
-                </div>
-
-                <div class="user-info">
-
-                    <div
-                        class="user-name"
-                        id="sideUsername">
-                        ADMIN
-                    </div>
-
-                    <div
-                        class="user-role"
-                        id="sideRole">
-                        ADMIN
-                    </div>
-
-                </div>
-
-            </div>
-
-            <button
-                class="logout-btn"
-                onclick="logout()">
-                KELUAR
-            </button>
-
-        </div>
-
-    </aside>
-
-
-    <main class="main">
-
-        <header class="topbar">
-
-            <div class="top-left">
-
-                <button
-                    class="mobile-menu"
-                    onclick="toggleSidebar()">
-                    ☰
-                </button>
-
-                <div>
-
-                    <div
-                        class="top-title"
-                        id="topTitle">
-                        DASHBOARD
-                    </div>
-
-                    <div
-                        class="top-role"
-                        id="topRole">
-                        DPW SULAWESI SELATAN
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div
-                class="top-date"
-                id="topDate">
-            </div>
-
-        </header>
-
-
-        <div class="content">
-
-            <!-- DASHBOARD -->
-
-            <section
-                class="page active"
-                id="page-dashboard">
-
-                <div class="page-head">
-
-                    <h1>
-                        Command Center
-                    </h1>
-
-                    <p>
-                        Pusat monitoring organisasi Muda Bergerak Sulawesi Selatan.
-                    </p>
-
-                </div>
-
-
-                <div class="grid stats-grid">
-
-                    <div class="card stat-card">
-
-                        <div class="stat-label">
-                            TOTAL DPD
-                        </div>
-
-                        <div
-                            class="stat-number"
-                            id="statDPD">
-                            0
-                        </div>
-
-                        <div class="stat-accent"></div>
-
-                    </div>
-
-
-                    <div class="card stat-card">
-
-                        <div class="stat-label">
-                            DPD AKTIF
-                        </div>
-
-                        <div
-                            class="stat-number"
-                            id="statActive">
-                            0
-                        </div>
-
-                        <div class="stat-accent"></div>
-
-                    </div>
-
-
-                    <div class="card stat-card">
-
-                        <div class="stat-label">
-                            AGENDA
-                        </div>
-
-                        <div
-                            class="stat-number"
-                            id="statAgenda">
-                            0
-                        </div>
-
-                        <div class="stat-accent"></div>
-
-                    </div>
-
-
-                    <div class="card stat-card">
-
-                        <div class="stat-label">
-                            LAPORAN
-                        </div>
-
-                        <div
-                            class="stat-number"
-                            id="statLaporan">
-                            0
-                        </div>
-
-                        <div class="stat-accent"></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="dashboard-grid">
-
-                    <div class="panel">
-
-                        <div class="panel-head">
-
-                            <div class="panel-title">
-                                Akses Cepat
-                            </div>
-
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div class="quick-grid">
-
-                                <div
-                                    class="quick-btn"
-                                    onclick="showPage('dpd')">
-
-                                    <div class="quick-icon">
-                                        ▦
-                                    </div>
-
-                                    <div class="quick-title">
-                                        MONITORING DPD
-                                    </div>
-
-                                    <div class="quick-desc">
-                                        Lihat perkembangan 24 Kab/Kota.
-                                    </div>
-
-                                </div>
-
-
-                                <div
-                                    class="quick-btn"
-                                    onclick="openOwnStructure()">
-
-                                    <div class="quick-icon">
-                                        ♙
-                                    </div>
-
-                                    <div class="quick-title">
-                                        STRUKTUR ORGANISASI
-                                    </div>
-
-                                    <div class="quick-desc">
-                                        Kelola pengurus dan bidang.
-                                    </div>
-
-                                </div>
-
-
-                                <div
-                                    class="quick-btn"
-                                    onclick="showPage('agenda')">
-
-                                    <div class="quick-icon">
-                                        ◷
-                                    </div>
-
-                                    <div class="quick-title">
-                                        AGENDA
-                                    </div>
-
-                                    <div class="quick-desc">
-                                        Kelola agenda kegiatan.
-                                    </div>
-
-                                </div>
-
-
-                                <div
-                                    class="quick-btn"
-                                    onclick="showPage('laporan')">
-
-                                    <div class="quick-icon">
-                                        ▤
-                                    </div>
-
-                                    <div class="quick-title">
-                                        LAPORAN
-                                    </div>
-
-                                    <div class="quick-desc">
-                                        Monitoring laporan organisasi.
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="panel">
-
-                        <div class="panel-head">
-
-                            <div class="panel-title">
-                                Informasi Admin
-                            </div>
-
-                        </div>
-
-                        <div class="panel-body">
-
-                            <div
-                                style="font-size:11px;color:#888;line-height:1.8">
-
-                                <b style="color:#111">
-                                    Akun:
-                                </b>
-
-                                <span id="infoUsername">
-                                    -
-                                </span>
-
-                                <br>
-
-                                <b style="color:#111">
-                                    Role:
-                                </b>
-
-                                <span id="infoRole">
-                                    -
-                                </span>
-
-                                <br>
-
-                                <b style="color:#111">
-                                    DPD:
-                                </b>
-
-                                <span id="infoDPD">
-                                    -
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- MONITORING DPD -->
-
-            <section
-                class="page"
-                id="page-dpd">
-
-                <div class="page-head">
-
-                    <h1>
-                        Monitoring DPD
-                    </h1>
-
-                    <p>
-                        Monitoring perkembangan DPD Muda Bergerak se-Sulawesi Selatan.
-                    </p>
-
-                </div>
-
-
-                <div class="dpd-toolbar">
-
-                    <input
-                        id="dpdSearch"
-                        class="search"
-                        type="text"
-                        placeholder="Cari Kabupaten/Kota..."
-                        oninput="renderDPD()">
-
-                    <button
-                        class="btn btn-orange"
-                        id="addDPDBtn"
-                        onclick="openDPDModal()">
-
-                        + TAMBAH DPD
-
-                    </button>
-
-                </div>
-
-
-                <div
-                    class="dpd-grid"
-                    id="dpdGrid">
-                </div>
-
-            </section>
-
-
-            <!-- STRUKTUR -->
-
-            <section
-                class="page"
-                id="page-struktur">
-
-                <div id="structureContainer"></div>
-
-            </section>
-
-
-            <!-- AGENDA -->
-
-            <section
-                class="page"
-                id="page-agenda">
-
-                <div
-                    class="page-head"
-                    style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-
-                    <div>
-
-                        <h1>
-                            Agenda
-                        </h1>
-
-                        <p>
-                            Agenda kegiatan organisasi.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="btn btn-orange"
-                        onclick="openAgendaModal()">
-
-                        + TAMBAH AGENDA
-
-                    </button>
-
-                </div>
-
-
-                <div class="table-wrap">
-
-                    <div class="table-head">
-
-                        <div
-                            style="font-size:12px;font-weight:900">
-
-                            DAFTAR AGENDA
-
-                        </div>
-
-                    </div>
-
-                    <div id="agendaTable"></div>
-
-                </div>
-
-            </section>
-
-
-            <!-- LAPORAN -->
-
-            <section
-                class="page"
-                id="page-laporan">
-
-                <div
-                    class="page-head"
-                    style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-
-                    <div>
-
-                        <h1>
-                            Laporan
-                        </h1>
-
-                        <p>
-                            Laporan kegiatan dan perkembangan organisasi.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="btn btn-orange"
-                        onclick="openLaporanModal()">
-
-                        + TAMBAH LAPORAN
-
-                    </button>
-
-                </div>
-
-
-                <div class="table-wrap">
-
-                    <div class="table-head">
-
-                        <div
-                            style="font-size:12px;font-weight:900">
-
-                            DAFTAR LAPORAN
-
-                        </div>
-
-                    </div>
-
-                    <div id="laporanTable"></div>
-
-                </div>
-
-            </section>
-
-
-            <!-- PEMBERITAHUAN -->
-
-            <section
-                class="page"
-                id="page-pemberitahuan">
-
-                <div
-                    class="page-head"
-                    style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-
-                    <div>
-
-                        <h1>
-                            Pemberitahuan
-                        </h1>
-
-                        <p>
-                            Informasi dan pemberitahuan organisasi.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="btn btn-orange"
-                        onclick="openPemberitahuanModal()">
-
-                        + TAMBAH
-
-                    </button>
-
-                </div>
-
-
-                <div
-                    class="grid"
-                    id="notificationList"
-                    style="grid-template-columns:repeat(2,1fr)">
-                </div>
-
-            </section>
-
-
-            <!-- PROFIL -->
-
-            <section
-                class="page"
-                id="page-profil">
-
-                <div class="page-head">
-
-                    <h1>
-                        Profil Admin
-                    </h1>
-
-                    <p>
-                        Informasi akun administrator.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="card"
-                    style="padding:22px;max-width:650px">
-
-                    <div class="form-grid">
-
-                        <div class="form-group">
-
-                            <label>
-                                USERNAME
-                            </label>
-
-                            <input
-                                id="profileUsername"
-                                disabled>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                ROLE
-                            </label>
-
-                            <input
-                                id="profileRole"
-                                disabled>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                DPD ID
-                            </label>
-
-                            <input
-                                id="profileDPD"
-                                disabled>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                EMAIL AUTH
-                            </label>
-
-                            <input
-                                id="profileEmail"
-                                disabled>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </div>
-
-    </main>
-
+<header>
+<div class="head">
+<img class="logo" src="https://rgffzcpsofmjnqdfyolg.supabase.co/storage/v1/object/public/QRIS/1000583091-removebg-preview.png">
+<div>
+<h1>MUDA BERGERAK SULAWESI SELATAN</h1>
+<h2>COMMAND CENTER — ADMIN</h2>
+<div class="user" id="userInfo"></div>
+</div>
+</div>
+</header>
+
+<nav>
+<button class="active" onclick="page('dpw',this)">Struktur DPW</button>
+<button onclick="page('dpd',this)">24 DPD</button>
+<button onclick="page('bidang',this)">Bidang DPD</button>
+<button onclick="logout()">Keluar</button>
+</nav>
+
+<main>
+
+<!-- DPW -->
+<section id="dpw" class="page active">
+
+<div class="box">
+<h3>STRUKTUR DPW MUDA BERGERAK SULAWESI SELATAN</h3>
+
+<div class="grid">
+<div><label>Ketua DPW</label><input id="dpw_ketua"></div>
+<div><label>Sekretaris</label><input id="dpw_sekretaris"></div>
+<div><label>Bendahara</label><input id="dpw_bendahara"></div>
+<div><label>Sekretariat</label><input id="dpw_sekretariat"></div>
+<div><label>Bidang Politik</label><input id="dpw_politik"></div>
+<div><label>Bidang Hukum</label><input id="dpw_hukum"></div>
+<div><label>Bidang Sosial Kemasyarakatan</label><input id="dpw_sosial_kemasyarakatan"></div>
+<div><label>Bidang Keorganisasian</label><input id="dpw_keorganisasian"></div>
+<div><label>Bidang Humas & Media</label><input id="dpw_humas_media"></div>
+<div><label>Bidang Ekonomi Kreatif</label><input id="dpw_ekonomi_kreatif"></div>
 </div>
 
-
-<!-- MODAL PENGURUS -->
-
-<div
-    class="modal"
-    id="pengurusModal">
-
-    <div class="modal-box">
-
-        <div class="modal-head">
-
-            <div
-                class="modal-title"
-                id="pengurusModalTitle">
-
-                Tambah Pengurus
-
-            </div>
-
-            <button
-                class="modal-close"
-                onclick="closeModal('pengurusModal')">
-
-                ×
-
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-            <input
-                type="hidden"
-                id="pengurusId">
-
-
-            <div class="form-grid">
-
-                <div class="form-group">
-
-                    <label>
-                        NAMA
-                    </label>
-
-                    <input
-                        id="pengurusNama"
-                        placeholder="Nama lengkap">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        JABATAN
-                    </label>
-
-                    <select
-                        id="pengurusJabatan"
-                        onchange="handleJabatanChange()">
-
-                        <option value="Ketua DPD">
-                            Ketua DPD
-                        </option>
-
-                        <option value="Sekretaris">
-                            Sekretaris
-                        </option>
-
-                        <option value="Bendahara">
-                            Bendahara
-                        </option>
-
-                        <option value="Koordinator Bidang">
-                            Koordinator Bidang
-                        </option>
-
-                        <option value="Anggota Bidang">
-                            Anggota Bidang
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div
-                    class="form-group"
-                    id="pengurusBidangGroup">
-
-                    <label>
-                        BIDANG
-                    </label>
-
-                    <select id="pengurusBidang">
-
-                        <option value="">
-                            Pilih bidang
-                        </option>
-
-                        <option value="Politik">
-                            Politik
-                        </option>
-
-                        <option value="Hukum">
-                            Hukum
-                        </option>
-
-                        <option value="Sosial Kemasyarakatan">
-                            Sosial Kemasyarakatan
-                        </option>
-
-                        <option value="Keorganisasian">
-                            Keorganisasian
-                        </option>
-
-                        <option value="Humas & Media">
-                            Humas & Media
-                        </option>
-
-                        <option value="Ekonomi Kreatif">
-                            Ekonomi Kreatif
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        STATUS
-                    </label>
-
-                    <select id="pengurusStatus">
-
-                        <option value="Aktif">
-                            Aktif
-                        </option>
-
-                        <option value="Tidak Aktif">
-                            Tidak Aktif
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-actions">
-
-                <button
-                    class="btn btn-outline"
-                    onclick="closeModal('pengurusModal')">
-
-                    BATAL
-
-                </button>
-
-                <button
-                    class="btn btn-orange"
-                    onclick="savePengurus()">
-
-                    SIMPAN
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+<div class="actions">
+<button class="btn" onclick="saveDPW()">💾 SIMPAN STRUKTUR DPW</button>
 </div>
 
-
-<!-- MODAL DPD -->
-
-<div
-    class="modal"
-    id="dpdModal">
-
-    <div class="modal-box">
-
-        <div class="modal-head">
-
-            <div class="modal-title">
-                Data DPD
-            </div>
-
-            <button
-                class="modal-close"
-                onclick="closeModal('dpdModal')">
-
-                ×
-
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-            <input
-                type="hidden"
-                id="dpdId">
-
-            <div class="form-grid">
-
-                <div class="form-group full">
-
-                    <label>
-                        NAMA DPD
-                    </label>
-
-                    <input
-                        id="dpdNama"
-                        placeholder="Contoh: DPD Kota Makassar">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        STATUS
-                    </label>
-
-                    <select id="dpdStatus">
-
-                        <option value="Belum Terbentuk">
-                            Belum Terbentuk
-                        </option>
-
-                        <option value="Dalam Proses">
-                            Dalam Proses
-                        </option>
-
-                        <option value="Terbentuk">
-                            Terbentuk
-                        </option>
-
-                        <option value="Aktif">
-                            Aktif
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        PROGRESS (%)
-                    </label>
-
-                    <input
-                        id="dpdProgress"
-                        type="number"
-                        min="0"
-                        max="100"
-                        value="0">
-
-                </div>
-
-            </div>
-
-
-            <div class="form-actions">
-
-                <button
-                    class="btn btn-outline"
-                    onclick="closeModal('dpdModal')">
-
-                    BATAL
-
-                </button>
-
-                <button
-                    class="btn btn-orange"
-                    onclick="saveDPD()">
-
-                    SIMPAN
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+<div id="dpwMsg" class="msg"></div>
 </div>
 
-
-<!-- MODAL AGENDA -->
-
-<div
-    class="modal"
-    id="agendaModal">
-
-    <div class="modal-box">
-
-        <div class="modal-head">
-
-            <div class="modal-title">
-                Tambah Agenda
-            </div>
-
-            <button
-                class="modal-close"
-                onclick="closeModal('agendaModal')">
-
-                ×
-
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-            <div class="form-grid">
-
-                <div class="form-group full">
-
-                    <label>
-                        JUDUL
-                    </label>
-
-                    <input id="agendaJudul">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        TANGGAL
-                    </label>
-
-                    <input
-                        id="agendaTanggal"
-                        type="date">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        WAKTU
-                    </label>
-
-                    <input
-                        id="agendaWaktu"
-                        placeholder="19.00 WITA">
-
-                </div>
-
-
-                <div class="form-group full">
-
-                    <label>
-                        LOKASI
-                    </label>
-
-                    <input id="agendaLokasi">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        STATUS
-                    </label>
-
-                    <select id="agendaStatus">
-
-                        <option value="Terjadwal">
-                            Terjadwal
-                        </option>
-
-                        <option value="Selesai">
-                            Selesai
-                        </option>
-
-                        <option value="Dibatalkan">
-                            Dibatalkan
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group full">
-
-                    <label>
-                        DESKRIPSI
-                    </label>
-
-                    <textarea id="agendaDeskripsi"></textarea>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-actions">
-
-                <button
-                    class="btn btn-outline"
-                    onclick="closeModal('agendaModal')">
-
-                    BATAL
-
-                </button>
-
-                <button
-                    class="btn btn-orange"
-                    onclick="saveAgenda()">
-
-                    SIMPAN
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+<div class="box">
+<h3>PROGRESS STRUKTUR DPW</h3>
+<div style="font-size:30px;font-weight:bold" id="dpwProgress">0%</div>
+<div class="progress-bg">
+<div class="progress-bar" id="dpwBar" style="width:0%"></div>
+</div>
 </div>
 
+</section>
 
-<!-- MODAL LAPORAN -->
+<!-- DPD -->
+<section id="dpd" class="page">
 
-<div
-    class="modal"
-    id="laporanModal">
+<div class="box">
+<h3>MONITORING & EDIT 24 DPD</h3>
 
-    <div class="modal-box">
-
-        <div class="modal-head">
-
-            <div class="modal-title">
-                Tambah Laporan
-            </div>
-
-            <button
-                class="modal-close"
-                onclick="closeModal('laporanModal')">
-
-                ×
-
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-            <div class="form-grid">
-
-                <div class="form-group full">
-
-                    <label>
-                        JUDUL
-                    </label>
-
-                    <input id="laporanJudul">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        TANGGAL
-                    </label>
-
-                    <input
-                        id="laporanTanggal"
-                        type="date">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        KATEGORI
-                    </label>
-
-                    <input id="laporanKategori">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        STATUS
-                    </label>
-
-                    <select id="laporanStatus">
-
-                        <option value="Baru">
-                            Baru
-                        </option>
-
-                        <option value="Diproses">
-                            Diproses
-                        </option>
-
-                        <option value="Selesai">
-                            Selesai
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group full">
-
-                    <label>
-                        ISI LAPORAN
-                    </label>
-
-                    <textarea id="laporanIsi"></textarea>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-actions">
-
-                <button
-                    class="btn btn-outline"
-                    onclick="closeModal('laporanModal')">
-
-                    BATAL
-
-                </button>
-
-                <button
-                    class="btn btn-orange"
-                    onclick="saveLaporan()">
-
-                    SIMPAN
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+<input id="cariDPD" placeholder="🔎 Cari Kabupaten/Kota..." oninput="renderDPD()">
 </div>
 
+<div id="dpdList"></div>
 
-<!-- MODAL PEMBERITAHUAN -->
+</section>
 
-<div
-    class="modal"
-    id="pemberitahuanModal">
+<!-- BIDANG -->
+<section id="bidang" class="page">
 
-    <div class="modal-box">
+<div class="box">
+<h3>EDIT BIDANG DPD</h3>
 
-        <div class="modal-head">
+<label>Pilih DPD</label>
+<select id="bidangDPD" onchange="loadBidang()"></select>
 
-            <div class="modal-title">
-                Tambah Pemberitahuan
-            </div>
+<div id="bidangForm" style="margin-top:12px"></div>
 
-            <button
-                class="modal-close"
-                onclick="closeModal('pemberitahuanModal')">
-
-                ×
-
-            </button>
-
-        </div>
-
-
-        <div class="modal-body">
-
-            <div class="form-grid">
-
-                <div class="form-group full">
-
-                    <label>
-                        JUDUL
-                    </label>
-
-                    <input id="notifJudul">
-
-                </div>
-
-
-                <div class="form-group full">
-
-                    <label>
-                        ISI
-                    </label>
-
-                    <textarea id="notifIsi"></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        TANGGAL
-                    </label>
-
-                    <input
-                        id="notifTanggal"
-                        type="date">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        TIPE
-                    </label>
-
-                    <select id="notifTipe">
-
-                        <option value="Info">
-                            Info
-                        </option>
-
-                        <option value="Penting">
-                            Penting
-                        </option>
-
-                        <option value="Kegiatan">
-                            Kegiatan
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        AKTIF
-                    </label>
-
-                    <select id="notifAktif">
-
-                        <option value="true">
-                            Aktif
-                        </option>
-
-                        <option value="false">
-                            Tidak Aktif
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-actions">
-
-                <button
-                    class="btn btn-outline"
-                    onclick="closeModal('pemberitahuanModal')">
-
-                    BATAL
-
-                </button>
-
-                <button
-                    class="btn btn-orange"
-                    onclick="savePemberitahuan()">
-
-                    SIMPAN
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+<div class="actions">
+<button class="btn" onclick="saveBidang()">💾 SIMPAN BIDANG</button>
 </div>
 
+<div id="bidangMsg" class="msg"></div>
+</div>
 
-<div id="toast"></div>
+</section>
 
+</main>
+
+</div>
 
 <script>
+"use strict";
 
-const SUPABASE_URL =
-    "https://rgffzcpsofmjnqdfyolg.supabase.co";
+const URL="https://rgffzcpsofmjnqdfyolg.supabase.co";
+const KEY="sb_publishable_ZfZ1m8X7gadvnoAQh9XmNg_hyupNKb6";
 
-const SUPABASE_KEY =
-    "sb_publishable_ZfZ1m8X7gadvnoAQh9XmNg_hyupNKb6";
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-
-let currentUser = null;
-let currentAdmin = null;
-let dpdData = [];
-let selectedDPD = null;
-let structureData = [];
-
-let editingCoreRole = null;
-let editingFieldMode = null;
-
-
-/* ================= HELPER ================= */
-
-function $(id){
-    return document.getElementById(id);
+const db=window.supabase.createClient(URL,KEY,{
+db:{schema:"public"},
+auth:{
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:false
 }
+});
 
+let currentUser=null;
+let currentAdmin=null;
+let dpds=[];
+let bidangRows=[];
+let dpwData=null;
+let selectedBidangDPD=null;
 
-function escapeHtml(value){
+const BIDANG=[
+"Politik",
+"Hukum",
+"Sosial Kemasyarakatan",
+"Keorganisasian",
+"Humas & Media",
+"Ekonomi Kreatif"
+];
 
-    if(
-        value === null ||
-        value === undefined
-    ){
-        return "";
-    }
+const DPW_FIELDS=[
+["ketua","dpw_ketua"],
+["sekretaris","dpw_sekretaris"],
+["bendahara","dpw_bendahara"],
+["sekretariat","dpw_sekretariat"],
+["politik","dpw_politik"],
+["hukum","dpw_hukum"],
+["sosial_kemasyarakatan","dpw_sosial_kemasyarakatan"],
+["keorganisasian","dpw_keorganisasian"],
+["humas_media","dpw_humas_media"],
+["ekonomi_kreatif","dpw_ekonomi_kreatif"]
+];
 
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+function msg(id,text,ok){
+const x=document.getElementById(id);
+x.style.display="block";
+x.className="msg "+(ok?"ok":"err");
+x.textContent=text;
 }
-
-
-function formatDate(date){
-
-    if(!date){
-        return "-";
-    }
-
-    try{
-
-        return new Date(
-            date + "T00:00:00"
-        ).toLocaleDateString(
-            "id-ID",
-            {
-                day:"2-digit",
-                month:"short",
-                year:"numeric"
-            }
-        );
-
-    }catch{
-
-        return date;
-
-    }
-}
-
-
-function today(){
-
-    return new Date()
-        .toISOString()
-        .slice(0,10);
-
-}
-
-
-function toast(message){
-
-    const el = $("toast");
-
-    el.textContent = message;
-
-    el.classList.add("show");
-
-    clearTimeout(
-        window.toastTimer
-    );
-
-    window.toastTimer =
-        setTimeout(
-            ()=>{
-                el.classList.remove("show");
-            },
-            2600
-        );
-
-}
-
-
-function openModal(id){
-
-    $(id).classList.add("show");
-
-}
-
-
-function closeModal(id){
-
-    $(id).classList.remove("show");
-
-}
-
-
-function isDPW(){
-
-    return currentAdmin &&
-        String(
-            currentAdmin.role || ""
-        ).toUpperCase() === "DPW";
-
-}
-
-
-function isDPD(){
-
-    return currentAdmin &&
-        String(
-            currentAdmin.role || ""
-        ).toUpperCase() === "DPD";
-
-}
-
-
-function canManageDPD(id){
-
-    if(isDPW()){
-        return true;
-    }
-
-    return isDPD() &&
-        Number(
-            currentAdmin.dpd_id
-        ) === Number(id);
-
-}
-
-
-function parseMembers(value){
-
-    if(!value){
-        return [];
-    }
-
-    return String(value)
-        .split(/\r?\n|;/)
-        .map(
-            x => x.trim()
-        )
-        .filter(Boolean);
-
-}
-
-
-/* ================= NAVIGATION ================= */
-
-function updateHeader(page){
-
-    const titleMap = {
-
-        dashboard:"DASHBOARD",
-
-        dpd:"MONITORING DPD",
-
-        struktur:"STRUKTUR ORGANISASI",
-
-        agenda:"AGENDA",
-
-        laporan:"LAPORAN",
-
-        pemberitahuan:"PEMBERITAHUAN",
-
-        profil:"PROFIL ADMIN"
-
-    };
-
-
-    let subtitle = "";
-
-
-    if(
-        page === "struktur" &&
-        selectedDPD
-    ){
-
-        subtitle =
-            selectedDPD.nama ||
-            "DPD";
-
-    }
-    else if(isDPD()){
-
-        const ownDPD =
-            dpdData.find(
-                d =>
-                    Number(d.id) ===
-                    Number(
-                        currentAdmin.dpd_id
-                    )
-            );
-
-        subtitle =
-            ownDPD
-                ? ownDPD.nama
-                : "DPD";
-
-    }
-    else if(isDPW()){
-
-        subtitle =
-            "DPW SULAWESI SELATAN";
-
-    }
-    else{
-
-        subtitle =
-            currentAdmin?.role ||
-            "";
-
-    }
-
-
-    $("topTitle").textContent =
-        titleMap[page] ||
-        "COMMAND CENTER";
-
-    $("topRole").textContent =
-        subtitle;
-
-}
-
-
-function showPage(page){
-
-    document
-        .querySelectorAll(".page")
-        .forEach(
-            el =>
-                el.classList.remove("active")
-        );
-
-
-    const target =
-        $("page-" + page);
-
-
-    if(target){
-
-        target.classList.add("active");
-
-    }
-
-
-    document
-        .querySelectorAll(".nav-item")
-        .forEach(
-            item =>
-                item.classList.remove("active")
-        );
-
-
-    const active =
-        document.querySelector(
-            `[data-page="${page}"]`
-        );
-
-
-    if(active){
-
-        active.classList.add("active");
-
-    }
-
-
-    updateHeader(page);
-
-
-    if(page === "dashboard"){
-        loadDashboard();
-    }
-
-    if(page === "dpd"){
-        loadDPD();
-    }
-
-    if(page === "agenda"){
-        loadAgenda();
-    }
-
-    if(page === "laporan"){
-        loadLaporan();
-    }
-
-    if(page === "pemberitahuan"){
-        loadPemberitahuan();
-    }
-
-    if(page === "profil"){
-        updateProfile();
-    }
-
-
-    if(
-        window.innerWidth <= 800
-    ){
-
-        $("sidebar")
-            .classList
-            .remove("open");
-
-    }
-
-}
-
-
-function toggleSidebar(){
-
-    $("sidebar")
-        .classList
-        .toggle("open");
-
-}
-
-
-/* ================= LOGIN ================= */
 
 async function login(){
 
-    const username =
-        $("username")
-            .value
-            .trim();
+const username=document.getElementById("username").value.trim();
+const password=document.getElementById("password").value;
 
-    const password =
-        $("password")
-            .value;
-
-    const errorBox =
-        $("loginError");
-
-
-    errorBox.style.display =
-        "none";
-
-
-    if(
-        !username ||
-        !password
-    ){
-
-        errorBox.textContent =
-            "Username dan password wajib diisi.";
-
-        errorBox.style.display =
-            "block";
-
-        return;
-
-    }
-
-
-    const email =
-        username.includes("@")
-            ? username
-            : username + "@mbsulsel.id";
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth
-            .signInWithPassword({
-
-                email,
-
-                password
-
-            });
-
-
-    if(error){
-
-        errorBox.textContent =
-            error.message ||
-            "Login gagal.";
-
-        errorBox.style.display =
-            "block";
-
-        return;
-
-    }
-
-
-    if(!data.user){
-
-        errorBox.textContent =
-            "User tidak ditemukan.";
-
-        errorBox.style.display =
-            "block";
-
-        return;
-
-    }
-
-
-    currentUser =
-        data.user;
-
-
-    await initializeApp();
-
+if(!username||!password){
+msg("loginMsg","Username dan password wajib diisi.",false);
+return;
 }
 
+msg("loginMsg","Memeriksa login...",true);
 
-async function initializeApp(){
+try{
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth
-            .getUser();
+const {data:admin,error}=await db
+.from("ADMIN_USERS")
+.select("*")
+.eq("username",username)
+.maybeSingle();
 
+if(error)throw error;
 
-    if(
-        error ||
-        !data.user
-    ){
-
-        await supabaseClient.auth
-            .signOut();
-
-        $("loginError").textContent =
-            "Session tidak valid.";
-
-        $("loginError").style.display =
-            "block";
-
-        return;
-
-    }
-
-
-    currentUser =
-        data.user;
-
-
-    await loadAdminProfile();
-
-
-    if(!currentAdmin){
-
-        await supabaseClient.auth
-            .signOut();
-
-        $("loginError").textContent =
-            "Akun belum terdaftar sebagai admin.";
-
-        $("loginError").style.display =
-            "block";
-
-        return;
-
-    }
-
-
-    $("loginScreen").style.display =
-        "none";
-
-    $("app").style.display =
-        "block";
-
-
-    updateProfile();
-
-
-    await loadDPD();
-
-    updateHeader("dashboard");
-
-    await loadDashboard();
-
-
-    $("topDate").textContent =
-        new Date().toLocaleDateString(
-            "id-ID",
-            {
-                weekday:"long",
-                day:"numeric",
-                month:"long",
-                year:"numeric"
-            }
-        );
-
+if(!admin){
+msg("loginMsg","Username tidak ditemukan.",false);
+return;
 }
 
-
-async function loadAdminProfile(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("ADMIN_USERS")
-            .select("*")
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .maybeSingle();
-
-
-    if(error){
-
-        console.error(error);
-
-        currentAdmin = null;
-
-        return;
-
-    }
-
-
-    currentAdmin =
-        data || null;
-
+if(!admin.user_id){
+msg("loginMsg","Akun belum terhubung ke Supabase Auth.",false);
+return;
 }
 
+/*
+ Login menggunakan email Auth yang terkait dengan user_id.
+ Jika sistem login lama kamu sudah mempunyai mekanisme sendiri,
+ bagian ini dapat diganti tanpa mengubah database.
+*/
 
-/* ================= PROFILE ================= */
+const {data:userList,error:authErr}=await db.auth.admin?.listUsers?.()||{data:null,error:null};
 
-function updateProfile(){
-
-    if(!currentAdmin){
-        return;
-    }
-
-
-    const username =
-        currentAdmin.username ||
-        currentUser?.email ||
-        "ADMIN";
-
-
-    $("sideUsername").textContent =
-        username;
-
-
-    $("sideRole").textContent =
-        currentAdmin.role ||
-        "ADMIN";
-
-
-    $("sideAvatar").textContent =
-        String(username)
-            .charAt(0)
-            .toUpperCase();
-
-
-    $("infoUsername").textContent =
-        username;
-
-
-    $("infoRole").textContent =
-        currentAdmin.role ||
-        "-";
-
-
-    const ownDPD =
-        dpdData.find(
-            d =>
-                Number(d.id) ===
-                Number(
-                    currentAdmin.dpd_id
-                )
-        );
-
-
-    $("infoDPD").textContent =
-        ownDPD
-            ? ownDPD.nama
-            : isDPW()
-                ? "DPW Sulawesi Selatan"
-                : "-";
-
-
-    $("profileUsername").value =
-        username;
-
-
-    $("profileRole").value =
-        currentAdmin.role ||
-        "";
-
-
-    $("profileDPD").value =
-        currentAdmin.dpd_id ||
-        "";
-
-
-    $("profileEmail").value =
-        currentUser?.email ||
-        "";
-
+if(authErr){
+console.log(authErr);
 }
 
+/*
+ Karena browser tidak boleh memakai service_role,
+ kita tidak menebak email Auth.
+ Sistem lama dapat dipertahankan jika session sudah aktif.
+*/
 
-/* ================= LOGOUT ================= */
+const session=await db.auth.getSession();
 
-async function logout(){
+if(session.data.session&&
+session.data.session.user.id===admin.user_id){
 
-    await supabaseClient.auth
-        .signOut();
+currentUser=session.data.session.user;
+currentAdmin=admin;
 
-    location.reload();
-
+openApp();
+return;
 }
 
+msg(
+"Login Auth belum aktif pada browser ini. Gunakan mekanisme login Auth yang sudah terhubung ke akun admin.",
+false
+);
 
-/* ================= DPD ================= */
-
-async function loadDPD(){
-
-    let query =
-        supabaseClient
-            .from("DPD")
-            .select("*")
-            .order(
-                "id",
-                {
-                    ascending:true
-                }
-            );
-
-
-    if(isDPD()){
-
-        query =
-            query.eq(
-                "id",
-                currentAdmin.dpd_id
-            );
-
-    }
-
-
-    const {
-        data,
-        error
-    } =
-        await query;
-
-
-    if(error){
-
-        console.error(error);
-
-        toast(
-            "Gagal memuat DPD: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    dpdData =
-        data || [];
-
-
-    renderDPD();
-
-    updateStats();
-
-    updateProfile();
-
+}catch(e){
+console.error(e);
+msg("Gagal login: "+e.message,false);
 }
-
-
-function renderDPD(){
-
-    const grid =
-        $("dpdGrid");
-
-
-    if(!grid){
-        return;
-    }
-
-
-    const search =
-        (
-            $("dpdSearch")?.value ||
-            ""
-        )
-        .toLowerCase()
-        .trim();
-
-
-    let rows =
-        dpdData.filter(
-            d =>
-                String(
-                    d.nama || ""
-                )
-                .toLowerCase()
-                .includes(search)
-        );
-
-
-    if(!rows.length){
-
-        grid.innerHTML =
-            `<div style="color:#888;font-size:11px;padding:20px">
-                Belum ada data DPD.
-            </div>`;
-
-        return;
-
-    }
-
-
-    grid.innerHTML =
-        rows.map(
-            (d,index)=>{
-
-                const progress =
-                    Math.max(
-                        0,
-                        Math.min(
-                            100,
-                            Number(
-                                d.progress
-                            ) || 0
-                        )
-                    );
-
-
-                return `
-
-                <div
-                    class="dpd-card"
-                    onclick="openDPD(${d.id})">
-
-                    <div class="dpd-top"></div>
-
-                    <div class="dpd-body">
-
-                        <div class="dpd-number">
-                            DPD ${String(
-                                index + 1
-                            ).padStart(2,"0")}
-                        </div>
-
-                        <div class="dpd-name">
-                            ${escapeHtml(d.nama)}
-                        </div>
-
-                        <div class="dpd-status">
-                            ${escapeHtml(
-                                d.status ||
-                                "Belum Terbentuk"
-                            )}
-                        </div>
-
-                        <div class="progress-wrap">
-
-                            <div class="progress-info">
-
-                                <span>
-                                    PROGRESS
-                                </span>
-
-                                <b>
-                                    ${progress}%
-                                </b>
-
-                            </div>
-
-                            <div class="progress">
-
-                                <div
-                                    class="progress-bar"
-                                    style="width:${progress}%">
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="dpd-foot">
-                        Ketua:
-                        ${escapeHtml(
-                            d.ketua ||
-                            "Belum diisi"
-                        )}
-                    </div>
-
-                </div>
-
-                `;
-
-            }
-        )
-        .join("");
-
 }
-
-
-/* ================= OPEN DPD ================= */
-
-function openDPD(id){
-
-    selectedDPD =
-        dpdData.find(
-            x =>
-                Number(x.id) ===
-                Number(id)
-        );
-
-
-    if(!selectedDPD){
-        return;
-    }
-
-
-    loadStructure();
-
-    showPage("struktur");
-
-}
-
-
-function openOwnStructure(){
-
-    if(isDPD()){
-
-        const own =
-            dpdData.find(
-                x =>
-                    Number(x.id) ===
-                    Number(
-                        currentAdmin.dpd_id
-                    )
-            );
-
-
-        if(own){
-
-            selectedDPD =
-                own;
-
-            loadStructure();
-
-            showPage("struktur");
-
-            return;
-
-        }
-
-    }
-
-
-    showPage("dpd");
-
-}
-
-
-/* ================= DPD MODAL ================= */
-
-function openDPDModal(){
-
-    if(!isDPW()){
-
-        toast(
-            "Hanya admin DPW yang dapat menambah DPD."
-        );
-
-        return;
-
-    }
-
-
-    $("dpdId").value = "";
-
-    $("dpdNama").value = "";
-
-    $("dpdStatus").value =
-        "Belum Terbentuk";
-
-    $("dpdProgress").value =
-        0;
-
-
-    openModal("dpdModal");
-
-}
-
-
-async function saveDPD(){
-
-    if(!isDPW()){
-
-        toast(
-            "Anda tidak memiliki akses."
-        );
-
-        return;
-
-    }
-
-
-    const id =
-        $("dpdId").value;
-
-
-    const payload = {
-
-        nama:
-            $("dpdNama")
-                .value
-                .trim(),
-
-        status:
-            $("dpdStatus")
-                .value,
-
-        progress:
-            Number(
-                $("dpdProgress")
-                    .value
-            ) || 0
-
-    };
-
-
-    if(!payload.nama){
-
-        toast(
-            "Nama DPD wajib diisi."
-        );
-
-        return;
-
-    }
-
-
-    let result;
-
-
-    if(id){
-
-        result =
-            await supabaseClient
-                .from("DPD")
-                .update(payload)
-                .eq(
-                    "id",
-                    id
-                );
-
-    }else{
-
-        result =
-            await supabaseClient
-                .from("DPD")
-                .insert(payload);
-
-    }
-
-
-    if(result.error){
-
-        console.error(
-            result.error
-        );
-
-        toast(
-            "Gagal menyimpan: " +
-            result.error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal("dpdModal");
-
-    toast(
-        "Data DPD berhasil disimpan."
-    );
-
-
-    await loadDPD();
-
-}
-
-
-/* ================= STATS ================= */
-
-async function updateStats(){
-
-    $("statDPD").textContent =
-        dpdData.length;
-
-
-    const active =
-        dpdData.filter(
-            d => {
-
-                const status =
-                    String(
-                        d.status || ""
-                    ).toLowerCase();
-
-                return (
-                    status.includes("aktif") ||
-                    status.includes("terbentuk")
-                );
-
-            }
-        )
-        .length;
-
-
-    $("statActive").textContent =
-        active;
-
-
-    const {
-        count:agendaCount
-    } =
-        await supabaseClient
-            .from("AGENDA")
-            .select(
-                "*",
-                {
-                    count:"exact",
-                    head:true
-                }
-            );
-
-
-    $("statAgenda").textContent =
-        agendaCount || 0;
-
-
-    const {
-        count:laporanCount
-    } =
-        await supabaseClient
-            .from("LAPORAN")
-            .select(
-                "*",
-                {
-                    count:"exact",
-                    head:true
-                }
-            );
-
-
-    $("statLaporan").textContent =
-        laporanCount || 0;
-
-}
-
-
-/* ================= DASHBOARD ================= */
-
-async function loadDashboard(){
-
-    await updateStats();
-
-}
-
-
-/* ================= STRUCTURE ================= */
-
-async function loadStructure(){
-
-    if(!selectedDPD){
-
-        $("structureContainer").innerHTML = `
-
-            <div class="panel">
-
-                <div
-                    class="panel-body"
-                    style="text-align:center;padding:50px">
-
-                    <div
-                        style="font-size:35px">
-                        ♙
-                    </div>
-
-                    <h3 style="margin:10px 0">
-                        Pilih DPD
-                    </h3>
-
-                    <p
-                        style="font-size:11px;color:#888">
-                        Silakan pilih DPD melalui Monitoring DPD.
-                    </p>
-
-                </div>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("BIDANG_DPD")
-            .select("*")
-            .eq(
-                "dpd_id",
-                selectedDPD.id
-            )
-            .order(
-                "id",
-                {
-                    ascending:true
-                }
-            );
-
-
-    if(error){
-
-        console.error(error);
-
-        toast(
-            "Gagal memuat struktur: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    structureData =
-        data || [];
-
-
-    renderStructure();
-
-}
-
-
-function renderStructure(){
-
-    if(!selectedDPD){
-        return;
-    }
-
-
-    const fields = [
-
-        "Politik",
-
-        "Hukum",
-
-        "Sosial Kemasyarakatan",
-
-        "Keorganisasian",
-
-        "Humas & Media",
-
-        "Ekonomi Kreatif"
-
-    ];
-
-
-    const core = [
-
-        {
-            role:"Ketua DPD",
-            key:"ketua"
-        },
-
-        {
-            role:"Sekretaris",
-            key:"sekretaris"
-        },
-
-        {
-            role:"Bendahara",
-            key:"bendahara"
-        }
-
-    ];
-
-
-    let html = `
-
-        <div class="structure-header">
-
-            <div class="structure-header-top">
-
-                <div>
-
-                    <div class="structure-title">
-                        STRUKTUR ${escapeHtml(
-                            selectedDPD.nama
-                        )}
-                    </div>
-
-                    <div class="structure-subtitle">
-                        MUDA BERGERAK SULAWESI SELATAN
-                    </div>
-
-                </div>
-
-                <div class="structure-actions">
-
-                    <button
-                        class="btn btn-orange"
-                        onclick="openPengurusModal()">
-
-                        + TAMBAH PENGURUS
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="core-grid">
-
-            ${core.map(
-                item=>{
-
-                    const value =
-                        selectedDPD[
-                            item.key
-                        ] ||
-                        "";
-
-
-                    return `
-
-                        <div class="core-card">
-
-                            <div class="core-role">
-                                ${item.role}
-                            </div>
-
-                            ${
-                                value
-                                ?
-                                `<div class="core-name">
-                                    ${escapeHtml(value)}
-                                </div>`
-                                :
-                                `<div class="core-empty">
-                                    Belum diisi
-                                </div>`
-                            }
-
-                            <div class="core-actions">
-
-                                <button
-                                    class="btn btn-orange btn-small"
-                                    onclick="editCorePengurus('${item.key}')">
-
-                                    EDIT
-
-                                </button>
-
-                                ${
-                                    value
-                                    ?
-                                    `<button
-                                        class="btn btn-danger btn-small"
-                                        onclick="deleteCorePengurus('${item.key}')">
-
-                                        HAPUS
-
-                                    </button>`
-                                    :
-                                    ""
-                                }
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-                }
-            ).join("")}
-
-        </div>
-
-
-        <div class="fields-title">
-            BIDANG ORGANISASI
-        </div>
-
-
-        <div class="fields-grid">
-
-            ${fields.map(
-                field=>{
-
-                    const row =
-                        structureData.find(
-                            x =>
-                                x.bidang ===
-                                field
-                        );
-
-
-                    const coordinator =
-                        row?.koor_bidang ||
-                        "";
-
-
-                    const members =
-                        parseMembers(
-                            row?.anggota_bidang
-                        );
-
-
-                    return `
-
-                        <div class="field-card">
-
-                            <div class="field-head">
-
-                                <div class="field-name">
-                                    ${field}
-                                </div>
-
-                            </div>
-
-
-                            <div class="field-body">
-
-                                <div class="coordinator">
-
-                                    <div class="coordinator-label">
-                                        KOORDINATOR BIDANG
-                                    </div>
-
-                                    <div class="coordinator-name">
-
-                                        ${
-                                            coordinator
-                                            ?
-                                            escapeHtml(
-                                                coordinator
-                                            )
-                                            :
-                                            "Belum diisi"
-                                        }
-
-                                    </div>
-
-
-                                    <div
-                                        style="margin-top:9px;display:flex;gap:5px">
-
-                                        <button
-                                            class="btn btn-orange btn-small"
-                                            onclick="editCoordinator(
-                                                ${row?.id || "null"},
-                                                '${field}'
-                                            )">
-
-                                            EDIT
-
-                                        </button>
-
-                                        ${
-                                            coordinator
-                                            ?
-                                            `<button
-                                                class="btn btn-danger btn-small"
-                                                onclick="deleteCoordinator(${row.id})">
-
-                                                HAPUS
-
-                                            </button>`
-                                            :
-                                            ""
-                                        }
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="member-title">
-                                    ANGGOTA BIDANG
-                                </div>
-
-
-                                ${
-                                    members.length
-                                    ?
-                                    members.map(
-                                        (member,index)=>`
-
-                                            <div class="member">
-
-                                                <div class="member-name">
-                                                    ${escapeHtml(member)}
-                                                </div>
-
-                                                <div class="member-actions">
-
-                                                    <button
-                                                        class="btn btn-outline btn-small"
-                                                        onclick="editMember(
-                                                            ${row.id},
-                                                            '${field}',
-                                                            ${index}
-                                                        )">
-
-                                                        EDIT
-
-                                                    </button>
-
-                                                    <button
-                                                        class="btn btn-danger btn-small"
-                                                        onclick="deleteMember(
-                                                            ${row.id},
-                                                            ${index}
-                                                        )">
-
-                                                        ×
-
-                                                    </button>
-
-                                                </div>
-
-                                            </div>
-
-                                        `
-                                    ).join("")
-                                    :
-                                    `<div class="empty">
-                                        Belum ada anggota.
-                                    </div>`
-                                }
-
-
-                                <div class="field-actions">
-
-                                    <button
-                                        class="btn btn-orange btn-small"
-                                        onclick="addMember('${field}')">
-
-                                        + ANGGOTA
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-                }
-            ).join("")}
-
-        </div>
-
-    `;
-
-
-    $("structureContainer").innerHTML =
-        html;
-
-
-    updateHeader("struktur");
-
-}
-
-
-/* ================= PENGURUS MODAL ================= */
-
-function handleJabatanChange(){
-
-    const jabatan =
-        $("pengurusJabatan")
-            .value;
-
-
-    const group =
-        $("pengurusBidangGroup");
-
-
-    if(
-        jabatan === "Koordinator Bidang" ||
-        jabatan === "Anggota Bidang"
-    ){
-
-        group.classList.remove(
-            "hidden"
-        );
-
-    }else{
-
-        group.classList.add(
-            "hidden"
-        );
-
-        $("pengurusBidang").value =
-            "";
-
-    }
-
-}
-
-
-function openPengurusModal(){
-
-    if(!selectedDPD){
-
-        toast(
-            "Pilih DPD terlebih dahulu."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !canManageDPD(
-            selectedDPD.id
-        )
-    ){
-
-        toast(
-            "Anda tidak memiliki akses."
-        );
-
-        return;
-
-    }
-
-
-    editingCoreRole = null;
-
-    editingFieldMode = null;
-
-
-    $("pengurusId").value =
-        "";
-
-    $("pengurusNama").value =
-        "";
-
-    $("pengurusJabatan").value =
-        "Ketua DPD";
-
-    $("pengurusBidang").value =
-        "";
-
-    $("pengurusStatus").value =
-        "Aktif";
-
-
-    $("pengurusModalTitle").textContent =
-        "Tambah Pengurus";
-
-
-    handleJabatanChange();
-
-    openModal(
-        "pengurusModal"
-    );
-
-}
-
-
-function editCorePengurus(roleKey){
-
-    if(
-        !selectedDPD ||
-        !canManageDPD(
-            selectedDPD.id
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const labels = {
-
-        ketua:"Ketua DPD",
-
-        sekretaris:"Sekretaris",
-
-        bendahara:"Bendahara"
-
-    };
-
-
-    editingCoreRole =
-        roleKey;
-
-    editingFieldMode =
-        null;
-
-
-    $("pengurusId").value =
-        "";
-
-
-    $("pengurusNama").value =
-        selectedDPD[
-            roleKey
-        ] || "";
-
-
-    $("pengurusJabatan").value =
-        labels[
-            roleKey
-        ];
-
-
-    $("pengurusBidang").value =
-        "";
-
-
-    $("pengurusStatus").value =
-        "Aktif";
-
-
-    $("pengurusModalTitle").textContent =
-        "Edit " +
-        labels[roleKey];
-
-
-    handleJabatanChange();
-
-    openModal(
-        "pengurusModal"
-    );
-
-}
-
-
-function editCoordinator(
-    id,
-    bidang
-){
-
-    const row =
-        structureData.find(
-            x =>
-                Number(x.id) ===
-                Number(id)
-        );
-
-
-    if(!row){
-
-        editingFieldMode = {
-            type:"coordinator",
-            id:null,
-            bidang
-        };
-
-    }else{
-
-        editingFieldMode = {
-            type:"coordinator",
-            id:Number(id),
-            bidang
-        };
-
-    }
-
-
-    editingCoreRole =
-        null;
-
-
-    $("pengurusId").value =
-        id || "";
-
-
-    $("pengurusNama").value =
-        row?.koor_bidang ||
-        "";
-
-
-    $("pengurusJabatan").value =
-        "Koordinator Bidang";
-
-
-    $("pengurusBidang").value =
-        bidang;
-
-
-    $("pengurusStatus").value =
-        row?.status ||
-        "Aktif";
-
-
-    $("pengurusModalTitle").textContent =
-        "Edit Koordinator Bidang";
-
-
-    handleJabatanChange();
-
-    openModal(
-        "pengurusModal"
-    );
-
-}
-
-
-function addMember(bidang){
-
-    editingCoreRole =
-        null;
-
-
-    editingFieldMode = {
-        type:"memberAdd",
-        bidang
-    };
-
-
-    $("pengurusId").value =
-        "";
-
-
-    $("pengurusNama").value =
-        "";
-
-
-    $("pengurusJabatan").value =
-        "Anggota Bidang";
-
-
-    $("pengurusBidang").value =
-        bidang;
-
-
-    $("pengurusStatus").value =
-        "Aktif";
-
-
-    $("pengurusModalTitle").textContent =
-        "Tambah Anggota Bidang";
-
-
-    handleJabatanChange();
-
-    openModal(
-        "pengurusModal"
-    );
-
-}
-
-
-function editMember(
-    id,
-    bidang,
-    index
-){
-
-    const row =
-        structureData.find(
-            x =>
-                Number(x.id) ===
-                Number(id)
-        );
-
-
-    if(!row){
-        return;
-    }
-
-
-    const members =
-        parseMembers(
-            row.anggota_bidang
-        );
-
-
-    if(
-        members[index] ===
-        undefined
-    ){
-
-        return;
-
-    }
-
-
-    editingCoreRole =
-        null;
-
-
-    editingFieldMode = {
-
-        type:"member",
-
-        id:Number(id),
-
-        bidang,
-
-        index
-
-    };
-
-
-    $("pengurusId").value =
-        id;
-
-
-    $("pengurusNama").value =
-        members[index];
-
-
-    $("pengurusJabatan").value =
-        "Anggota Bidang";
-
-
-    $("pengurusBidang").value =
-        bidang;
-
-
-    $("pengurusStatus").value =
-        row.status ||
-        "Aktif";
-
-
-    $("pengurusModalTitle").textContent =
-        "Edit Anggota Bidang";
-
-
-    handleJabatanChange();
-
-    openModal(
-        "pengurusModal"
-    );
-
-}
-
-
-/* =========================================================
-   SAVE PENGURUS — FINAL FIX
-========================================================= */
-
-async function savePengurus(){
-
-    if(!selectedDPD){
-
-        toast(
-            "Pilih DPD terlebih dahulu."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !canManageDPD(
-            selectedDPD.id
-        )
-    ){
-
-        toast(
-            "Anda tidak memiliki akses."
-        );
-
-        return;
-
-    }
-
-
-    const nama =
-        $("pengurusNama")
-            .value
-            .trim();
-
-
-    const jabatan =
-        $("pengurusJabatan")
-            .value;
-
-
-    const bidang =
-        $("pengurusBidang")
-            .value;
-
-
-    const status =
-        $("pengurusStatus")
-            .value ||
-        "Aktif";
-
-
-    if(!nama){
-
-        toast(
-            "Nama wajib diisi."
-        );
-
-        return;
-
-    }
-
-
-    /* ================================================
-       KETUA / SEKRETARIS / BENDAHARA
-       DISIMPAN KE TABEL DPD
-    ================================================= */
-
-    if(
-        jabatan === "Ketua DPD" ||
-        jabatan === "Sekretaris" ||
-        jabatan === "Bendahara"
-    ){
-
-        let roleKey = "";
-
-
-        if(
-            jabatan === "Ketua DPD"
-        ){
-
-            roleKey =
-                "ketua";
-
-        }
-
-
-        if(
-            jabatan === "Sekretaris"
-        ){
-
-            roleKey =
-                "sekretaris";
-
-        }
-
-
-        if(
-            jabatan === "Bendahara"
-        ){
-
-            roleKey =
-                "bendahara";
-
-        }
-
-
-        const payload = {};
-
-        payload[roleKey] =
-            nama;
-
-
-        /*
-         * PENTING:
-         * Tidak memakai .select().single()
-         * agar tidak muncul error:
-         * Cannot coerce the result to a single JSON object
-         */
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("DPD")
-                .update(payload)
-                .eq(
-                    "id",
-                    selectedDPD.id
-                );
-
-
-        if(error){
-
-            console.error(
-                "ERROR UPDATE DPD:",
-                error
-            );
-
-            toast(
-                "Gagal menyimpan: " +
-                error.message
-            );
-
-            return;
-
-        }
-
-
-        /*
-         * Update data lokal.
-         */
-
-        selectedDPD[
-            roleKey
-        ] =
-            nama;
-
-
-        const index =
-            dpdData.findIndex(
-                x =>
-                    Number(x.id) ===
-                    Number(
-                        selectedDPD.id
-                    )
-            );
-
-
-        if(index >= 0){
-
-            dpdData[index] = {
-
-                ...dpdData[index],
-
-                [roleKey]:
-                    nama
-
-            };
-
-        }
-
-
-        closeModal(
-            "pengurusModal"
-        );
-
-
-        toast(
-            jabatan +
-            " berhasil disimpan."
-        );
-
-
-        renderDPD();
-
-        renderStructure();
-
-        return;
-
-    }
-
-
-    /* ================================================
-       BIDANG
-    ================================================= */
-
-    if(!bidang){
-
-        toast(
-            "Pilih bidang terlebih dahulu."
-        );
-
-        return;
-
-    }
-
-
-    let row = null;
-
-
-    if(
-        editingFieldMode &&
-        editingFieldMode.id
-    ){
-
-        row =
-            structureData.find(
-                x =>
-                    Number(x.id) ===
-                    Number(
-                        editingFieldMode.id
-                    )
-            );
-
-    }
-
-
-    if(!row){
-
-        row =
-            structureData.find(
-                x =>
-                    x.bidang ===
-                    bidang
-            );
-
-    }
-
-
-    /* ================================================
-       KOORDINATOR BIDANG
-    ================================================= */
-
-    if(
-        jabatan ===
-        "Koordinator Bidang"
-    ){
-
-        if(row){
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from("BIDANG_DPD")
-                    .update({
-
-                        koor_bidang:
-                            nama,
-
-                        status:
-                            status
-
-                    })
-                    .eq(
-                        "id",
-                        row.id
-                    );
-
-
-            if(error){
-
-                console.error(
-                    error
-                );
-
-                toast(
-                    "Gagal menyimpan: " +
-                    error.message
-                );
-
-                return;
-
-            }
-
-        }else{
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from("BIDANG_DPD")
-                    .insert({
-
-                        dpd_id:
-                            selectedDPD.id,
-
-                        bidang:
-                            bidang,
-
-                        koor_bidang:
-                            nama,
-
-                        anggota_bidang:
-                            null,
-
-                        status:
-                            status,
-
-                        progress:
-                            0
-
-                    });
-
-
-            if(error){
-
-                console.error(
-                    error
-                );
-
-                toast(
-                    "Gagal menyimpan: " +
-                    error.message
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        closeModal(
-            "pengurusModal"
-        );
-
-
-        toast(
-            "Koordinator " +
-            bidang +
-            " berhasil disimpan."
-        );
-
-
-        await loadStructure();
-
-        return;
-
-    }
-
-
-    /* ================================================
-       ANGGOTA BIDANG
-    ================================================= */
-
-    if(
-        jabatan ===
-        "Anggota Bidang"
-    ){
-
-        if(row){
-
-            let members =
-                parseMembers(
-                    row.anggota_bidang
-                );
-
-
-            if(
-                editingFieldMode &&
-                editingFieldMode.type ===
-                    "member"
-            ){
-
-                members[
-                    editingFieldMode.index
-                ] =
-                    nama;
-
-            }else{
-
-                members.push(
-                    nama
-                );
-
-            }
-
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from("BIDANG_DPD")
-                    .update({
-
-                        anggota_bidang:
-                            members.join("\n"),
-
-                        status:
-                            status
-
-                    })
-                    .eq(
-                        "id",
-                        row.id
-                    );
-
-
-            if(error){
-
-                console.error(
-                    error
-                );
-
-                toast(
-                    "Gagal menyimpan: " +
-                    error.message
-                );
-
-                return;
-
-            }
-
-        }else{
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from("BIDANG_DPD")
-                    .insert({
-
-                        dpd_id:
-                            selectedDPD.id,
-
-                        bidang:
-                            bidang,
-
-                        koor_bidang:
-                            null,
-
-                        anggota_bidang:
-                            nama,
-
-                        status:
-                            status,
-
-                        progress:
-                            0
-
-                    });
-
-
-            if(error){
-
-                console.error(
-                    error
-                );
-
-                toast(
-                    "Gagal menyimpan: " +
-                    error.message
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        closeModal(
-            "pengurusModal"
-        );
-
-
-        if(
-            editingFieldMode &&
-            editingFieldMode.type ===
-                "member"
-        ){
-
-            toast(
-                "Anggota berhasil diperbarui."
-            );
-
-        }else{
-
-            toast(
-                "Anggota berhasil ditambahkan."
-            );
-
-        }
-
-
-        await loadStructure();
-
-        return;
-
-    }
-
-
-    toast(
-        "Jabatan tidak dikenali."
-    );
-
-}
-
-
-/* ================= DELETE CORE ================= */
-
-async function deleteCorePengurus(
-    roleKey
-){
-
-    if(
-        !selectedDPD ||
-        !canManageDPD(
-            selectedDPD.id
-        )
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        !confirm(
-            "Hapus data pengurus ini?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("DPD")
-            .update({
-                [roleKey]:null
-            })
-            .eq(
-                "id",
-                selectedDPD.id
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menghapus: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    selectedDPD[
-        roleKey
-    ] =
-        null;
-
-
-    const index =
-        dpdData.findIndex(
-            x =>
-                Number(x.id) ===
-                Number(
-                    selectedDPD.id
-                )
-        );
-
-
-    if(index >= 0){
-
-        dpdData[index] = {
-
-            ...dpdData[index],
-
-            [roleKey]:
-                null
-
-        };
-
-    }
-
-
-    toast(
-        "Data pengurus berhasil dihapus."
-    );
-
-
-    renderDPD();
-
-    renderStructure();
-
-}
-
-
-/* ================= DELETE COORDINATOR ================= */
-
-async function deleteCoordinator(
-    id
-){
-
-    if(
-        !confirm(
-            "Hapus koordinator bidang ini?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("BIDANG_DPD")
-            .update({
-                koor_bidang:null
-            })
-            .eq(
-                "id",
-                id
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menghapus: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    toast(
-        "Koordinator berhasil dihapus."
-    );
-
-
-    await loadStructure();
-
-}
-
-
-/* ================= DELETE MEMBER ================= */
-
-async function deleteMember(
-    id,
-    index
-){
-
-    if(
-        !confirm(
-            "Hapus anggota ini?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const row =
-        structureData.find(
-            x =>
-                Number(x.id) ===
-                Number(id)
-        );
-
-
-    if(!row){
-        return;
-    }
-
-
-    const members =
-        parseMembers(
-            row.anggota_bidang
-        );
-
-
-    members.splice(
-        index,
-        1
-    );
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("BIDANG_DPD")
-            .update({
-
-                anggota_bidang:
-                    members.length
-                        ? members.join("\n")
-                        : null
-
-            })
-            .eq(
-                "id",
-                id
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menghapus: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    toast(
-        "Anggota berhasil dihapus."
-    );
-
-
-    await loadStructure();
-
-}
-
-
-/* ================= AGENDA ================= */
-
-async function loadAgenda(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("AGENDA")
-            .select("*")
-            .order(
-                "tanggal",
-                {
-                    ascending:false
-                }
-            );
-
-
-    if(error){
-
-        $("agendaTable").innerHTML =
-            `<div style="padding:18px;color:#d00;font-size:11px">
-                ${escapeHtml(
-                    error.message
-                )}
-            </div>`;
-
-        return;
-
-    }
-
-
-    const rows =
-        data || [];
-
-
-    if(!rows.length){
-
-        $("agendaTable").innerHTML =
-            `<div style="padding:18px;color:#888;font-size:11px">
-                Belum ada agenda.
-            </div>`;
-
-        return;
-
-    }
-
-
-    $("agendaTable").innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>
-                        JUDUL
-                    </th>
-
-                    <th>
-                        TANGGAL
-                    </th>
-
-                    <th>
-                        WAKTU
-                    </th>
-
-                    <th>
-                        LOKASI
-                    </th>
-
-                    <th>
-                        STATUS
-                    </th>
-
-                    <th>
-                        AKSI
-                    </th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${rows.map(
-                    row=>`
-
-                        <tr>
-
-                            <td>
-                                <b>
-                                    ${escapeHtml(
-                                        row.judul
-                                    )}
-                                </b>
-                                <br>
-                                <span
-                                    style="color:#999;font-size:9px">
-
-                                    ${escapeHtml(
-                                        row.deskripsi ||
-                                        ""
-                                    )}
-
-                                </span>
-                            </td>
-
-                            <td>
-                                ${formatDate(
-                                    row.tanggal
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    row.waktu ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    row.lokasi ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    row.status ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-
-                                <button
-                                    class="btn btn-danger btn-small"
-                                    onclick="deleteAgenda(${row.id})">
-
-                                    HAPUS
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    `
-                ).join("")}
-
-            </tbody>
-
-        </table>
-
-    `;
-
-}
-
-
-function openAgendaModal(){
-
-    $("agendaJudul").value =
-        "";
-
-    $("agendaTanggal").value =
-        today();
-
-    $("agendaWaktu").value =
-        "";
-
-    $("agendaLokasi").value =
-        "";
-
-    $("agendaStatus").value =
-        "Terjadwal";
-
-    $("agendaDeskripsi").value =
-        "";
-
-
-    openModal(
-        "agendaModal"
-    );
-
-}
-
-
-async function saveAgenda(){
-
-    const payload = {
-
-        judul:
-            $("agendaJudul")
-                .value
-                .trim(),
-
-        tanggal:
-            $("agendaTanggal")
-                .value ||
-            null,
-
-        waktu:
-            $("agendaWaktu")
-                .value
-                .trim(),
-
-        lokasi:
-            $("agendaLokasi")
-                .value
-                .trim(),
-
-        deskripsi:
-            $("agendaDeskripsi")
-                .value
-                .trim(),
-
-        status:
-            $("agendaStatus")
-                .value
-
-    };
-
-
-    if(!payload.judul){
-
-        toast(
-            "Judul agenda wajib diisi."
-        );
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("AGENDA")
-            .insert(
-                payload
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menyimpan: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal(
-        "agendaModal"
-    );
-
-
-    toast(
-        "Agenda berhasil ditambahkan."
-    );
-
-
-    await loadAgenda();
-
-    await updateStats();
-
-}
-
-
-/* ================= DELETE AGENDA ================= */
-
-async function deleteAgenda(
-    id
-){
-
-    if(
-        !confirm(
-            "Hapus agenda ini?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("AGENDA")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menghapus: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    toast(
-        "Agenda berhasil dihapus."
-    );
-
-
-    await loadAgenda();
-
-    await updateStats();
-
-}
-
-
-/* ================= LAPORAN ================= */
-
-async function loadLaporan(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("LAPORAN")
-            .select("*")
-            .order(
-                "tanggal",
-                {
-                    ascending:false
-                }
-            );
-
-
-    if(error){
-
-        $("laporanTable").innerHTML =
-            `<div style="padding:18px;color:#d00;font-size:11px">
-                ${escapeHtml(
-                    error.message
-                )}
-            </div>`;
-
-        return;
-
-    }
-
-
-    const rows =
-        data || [];
-
-
-    if(!rows.length){
-
-        $("laporanTable").innerHTML =
-            `<div style="padding:18px;color:#888;font-size:11px">
-                Belum ada laporan.
-            </div>`;
-
-        return;
-
-    }
-
-
-    $("laporanTable").innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>
-                        JUDUL
-                    </th>
-
-                    <th>
-                        TANGGAL
-                    </th>
-
-                    <th>
-                        KATEGORI
-                    </th>
-
-                    <th>
-                        STATUS
-                    </th>
-
-                    <th>
-                        AKSI
-                    </th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${rows.map(
-                    row=>`
-
-                        <tr>
-
-                            <td>
-
-                                <b>
-                                    ${escapeHtml(
-                                        row.judul
-                                    )}
-                                </b>
-
-                                <br>
-
-                                <span
-                                    style="color:#999;font-size:9px">
-
-                                    ${escapeHtml(
-                                        row.isi ||
-                                        ""
-                                    )}
-
-                                </span>
-
-                            </td>
-
-                            <td>
-                                ${formatDate(
-                                    row.tanggal
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    row.kategori ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    row.status ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-
-                                <button
-                                    class="btn btn-danger btn-small"
-                                    onclick="deleteLaporan(${row.id})">
-
-                                    HAPUS
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    `
-                ).join("")}
-
-            </tbody>
-
-        </table>
-
-    `;
-
-}
-
-
-function openLaporanModal(){
-
-    $("laporanJudul").value =
-        "";
-
-    $("laporanTanggal").value =
-        today();
-
-    $("laporanKategori").value =
-        "";
-
-    $("laporanStatus").value =
-        "Baru";
-
-    $("laporanIsi").value =
-        "";
-
-
-    openModal(
-        "laporanModal"
-    );
-
-}
-
-
-async function saveLaporan(){
-
-    const payload = {
-
-        judul:
-            $("laporanJudul")
-                .value
-                .trim(),
-
-        tanggal:
-            $("laporanTanggal")
-                .value ||
-            null,
-
-        kategori:
-            $("laporanKategori")
-                .value
-                .trim(),
-
-        status:
-            $("laporanStatus")
-                .value,
-
-        isi:
-            $("laporanIsi")
-                .value
-                .trim()
-
-    };
-
-
-    if(!payload.judul){
-
-        toast(
-            "Judul laporan wajib diisi."
-        );
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("LAPORAN")
-            .insert(
-                payload
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menyimpan: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal(
-        "laporanModal"
-    );
-
-
-    toast(
-        "Laporan berhasil ditambahkan."
-    );
-
-
-    await loadLaporan();
-
-    await updateStats();
-
-}
-
-
-/* ================= DELETE LAPORAN ================= */
-
-async function deleteLaporan(
-    id
-){
-
-    if(
-        !confirm(
-            "Hapus laporan ini?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("LAPORAN")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menghapus: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    toast(
-        "Laporan berhasil dihapus."
-    );
-
-
-    await loadLaporan();
-
-    await updateStats();
-
-}
-
-
-/* ================= PEMBERITAHUAN ================= */
-
-async function loadPemberitahuan(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("PEMBERITAHUAN")
-            .select("*")
-            .order(
-                "tanggal",
-                {
-                    ascending:false
-                }
-            );
-
-
-    if(error){
-
-        $("notificationList").innerHTML =
-            `<div
-                style="color:#d00;font-size:11px">
-
-                ${escapeHtml(
-                    error.message
-                )}
-
-            </div>`;
-
-        return;
-
-    }
-
-
-    const rows =
-        data || [];
-
-
-    if(!rows.length){
-
-        $("notificationList").innerHTML =
-            `<div
-                style="color:#888;font-size:11px">
-
-                Belum ada pemberitahuan.
-
-            </div>`;
-
-        return;
-
-    }
-
-
-    $("notificationList").innerHTML =
-        rows.map(
-            row=>`
-
-                <div
-                    class="card"
-                    style="padding:16px">
-
-                    <div
-                        style="display:flex;justify-content:space-between;gap:10px">
-
-                        <b
-                            style="font-size:12px">
-
-                            ${escapeHtml(
-                                row.judul
-                            )}
-
-                        </b>
-
-                        <span
-                            style="
-                                font-size:9px;
-                                font-weight:bold;
-                                color:${row.aktif ? "#15803d" : "#b91c1c"};
-                            ">
-
-                            ${
-                                row.aktif
-                                    ? "AKTIF"
-                                    : "NONAKTIF"
-                            }
-
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        style="
-                            color:#777;
-                            font-size:10px;
-                            line-height:1.6;
-                            margin-top:8px">
-
-                        ${escapeHtml(
-                            row.isi
-                        )}
-
-                    </div>
-
-
-                    <div
-                        style="
-                            color:#aaa;
-                            font-size:9px;
-                            margin-top:9px">
-
-                        ${escapeHtml(
-                            row.tipe ||
-                            "Info"
-                        )}
-
-                        •
-
-                        ${formatDate(
-                            row.tanggal
-                        )}
-
-                    </div>
-
-
-                    <button
-                        class="btn btn-danger btn-small"
-                        style="margin-top:10px"
-                        onclick="deletePemberitahuan(${row.id})">
-
-                        HAPUS
-
-                    </button>
-
-                </div>
-
-            `
-        )
-        .join("");
-
-}
-
-
-function openPemberitahuanModal(){
-
-    $("notifJudul").value =
-        "";
-
-    $("notifIsi").value =
-        "";
-
-    $("notifTanggal").value =
-        today();
-
-    $("notifTipe").value =
-        "Info";
-
-    $("notifAktif").value =
-        "true";
-
-
-    openModal(
-        "pemberitahuanModal"
-    );
-
-}
-
-
-async function savePemberitahuan(){
-
-    const payload = {
-
-        judul:
-            $("notifJudul")
-                .value
-                .trim(),
-
-        isi:
-            $("notifIsi")
-                .value
-                .trim(),
-
-        tanggal:
-            $("notifTanggal")
-                .value ||
-            today(),
-
-        tipe:
-            $("notifTipe")
-                .value,
-
-        aktif:
-            $("notifAktif")
-                .value ===
-            "true"
-
-    };
-
-
-    if(!payload.judul){
-
-        toast(
-            "Judul pemberitahuan wajib diisi."
-        );
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("PEMBERITAHUAN")
-            .insert(
-                payload
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menyimpan: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal(
-        "pemberitahuanModal"
-    );
-
-
-    toast(
-        "Pemberitahuan berhasil ditambahkan."
-    );
-
-
-    await loadPemberitahuan();
-
-}
-
-
-/* ================= DELETE PEMBERITAHUAN ================= */
-
-async function deletePemberitahuan(
-    id
-){
-
-    if(
-        !confirm(
-            "Hapus pemberitahuan ini?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("PEMBERITAHUAN")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
-
-
-    if(error){
-
-        toast(
-            "Gagal menghapus: " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    toast(
-        "Pemberitahuan berhasil dihapus."
-    );
-
-
-    await loadPemberitahuan();
-
-}
-
-
-/* ================= MODAL CLICK OUTSIDE ================= */
-
-document
-    .querySelectorAll(".modal")
-    .forEach(
-        modal=>{
-
-            modal.addEventListener(
-                "click",
-                event=>{
-
-                    if(
-                        event.target ===
-                        modal
-                    ){
-
-                        modal.classList.remove(
-                            "show"
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-/* ================= ENTER LOGIN ================= */
-
-$("password")
-    .addEventListener(
-        "keydown",
-        event=>{
-
-            if(
-                event.key ===
-                "Enter"
-            ){
-
-                login();
-
-            }
-
-        }
-    );
-
-
-/* ================= AUTH ================= */
-
-supabaseClient.auth
-    .onAuthStateChange(
-        async (
-            event,
-            session
-        )=>{
-
-            if(
-                event ===
-                "SIGNED_OUT"
-            ){
-
-                $("app").style.display =
-                    "none";
-
-                $("loginScreen").style.display =
-                    "flex";
-
-            }
-
-        }
-    );
-
-
-/* ================= CHECK SESSION ================= */
 
 async function checkSession(){
 
-    const {
-        data
-    } =
-        await supabaseClient.auth
-            .getSession();
+const {data}=await db.auth.getSession();
 
+if(!data.session)return;
 
-    if(
-        data &&
-        data.session
-    ){
+currentUser=data.session.user;
 
-        currentUser =
-            data.session.user;
+const {data:admin}=await db
+.from("ADMIN_USERS")
+.select("*")
+.eq("user_id",currentUser.id)
+.maybeSingle();
 
-        await initializeApp();
-
-    }
-
+if(admin){
+currentAdmin=admin;
+openApp();
+}
 }
 
+function openApp(){
 
-/* ================= START ================= */
+document.getElementById("loginPage").style.display="none";
+document.getElementById("app").style.display="block";
 
-document.addEventListener(
-    "DOMContentLoaded",
-    ()=>{
+document.getElementById("userInfo").textContent=
+(currentAdmin.username||"Admin")+" • "+currentAdmin.role;
 
-        checkSession();
+loadAll();
+}
 
-    }
+async function logout(){
+await db.auth.signOut();
+location.reload();
+}
+
+function page(id,btn){
+
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
+
+document.getElementById(id).classList.add("active");
+
+document.querySelectorAll("nav button")
+.forEach(x=>x.classList.remove("active"));
+
+if(btn)btn.classList.add("active");
+
+if(id==="dpd")renderDPD();
+if(id==="bidang")loadBidangSelect();
+}
+
+async function loadAll(){
+
+await loadDPW();
+await loadDPD();
+await loadBidangData();
+
+renderDPD();
+loadBidangSelect();
+}
+
+async function loadDPW(){
+
+const {data,error}=await db
+.from("struktur_dpw")
+.select("*")
+.limit(1)
+.maybeSingle();
+
+if(error){
+console.error(error);
+return;
+}
+
+dpwData=data;
+
+if(!data)return;
+
+DPW_FIELDS.forEach(x=>{
+document.getElementById(x[1]).value=data[x[0]]||"";
+});
+
+updateDPWProgress();
+}
+
+async function saveDPW(){
+
+if(!currentAdmin||currentAdmin.role!=="DPW"){
+msg("dpwMsg","Anda tidak memiliki akses edit Struktur DPW.",false);
+return;
+}
+
+const obj={};
+
+DPW_FIELDS.forEach(x=>{
+obj[x[0]]=document.getElementById(x[1]).value.trim();
+});
+
+obj.updated_at=new Date().toISOString();
+
+const id=dpwData?.id;
+
+if(!id){
+msg("dpwMsg","Data Struktur DPW tidak ditemukan.",false);
+return;
+}
+
+const {error}=await db
+.from("struktur_dpw")
+.update(obj)
+.eq("id",id);
+
+if(error){
+msg("dpwMsg","Gagal menyimpan: "+error.message,false);
+return;
+}
+
+msg("dpwMsg","Struktur DPW berhasil disimpan.",true);
+
+await loadDPW();
+}
+
+function updateDPWProgress(){
+
+if(!dpwData)return;
+
+let filled=0;
+
+DPW_FIELDS.forEach(x=>{
+if(String(dpwData[x[0]]||"").trim())filled++;
+});
+
+const p=Math.round((filled/10)*100);
+
+document.getElementById("dpwProgress").textContent=p+"%";
+document.getElementById("dpwBar").style.width=p+"%";
+}
+
+async function loadDPD(){
+
+const {data,error}=await db
+.from("DPD")
+.select("*")
+.order("nama");
+
+if(error){
+console.error(error);
+alert("Gagal membaca DPD: "+error.message);
+return;
+}
+
+dpds=data||[];
+}
+
+function calculateDPD(d){
+
+const rows=bidangRows.filter(x=>String(x.dpd_id)===String(d.id));
+
+let total=0;
+
+if(String(d.ketua||"").trim())total++;
+if(String(d.sekretaris||"").trim())total++;
+if(String(d.bendahara||"").trim())total++;
+if(String(d.sekretariat||"").trim())total++;
+
+BIDANG.forEach(n=>{
+const r=rows.find(x=>
+String(x.bidang||"").trim().toLowerCase()===n.toLowerCase()
+);
+let p=r?Number(r.progress)||0:0;
+p=Math.max(0,Math.min(100,p));
+total+=p/100;
+});
+
+return Math.round((total/10)*100);
+}
+
+function statusDPD(p){
+if(p===100)return["SUDAH TERBENTUK","green"];
+if(p>0)return["DALAM PROSES","orange"];
+return["BELUM TERBENTUK","gray"];
+}
+
+function renderDPD(){
+
+const box=document.getElementById("dpdList");
+const q=(document.getElementById("cariDPD").value||"").toLowerCase();
+
+const data=dpds.filter(d=>
+String(d.nama||"").toLowerCase().includes(q)
 );
 
+if(!data.length){
+box.innerHTML='<div class="box">Data DPD tidak ditemukan.</div>';
+return;
+}
+
+box.innerHTML=data.map(d=>{
+
+const p=calculateDPD(d);
+const st=statusDPD(p);
+
+return`
+<div class="box">
+<h3>${esc(d.nama)}</h3>
+
+<span class="badge ${st[1]}">${st[0]}</span>
+
+<div style="margin:10px 0;font-size:12px">
+Progress DPD: <b>${p}%</b>
+<div class="progress-bg">
+<div class="progress-bar" style="width:${p}%"></div>
+</div>
+</div>
+
+<div class="grid">
+
+<div>
+<label>Ketua</label>
+<input id="ketua_${d.id}" value="${attr(d.ketua)}">
+</div>
+
+<div>
+<label>Sekretaris</label>
+<input id="sekretaris_${d.id}" value="${attr(d.sekretaris)}">
+</div>
+
+<div>
+<label>Bendahara</label>
+<input id="bendahara_${d.id}" value="${attr(d.bendahara)}">
+</div>
+
+<div>
+<label>Sekretariat</label>
+<input id="sekretariat_${d.id}" value="${attr(d.sekretariat)}">
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn" onclick="saveDPD('${d.id}')">💾 SIMPAN DPD</button>
+</div>
+
+<div id="msg_${d.id}" class="msg"></div>
+</div>`;
+}).join("");
+}
+
+async function saveDPD(id){
+
+const d=dpds.find(x=>String(x.id)===String(id));
+if(!d)return;
+
+if(!currentAdmin){
+alert("Belum login.");
+return;
+}
+
+const isDPW=currentAdmin.role==="DPW";
+
+if(!isDPW&&String(currentAdmin.dpd_id)!==String(id)){
+alert("Anda hanya dapat mengedit DPD Anda sendiri.");
+return;
+}
+
+const obj={
+ketua:document.getElementById("ketua_"+id).value.trim(),
+sekretaris:document.getElementById("sekretaris_"+id).value.trim(),
+bendahara:document.getElementById("bendahara_"+id).value.trim(),
+sekretariat:document.getElementById("sekretariat_"+id).value.trim()
+};
+
+const {error}=await db
+.from("DPD")
+.update(obj)
+.eq("id",id);
+
+if(error){
+msg("msg_"+id,"Gagal menyimpan: "+error.message,false);
+return;
+}
+
+msg("msg_"+id,"Data DPD berhasil disimpan.",true);
+
+await loadDPD();
+await loadBidangData();
+renderDPD();
+}
+
+async function loadBidangData(){
+
+const {data,error}=await db
+.from("BIDANG_DPD")
+.select("*");
+
+if(error){
+console.error(error);
+return;
+}
+
+bidangRows=data||[];
+}
+
+function loadBidangSelect(){
+
+const select=document.getElementById("bidangDPD");
+
+if(!select)return;
+
+let data=dpds;
+
+if(currentAdmin&&currentAdmin.role!=="DPW"){
+data=dpds.filter(d=>
+String(d.id)===String(currentAdmin.dpd_id)
+);
+}
+
+select.innerHTML=data.map(d=>
+`<option value="${d.id}">${esc(d.nama)}</option>`
+).join("");
+
+if(data.length)selectedBidangDPD=data[0].id;
+
+loadBidang();
+}
+
+function loadBidang(){
+
+const id=document.getElementById("bidangDPD").value;
+
+selectedBidangDPD=id;
+
+const rows=bidangRows.filter(x=>String(x.dpd_id)===String(id));
+
+const box=document.getElementById("bidangForm");
+
+box.innerHTML=BIDANG.map(n=>{
+
+const r=rows.find(x=>
+String(x.bidang||"").trim().toLowerCase()===n.toLowerCase()
+);
+
+return`
+<div class="box" style="margin-top:8px;padding:11px">
+<strong style="font-size:12px;color:#ff7900">${esc(n)}</strong>
+
+<div class="grid" style="margin-top:8px">
+
+<div>
+<label>Ketua Bidang</label>
+<input id="bk_${slug(n)}" value="${attr(r?.ketua_bidang||r?.ketua||"")}">
+</div>
+
+<div>
+<label>Progress</label>
+<input id="bp_${slug(n)}" type="number" min="0" max="100" value="${Number(r?.progress)||0}">
+</div>
+
+</div>
+</div>`;
+}).join("");
+}
+
+async function saveBidang(){
+
+const dpdId=document.getElementById("bidangDPD").value;
+
+if(currentAdmin.role!=="DPW"&&
+String(currentAdmin.dpd_id)!==String(dpdId)){
+msg("bidangMsg","Anda hanya dapat mengedit bidang DPD sendiri.",false);
+return;
+}
+
+for(const n of BIDANG){
+
+const s=slug(n);
+
+const ketua=document.getElementById("bk_"+s).value.trim();
+
+let progress=Number(
+document.getElementById("bp_"+s).value
+)||0;
+
+progress=Math.max(0,Math.min(100,progress));
+
+const existing=bidangRows.find(x=>
+String(x.dpd_id)===String(dpdId)&&
+String(x.bidang||"").trim().toLowerCase()===n.toLowerCase()
+);
+
+let error;
+
+if(existing){
+
+({error}=await db
+.from("BIDANG_DPD")
+.update({
+ketua_bidang:ketua,
+progress:progress
+})
+.eq("id",existing.id));
+
+}else{
+
+({error}=await db
+.from("BIDANG_DPD")
+.insert({
+dpd_id:dpdId,
+bidang:n,
+ketua_bidang:ketua,
+progress:progress
+}));
+}
+
+if(error){
+msg("bidangMsg","Gagal menyimpan "+n+": "+error.message,false);
+return;
+}
+}
+
+msg("bidangMsg","Semua bidang berhasil disimpan.",true);
+
+await loadBidangData();
+renderDPD();
+}
+
+function slug(x){
+return x.toLowerCase()
+.replace(/&/g,"and")
+.replace(/[^a-z0-9]+/g,"_")
+.replace(/^_|_$/g,"");
+}
+
+function esc(v){
+return String(v??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+function attr(v){
+return esc(v);
+}
+
+checkSession();
 </script>
 
 </body>
